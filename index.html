@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOS NADIE | Oficial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Permanent+Marker&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .btn-punk i {
+    margin-right: 10px; /* Para que el icono no esté pegado a la letra */
+    transition: transform 0.2s;
+}
+
+.btn-punk:hover i {
+    transform: scale(1.3) rotate(-10deg);
+    color: #000;
+}
+
+        :root {
+            --punk-red: #ff0000;
+            --oil-black: rgba(0, 0, 0, 0.85);
+            --dirty-white: #f0f0f0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            /* TU IMAGEN DE FONDO */
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+                              url('https://preview.redd.it/waesge4ii3mz.png?width=640&crop=smart&auto=webp&s=233b9bc060b0dfe499ab3f4cf54d26ed36501f3e');
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            color: var(--dirty-white);
+            font-family: 'Special Elite', serif;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        h1 {
+            font-family: 'Nosifer', cursive;
+            font-size: clamp(3.5rem, 15vw, 8rem);
+            color: var(--punk-red);
+            margin: 0;
+            text-shadow: 10px 10px 0px #000;
+            letter-spacing: -5px;
+        }
+
+        .slogan {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2.2rem;
+            color: #fff;
+            background: var(--punk-red);
+            padding: 5px 25px;
+            display: inline-block;
+            transform: rotate(-3deg);
+            margin-top: 10px;
+            box-shadow: 8px 8px 0px #000;
+                }
+
+        .clock-station {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 40px auto;
+}
+
+/* RELOJ RETRO 50's */
+.retro-analog {
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, #0a1128 0%, #000 100%);
+    border: 8px solid #222;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 102, 255, 0.3), inset 0 0 15px #000;
+}
+
+.roman-num {
+    position: absolute;
+    font-family: 'Times New Roman', serif;
+    color: #4a6fa5;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.retro-analog { top: 5px; left: 50%; transform: translateX(-50%); } /* Ajuste XII */
+
+.hand-retro {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom;
+    border-radius: 10px;
+}
+
+.h-retro { width: 6px; height: 40px; background: #eee; z-index: 3; }
+.m-retro { width: 4px; height: 60px; background: #aaa; z-index: 2; }
+.s-retro { width: 2px; height: 70px; background: #00d4ff; z-index: 1; }
+
+.center-knob {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 12px; height: 12px;
+    background: #4a6fa5;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+}
+
+/* DESPERTADOR DIGITAL */
+.digital-alarm {
+    background: #1a0000;
+    border: 3px solid var(--punk-red);
+    padding: 15px;
+    position: relative;
+    box-shadow: 5px 5px 0px #000;
+}
+
+.alarm-label {
+    font-size: 0.6rem;
+    color: var(--punk-red);
+    position: absolute;
+    top: 5px; left: 10px;
+    animation: blink 1s infinite;
+}
+
+.digital-display {
+    font-family: 'Courier New', monospace;
+    color: #fff;
+    font-size: 3rem;
+    text-shadow: 0 0 10px var(--punk-red);
+}
+
+#ampm { font-size: 1rem; color: var(--punk-red); }
+
+@keyframes blink { 50% { opacity: 0; } }
+
+        /* --- MENÚ DE 6 BOTONES --- */
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .btn-punk {
+            font-family: 'Permanent Marker', cursive;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 4px solid #fff;
+            padding: 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-punk:hover {
+            background: var(--punk-red);
+            border-color: var(--punk-red);
+            transform: scale(1.05) rotate(2deg);
+            color: #000;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 50px auto;
+            background: var(--oil-black);
+            padding: 40px;
+            border-left: 10px solid var(--punk-red);
+            border-right: 2px solid var(--punk-red);
+        }
+
+        h2 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2.5rem;
+            color: var(--punk-red);
+            text-transform: uppercase;
+        }
+
+        .member-card {
+            font-size: 2rem;
+            border-bottom: 2px dashed #444;
+            padding: 10px 0;
+        }
+
+        .download-track {
+            display: flex;
+            justify-content: space-between;
+            background: #111;
+            margin: 10px 0;
+            padding: 20px;
+            border: 1px solid #333;
+        }
+
+        .download-track a {
+            color: var(--punk-red);
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid var(--punk-red);
+            padding: 5px 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 80px;
+            background: rgba(0,0,0,0.9);
+            font-size: 0.8rem;
+            border-top: 5px solid var(--punk-red);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+    <h1>LOS NADIE</h1>
+    <div class="slogan">SOMOS TODO Y NADA</div>
+    
+    <div class="clock-station">
+        <div class="retro-analog">
+            <div class="roman-num" style="top: 5px; left: 50%; transform: translateX(-50%);">XII</div>
+            <div class="roman-num" style="right: 10px; top: 50%; transform: translateY(-50%);">III</div>
+            <div class="roman-num" style="bottom: 5px; left: 50%; transform: translateX(-50%);">VI</div>
+            <div class="roman-num" style="left: 10px; top: 50%; transform: translateY(-50%);">IX</div>
+            <div class="hand-retro h-retro" id="h-retro"></div>
+            <div class="hand-retro m-retro" id="m-retro"></div>
+            <div class="hand-retro s-retro" id="s-retro"></div>
+            <div class="center-knob"></div>
+        </div>
+
+        <div class="digital-alarm">
+            <div class="alarm-label">ALARM ON</div>
+            <div class="digital-display">
+                <span id="time">00:00:00</span>
+                <span id="ampm">AM</span>
+            </div>
+            <div id="location">ZONA RADIACTIVA</div>
+        </div>
+    </div>
+</header>
+
+    <div class="nav-container">
+    <a href="#historia" class="btn-punk">¿COMO SE CREO?</a>
+    <a href="#miembros" class="btn-punk">MIEMBROS</a>
+    <a href="arcade.html" class="btn-punk">ARCADE / RUIDO</a> 
+    <a href="#social" class="btn-punk">REDES SOCIALES</a>
+    <a href="#gigs" class="btn-punk">GIGS / FECHAS</a>
+    <a href="#merch" class="btn-punk">CHIRRE / MERCH</a>
+</div>
+
+    <main>
+        <section id="historia">
+            <h2>EL ORIGEN DEL CAOS</h2>
+            <p>No venimos de ninguna escuela de música. Venimos del asfalto, del ruido de los motores y de las ganas de molestar a los vecinos. Los Nadie somos el eco de lo que nadie quiere escuchar.</p>
+        </section>
+
+        <section id="miembros">
+    <h2>EL REPERTORIO CAÓTICO</h2>
+    <div class="member-card"><a href="leo.html" style="color:inherit; text-decoration:none;">LEO KASPER</a></div>
+    <div class="member-card"><a href="sam2.html" style="color:inherit; text-decoration:none;">SAMUEL TAVELLA</a></div>
+    <div class="member-card"><a href="bruno.html" style="color:inherit; text-decoration:none;">BRUNO SENNA</a></div>
+    <div class="member-card"><a href="angel.html" style="color:inherit; text-decoration:none;">Angel "El Gordo"</a></div>
+</section>
+
+        <section id="Arcade">
+            <h2>LLEVATE EL RUIDO</h2>
+            <div class="download-track">
+                <span>V8 REVENGE (Single)</span>
+                <a href="#" download>GRAB IT</a>
+            </div>
+            <div class="download-track">
+                <span>TRASH PARADISE (Demo)</span>
+                <a href="#" download>GRAB IT</a>
+            </div>
+        </section>
+
+        <section id="social">
+    <h2>BÚSCANOS EN LA RED</h2>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+        
+        <a href="TU_LINK_AQUI" target="_blank" class="btn-punk" style="font-size: 1.2rem; padding: 15px 25px;">
+            <i class="fab fa-instagram"></i> INSTAGRAM
+        </a>
+
+        <a href="TU_LINK_AQUI" target="_blank" class="btn-punk" style="font-size: 1.2rem; padding: 15px 25px;">
+            <i class="fab fa-youtube"></i> YOUTUBE
+        </a>
+
+        <a href="TU_LINK_AQUI" target="_blank" class="btn-punk" style="font-size: 1.2rem; padding: 15px 25px;">
+            <i class="fab fa-facebook-f"></i> FACEBOOK
+        </a>
+
+        <a href="TU_LINK_AQUI" target="_blank" class="btn-punk" style="font-size: 1.2rem; padding: 15px 25px;">
+            <i class="fab fa-tiktok"></i> TIKTOK
+        </a>
+    </div>
+</section>
+    </main>
+
+    <footer>
+        <p>LOS NADIE | 2026 | NINGÚN DERECHO RESERVADO. COPIÁ ESTA VAINA.</p>
+    </footer>
+    
+<script>
+    function updateClock() {
+        // 'now' agarra la fecha y hora EXACTA del dispositivo de quien visita la página
+        const now = new Date();
+        
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    function setLocation() {
+        try {
+            // Esto detecta la Zona Horaria del navegador (ej: "America/New York")
+            const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            
+            // Limpiamos el texto para que no se vea feo
+            const city = zone.split('/').pop().replace(/_/g, ' ');
+            
+            document.getElementById('location').textContent = `ZONA ACTUAL: ${city.toUpperCase()}`;
+        } catch (e) {
+            document.getElementById('location').textContent = "COORDENADAS DESCONOCIDAS";
+        }
+    }
+
+    // Se actualiza cada 1 segundo (1000ms)
+    setInterval(updateClock, 1000);
+    
+    // Ejecutamos de una vez para que no aparezca en 00:00:00 al cargar
+    updateClock();
+    setLocation();
+</script>
+
+</body>
+</html>
