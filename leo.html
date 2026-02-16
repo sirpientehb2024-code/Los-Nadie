@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEO KASPER | PACIENTE 001</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Nosifer&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blood-red: #660000;
+            --asylum-grey: #2c2c2c;
+            --dirty-white: #a0a0a0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            /* Fondo de paredes de hospital abandonado */
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                              url('https://www.transparenttextures.com/patterns/padded-cells.png');
+            color: var(--dirty-white);
+            font-family: 'Special Elite', serif;
+            overflow-y: auto; /* Evita el scroll para aumentar el estrés */
+        }
+
+        /* --- OVERLAY DE MIEDO --- */
+        #asylum-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: 2s;
+        }
+
+        .btn-enter {
+            font-family: 'Nosifer', cursive;
+            color: var(--blood-red);
+            font-size: 2rem;
+            cursor: pointer;
+            border: 2px solid var(--blood-red);
+            padding: 20px;
+            background: none;
+        }
+
+        .btn-enter:hover { background: var(--blood-red); color: #000; }
+
+        /* --- CONTENIDO --- */
+        .cell-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            border: 2px solid #333;
+            background: rgba(20, 20, 20, 0.9);
+            box-shadow: 0 0 50px rgba(102, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .photo-leo {
+            width: 100%;
+            height: 300px;
+            background: #111;
+            border-bottom: 5px solid var(--blood-red);
+            overflow: hidden;
+        }
+
+        .photo-leo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(250%) invert(5%);
+            mix-blend-mode: lighten;
+        }
+
+        h1 {
+            font-family: 'Nosifer', cursive;
+            color: var(--blood-red);
+            font-size: 3.5rem;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .file-info {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #444;
+            padding: 15px;
+            position: relative;
+        }
+
+        .file-info b { color: var(--blood-red); }
+
+        .stamp {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: 4px solid #ff0000;
+            color: #ff0000;
+            padding: 5px;
+            font-weight: bold;
+            transform: rotate(15deg);
+            opacity: 0.7;
+        }
+
+        /* Efecto de parpadeo de luz */
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 0.99; }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.4; }
+        }
+
+        .flicker-effect { animation: flicker 3s linear infinite; }
+
+    </style>
+</head>
+<body>
+
+    <div id="asylum-overlay">
+        <button class="btn-enter" onclick="startAsylum()">INGRESAR AL PABELLÓN C</button>
+    </div>
+
+    <audio id="creepyAudio" loop>
+        <source src="https://ia903207.us.archive.org/12/items/jajaja_20260215/Jajaja.mp3" type="audio/mpeg">
+    </audio>
+
+    <main class="cell-container flicker-effect">
+        <div class="photo-leo">
+            <img src="https://ia600803.us.archive.org/34/items/leo_20260215/leo.jpg" alt="Leo Kasper">
+        </div>
+
+        <h1>LEO KASPER</h1>
+        <p style="text-align: center; color: #666;">Sujeto No. 001 - Peligro de Muerte</p>
+
+        <div class="file-info">
+            <div class="stamp">IRRECUPERABLE</div>
+            <p><b>DIOS:</b> Adolfo Hitler.</p>
+            <p><b>LORE:</b> Emigro de Venezuela a argentina buscando una mejor vida y amigos con los cuáles tocar.</p>
+            <p><b>INSTRUMENTO:</b> Sintetizador.</p>
+            <p><b>GUSTOS:</b> Misfits,Daft punk,Charly García,Spinetta,soda stereo, El cuarteto de Nos, Los Prisioneros (Chile), SOAD,My chemical romance,Green day, Hombres G,Música altamente experimental,Tocar con la banda.</p>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a href="index.html" style="color: #444; text-decoration: none;">[ ABANDONAR CELDA ]</a>
+        </div>
+    </main>
+
+    <script>
+        function startAsylum() {
+            // Reproduce el audio
+            const audio = document.getElementById('creepyAudio');
+            audio.play();
+            
+            // Quita la capa negra
+            const overlay = document.getElementById('asylum-overlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 2000);
+        }
+    </script>
+
+</body>
+</html>
