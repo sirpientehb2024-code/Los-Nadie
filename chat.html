@@ -7,37 +7,23 @@
     <style>
         :root { --main-color: #e0e0e0; --bg-color: #050505; --accent: #444; }
         body { background: var(--bg-color); color: var(--main-color); font-family: 'Courier New', monospace; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-
-        /* BARRA LATERAL (ESTADÍSTICAS) */
         #sidebar { width: 250px; border-right: 1px solid var(--accent); padding: 20px; display: flex; flex-direction: column; gap: 20px; background: #080808; }
-        
-        /* GLOBO TERRÁQUEO ASCII GIRANDO */
         .globe { font-size: 10px; text-align: center; color: #fff; animation: spin 5s linear infinite; white-space: pre; line-height: 8px; }
         @keyframes spin { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
-
         .stat-box { border: 1px solid var(--accent); padding: 10px; font-size: 0.75rem; }
         .online-list { list-style: none; padding: 0; margin: 0; }
         .online-list li { color: #888; margin-bottom: 5px; }
-        .online-list li b { color: #fff; }
-
-        /* CONTENEDOR CHAT */
         #main { flex: 1; display: flex; flex-direction: column; position: relative; }
         header { border-bottom: 1px solid var(--accent); padding: 15px; text-align: center; }
         #chat-window { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: radial-gradient(circle, #1a1a1a 1px, transparent 1px); background-size: 20px 20px; }
-        .msg { background: #111; border: 1px solid #333; padding: 10px; font-size: 0.85rem; }
-        .msg b { color: #888; font-size: 0.7rem; display: block; }
-
-        /* REPRODUCTOR INDIVIDUAL (PLAYER) */
+        .msg { background: #111; border: 1px solid #333; padding: 10px; font-size: 0.85rem; border-radius: 4px; }
+        .msg b { color: #00ffcc; font-size: 0.7rem; display: block; margin-bottom: 4px; }
         #music-player { padding: 15px; border-bottom: 1px solid var(--accent); display: flex; flex-direction: column; gap: 10px; }
-        input { background: transparent; border: 1px solid var(--accent); color: #fff; padding: 10px; font-size: 0.8rem; }
-        iframe { width: 100%; height: 80px; border: none; background: #111; }
-
-        /* INPUT CHAT */
+        input { background: transparent; border: 1px solid var(--accent); color: #fff; padding: 10px; font-size: 0.8rem; outline: none; }
         .input-bar { padding: 15px; border-top: 1px solid var(--accent); display: flex; gap: 10px; }
-        button { background: #fff; color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; }
-
-        /* LOGIN */
-        #lock { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        button { background: #fff; color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #00ffcc; }
+        #lock { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
     </style>
 </head>
 <body>
@@ -52,8 +38,8 @@
       \  ( )   ( )  /
        '-----------'
         </div>
-        <p style="font-size: 0.7rem;">EL MUNDO TE ESTÁ MIRANDO</p>
-        <button onclick="document.getElementById('lock').style.display='none'; getLoc();">ENTRAR AL CAOS</button>
+        <p style="font-size: 0.7rem; margin: 20px 0;">EL MUNDO TE ESTÁ MIRANDO</p>
+        <button onclick="login()">ENTRAR AL CAOS (GOOGLE)</button>
     </div>
 
     <div id="sidebar">
@@ -62,7 +48,6 @@
             <div id="clock">00:00:00 AM</div>
             <div id="location">Detectando...</div>
         </div>
-
         <div class="stat-box">
             <h4 style="margin-top:0">EN LA RED (24)</h4>
             <ul class="online-list">
@@ -76,7 +61,7 @@
 
     <div id="main">
         <div id="music-player">
-            <input type="text" id="musicUrl" placeholder="Pega Link de SoundCloud o YouTube...">
+            <input type="text" id="musicUrl" placeholder="Pega Link de YouTube...">
             <button onclick="playMusic()">CARGAR RUIDO</button>
             <div id="player-container"></div>
         </div>
@@ -85,127 +70,110 @@
             <h2 style="margin:0; font-size: 1rem; letter-spacing: 2px;">LOS NADIE // RED INTERNA</h2>
         </header>
 
-        <div id="chat-window" id="chat">
-            <div class="msg"><b>SISTEMA</b> BIENVENIDO A LA RESISTENCIA.</div>
+        <div id="chat-window">
+            <div class="msg"><b>SISTEMA</b> BIENVENIDO A LA RESISTENCIA. LOGUÉATE PARA ESCRIBIR.</div>
         </div>
 
         <div class="input-bar">
-            <input type="text" id="msg" style="flex:1" placeholder="Di algo...">
+            <input type="text" id="msgInput" style="flex:1" placeholder="Di algo..." onkeypress="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()">ENVIAR</button>
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
     <script>
-        // RELOJ Y UBICACIÓN
+        const firebaseConfig = {
+            apiKey: "AIzaSyAYWVhhOtYC3lWpJNr9U-znhuP3htRjays",
+            authDomain: "los-nadie.firebaseapp.com",
+            projectId: "los-nadie",
+            storageBucket: "los-nadie.firebasestorage.app",
+            messagingSenderId: "681997586686",
+            appId: "1:681997586686:web:d82eec0594d5ab88cc95af",
+            measurementId: "G-3RE9MBN9XN"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        function login() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then((result) => {
+                document.getElementById('lock').style.display = 'none';
+                getLoc(); 
+                cargarMensajes();
+            }).catch((err) => {
+                alert("Error al entrar. Mirá la consola.");
+                console.error(err);
+            });
+        }
+
+        function sendMsg() {
+            const input = document.getElementById('msgInput');
+            const text = input.value.trim();
+            
+            if(text && auth.currentUser) {
+                db.collection("chat_comunidad").add({
+                    user: auth.currentUser.displayName,
+                    text: text,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    input.value = "";
+                }).catch(e => console.error("Error enviando:", e));
+            } else if (!auth.currentUser) {
+                alert("¡Loguéate primero, mijo!");
+            }
+        }
+
+        function cargarMensajes() {
+            db.collection("chat_comunidad")
+              .orderBy("timestamp", "asc")
+              .limitToLast(50)
+              .onSnapshot((snapshot) => {
+                const chatWindow = document.getElementById('chat-window');
+                chatWindow.innerHTML = ""; 
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const time = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '...';
+                    
+                    chatWindow.innerHTML += `
+                        <div class="msg">
+                            <b>[${time}] ${data.user}</b>
+                            <span>${data.text}</span>
+                        </div>`;
+                });
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            });
+        }
+
         function getLoc() {
             setInterval(() => {
                 const date = new Date();
-                let h = date.getHours();
-                let m = date.getMinutes();
-                let s = date.getSeconds();
+                let h = date.getHours(), m = date.getMinutes(), s = date.getSeconds();
                 let amp = h >= 12 ? 'PM' : 'AM';
-                h = h % 12; h = h ? h : 12;
+                h = h % 12 || 12;
                 m = m < 10 ? '0'+m : m; s = s < 10 ? '0'+s : s;
                 document.getElementById('clock').innerText = `${h}:${m}:${s} ${amp}`;
             }, 1000);
 
-            // Simulación de ubicación (Para servidor estático)
             fetch('https://ipapi.co/json/').then(res => res.json()).then(data => {
                 document.getElementById('location').innerText = `${data.city}, ${data.country_name}`;
             }).catch(() => document.getElementById('location').innerText = "Oculto...");
         }
 
-        // CHAT (Solo visual por ahora)
-        function sendMsg() {
-            const m = document.getElementById('msg');
-            if(m.value) {
-                const chat = document.getElementById('chat-window');
-                chat.innerHTML += `<div class="msg"><b>NADIE (TÚ)</b> ${m.value}</div>`;
-                m.value = ""; chat.scrollTop = chat.scrollHeight;
-            }
-        }
-
-        // REPRODUCTOR
         function playMusic() {
             const url = document.getElementById('musicUrl').value;
             const container = document.getElementById('player-container');
-            if(url.includes('youtube.com')) {
-                const vid = url.split('v=')[1];
+            if(url.includes('youtube.com') || url.includes('youtu.be')) {
+                let vid = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
                 container.innerHTML = `<iframe src="https://www.youtube.com/embed/${vid}?autoplay=1" allow="autoplay"></iframe>`;
             } else {
-                alert("Por ahora solo YouTube, pana. No me pidáis más.");
+                alert("Solo YouTube por ahora, no te pongáis creativo.");
             }
         }
     </script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-
-    <script>
-      // Configuración que sacamos de tu consola
-      const firebaseConfig = {
-        apiKey: "AIzaSyAYWVhhOtYC3lWpJNr9U-znhuP3htRjays",
-        authDomain: "los-nadie.firebaseapp.com",
-        projectId: "los-nadie",
-        storageBucket: "los-nadie.firebasestorage.app",
-        messagingSenderId: "681997586686",
-        appId: "1:681997586686:web:d82eec0594d5ab88cc95af",
-        measurementId: "G-3RE9MBN9XN"
-      };
-
-      // Inicializamos el sistema
-      firebase.initializeApp(firebaseConfig);
-      const auth = firebase.auth();
-      const db = firebase.firestore();
-
-      // Función para entrar al caos (Login)
-      function login() {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider).then((result) => {
-            // Quitamos el bloqueo de pantalla
-            document.getElementById('lock').style.display = 'none';
-            // Arrancamos el reloj y el globo que ya tenías
-            getLoc(); 
-            // Empezamos a escuchar los mensajes
-            cargarMensajes();
-        }).catch((err) => {
-            alert("No pudiste entrar a la resistencia. Revisa la consola.");
-            console.error(err);
-        });
-      }
-
-      // Función para mandar mensajes
-      function sendMsg() {
-        const input = document.getElementById('msg');
-        if(input.value && auth.currentUser) {
-            db.collection("chat_comunidad").add({
-                user: auth.currentUser.displayName,
-                text: input.value,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            });
-            input.value = ""; // Limpiamos el campo
-        }
-      }
-
-      // Función para recibir mensajes en vivo
-      function cargarMensajes() {
-        db.collection("chat_comunidad").orderBy("timestamp", "asc").limitToLast(50)
-          .onSnapshot((snapshot) => {
-            const chatWindow = document.getElementById('chat-window');
-            chatWindow.innerHTML = ""; 
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                // Formateamos la hora para que se vea pro
-                const time = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '...';
-                
-                chatWindow.innerHTML += `
-                    <div class="msg">
-                        <b>[${time}] ${data.user}:</b> ${data.text}
-                    </div>`;
-            });
-            chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll automático al final
-          });
-      }
-    </script>
-</body> ```
+</body>
 </html>
