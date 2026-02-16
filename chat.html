@@ -137,5 +137,72 @@
             }
         }
     </script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // Tu configuración real sacada de tu mensaje
+  const firebaseConfig = {
+    apiKey: "AIzaSyAYWVhhOtYC3lWpJNr9U-znhuP3htRjays",
+    authDomain: "los-nadie.firebaseapp.com",
+    projectId: "los-nadie",
+    storageBucket: "los-nadie.firebasestorage.app",
+    messagingSenderId: "681997586686",
+    appId: "1:681997586686:web:d82eec0594d5ab88cc95af",
+    measurementId: "G-3RE9MBN9XN"
+  };
+
+  // Inicializar Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  // Función de Login con Google
+  function login() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then((result) => {
+        document.getElementById('lock').style.display = 'none';
+        getLoc(); // Llama a la función del reloj que hicimos
+        cargarMensajes();
+    }).catch((error) => {
+        console.error("Error en la entrada:", error);
+        alert("Falló la conexión, revisá si activaste Google Auth en Firebase.");
+    });
+  }
+
+  // Enviar mensaje a Firestore
+  function sendMsg() {
+    const m = document.getElementById('msg');
+    if(m.value && auth.currentUser) {
+        db.collection("chat_comunidad").add({
+            user: auth.currentUser.displayName,
+            text: m.value,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        m.value = "";
+    }
+  }
+
+  // Cargar y escuchar mensajes en tiempo real
+  function cargarMensajes() {
+    db.collection("chat_comunidad").orderBy("timestamp", "asc").limitToLast(50)
+      .onSnapshot((snapshot) => {
+        const chatWindow = document.getElementById('chat-window');
+        chatWindow.innerHTML = ""; 
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            const time = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '...';
+            chatWindow.innerHTML += `
+                <div class="msg">
+                    <b>[${time}] ${data.user || 'Nadie'}</b> 
+                    ${data.text}
+                </div>`;
+        });
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      });
+  }
+</script>
+
 </body>
 </html>
