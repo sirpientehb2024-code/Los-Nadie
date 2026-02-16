@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRUNO | ARCHIVO_RECONSTRUIDO_1984 - ROCKOLA EDITION</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vhs-yellow: #ffd700;
+            --vhs-black: #050505;
+            --femboy-subtle: #ea9999;
+            --rockola-red: #e74c3c;
+            --rockola-blue: #3498db;
+            --rockola-green: #2ecc71;
+            --rockola-purple: #9b59b6;
+            --rockola-light: #ecf0f1;
+        }
+        body {
+            background-color: var(--vhs-black);
+            color: var(--vhs-yellow);
+            font-family: 'VT323', monospace;
+            margin: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-transform: uppercase;
+            min-height: 100vh; /* Para que el VHS overlay cubra todo */
+            padding-bottom: 50px; /* Espacio extra para que no se corte el contenido */
+        }
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 100;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .vhs-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uWU0WMrQm6m6W2/giphy.gif'); /* Ruido GIF */
+            opacity: 0.05;
+            z-index: 99;
+            pointer-events: none;
+        }
+        .container {
+            width: 95%; /* Más ancho para la rockola */
+            max-width: 700px;
+            border: 5px solid var(--vhs-yellow); /* Borde más robusto */
+            padding: 40px 20px;
+            background: rgba(10, 10, 10, 0.95); /* Fondo más opaco */
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.4); /* Sombra más intensa */
+            position: relative;
+            margin-top: 30px;
+            border-radius: 10px; /* Bordes un poco redondeados */
+            overflow: hidden;
+        }
+        .vhs-header {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--vhs-yellow);
+            padding-bottom: 10px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--vhs-yellow);
+            font-family: 'Press Start 2P', cursive;
+        }
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .vhs-photo {
+            width: 250px;
+            height: 300px;
+            background: #222;
+            border: 3px solid var(--rockola-red); /* Borde rockola */
+            filter: grayscale(0.6) contrast(1.3) sepia(0.4);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+        }
+        .tracking-glitch {
+            position: absolute; width: 100%; height: 3px; background: rgba(255, 255, 255, 0.6); top: 0; animation: tracking 4s infinite linear;
+        }
+        h1 { font-size: 4.5rem; margin: 0; color: #fff; text-shadow: 4px 4px #ff0000, -4px -4px #0000ff; line-height: 1; }
+        .femboy-tag { color: var(--femboy-subtle); font-size: 1.8rem; margin-top: 10px; margin-bottom: 25px; }
+        
+        /* ROCKOLA PLAYER STYLES */
+        .rockola-player {
+            margin-top: 40px;
+            border: 6px outset var(--vhs-yellow); /* Borde 3D */
+            padding: 25px;
+            background: linear-gradient(to bottom, #1a1a1a, #0a0a0a); /* Gradiente oscuro */
+            width: calc(100% - 50px);
+            box-sizing: border-box;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5), inset 0 0 10px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+        .rockola-display {
+            background: #000;
+            border: 2px solid var(--rockola-green);
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: inset 0 0 10px var(--rockola-green);
+            color: var(--rockola-green);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .rockola-display .status { font-size: 0.9rem; margin-bottom: 5px; }
+        .rockola-display .track { font-size: 1.3rem; }
+        .rockola-display .time { font-size: 1rem; margin-top: 5px; }
+
+        .vinyl-area {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px auto;
+            border-radius: 50%;
+            background: #222;
+            border: 5px solid #444;
+            box-shadow: inset 0 0 15px #000, 0 0 10px rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+        .vinyl-disc {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #444 0%, #111 60%, #000 100%);
+            position: relative;
+            animation: spin 5s infinite linear paused; /* Pausado por defecto */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .vinyl-center {
+            width: 30px;
+            height: 30px;
+            background-color: var(--rockola-red);
+            border-radius: 50%;
+            border: 2px solid var(--vhs-yellow);
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.7);
+        }
+        .vinyl-disc.playing {
+            animation-play-state: running;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .rockola-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .rockola-btn {
+            background: var(--rockola-blue);
+            color: var(--rockola-light);
+            padding: 15px 10px;
+            border: 3px outset var(--rockola-blue);
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transition: background 0.2s, transform 0.1s;
+        }
+        .rockola-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            border-style: inset;
+        }
+        .rockola-btn.play { background: var(--rockola-green); border-color: var(--rockola-green); }
+        .rockola-btn.stop { background: var(--rockola-red); border-color: var(--rockola-red); }
+        .rockola-btn.vol { background: var(--rockola-purple); border-color: var(--rockola-purple); }
+        .rockola-btn.loop { background: var(--vhs-yellow); border-color: var(--vhs-yellow); color: var(--vhs-black); }
+
+        .volume-bar-container {
+            width: 80%;
+            height: 15px;
+            background: #333;
+            border: 1px solid #555;
+            margin: 20px auto 0 auto;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .volume-bar {
+            height: 100%;
+            width: 100%; /* Inicia al 100% de volumen */
+            background: linear-gradient(to right, var(--rockola-green), var(--vhs-yellow));
+            transition: width 0.1s linear;
+        }
+        .mario-block {
+            width: 70px; height: 70px; background-color: #f7941d; border: 5px solid #000; margin: 40px auto 15px auto;
+            cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; font-weight: bold;
+            color: #000; box-shadow: inset -6px -6px 0px #8a4a00, 0 0 15px rgba(247, 148, 29, 0.7); transition: transform 0.1s;
+        }
+        .mario-block:active { transform: translateY(-12px); }
+        .stop-mario-btn {
+            display: block; margin: 0 auto 25px auto; background: none; border: 2px solid var(--rockola-red);
+            color: var(--rockola-red); font-family: 'VT323', monospace; cursor: pointer; padding: 8px 15px;
+            font-size: 1rem; border-radius: 5px;
+        }
+        .stop-mario-btn:hover { background: var(--rockola-red); color: var(--rockola-light); }
+
+        /* Estilos de luces parpadeantes */
+        .light-strip {
+            position: absolute;
+            height: 8px;
+            background: linear-gradient(to right, var(--rockola-red), var(--rockola-blue), var(--rockola-green), var(--rockola-purple));
+            box-shadow: 0 0 10px var(--rockola-red), 0 0 10px var(--rockola-blue), 0 0 10px var(--rockola-green), 0 0 10px var(--rockola-purple);
+            animation: lights 3s infinite alternate;
+        }
+        .light-top { top: 0; left: 0; right: 0; }
+        .light-bottom { bottom: 0; left: 0; right: 0; }
+        .light-left { top: 0; bottom: 0; left: 0; width: 8px; animation-delay: 0.5s; }
+        .light-right { top: 0; bottom: 0; right: 0; width: 8px; animation-delay: 1s; }
+
+        @keyframes lights {
+            0% { opacity: 0.7; transform: scaleX(1); }
+            50% { opacity: 1; transform: scaleX(1.01); }
+            100% { opacity: 0.7; transform: scaleX(1); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .vhs-header { font-size: 2rem; }
+            h1 { font-size: 3rem; }
+            .femboy-tag { font-size: 1.2rem; }
+            .rockola-display { font-size: 0.9rem; padding: 10px; }
+            .rockola-display .track { font-size: 1.1rem; }
+            .rockola-controls { grid-template-columns: repeat(2, 1fr); }
+            .rockola-btn { font-size: 0.6rem; padding: 10px 5px; }
+            .mario-block { width: 60px; height: 60px; font-size: 2rem; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="vhs-overlay"></div>
+    <div class="container">
+        <div class="light-strip light-top"></div>
+        <div class="light-strip light-bottom"></div>
+        <div class="light-strip light-left"></div>
+        <div class="light-strip light-right"></div>
+
+        <div class="vhs-header">ROCKOLA BRUNO: 1984</div>
+        
+        <div class="profile-section">
+            <div class="vhs-photo">
+                <div class="tracking-glitch"></div>
+                <img src="tu_foto.jpg" alt="SUJETO_BRUNO" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h1>BRUNO</h1>
+            <div class="femboy-tag">[ CLASIFICACIÓN: FEMBOY_UNIT ]</div>
+            <p>REGISTRO 80s: Guitarrista con tendencias asociales. El ruido que genera oculta sus gritos internos. No alimentar después de medianoche.</p>
+        </div>
+
+        <div class="rockola-player">
+            <div class="rockola-display">
+                <span class="status" id="status-techno">SISTEMA: INICIANDO...</span>
+                <span class="track" id="track-name">Cargando Playlist...</span>
+                <span class="time" id="current-time">00:00 / 00:00</span>
+            </div>
+
+            <div class="vinyl-area">
+                <div class="vinyl-disc" id="vinyl-disc">
+                    <div class="vinyl-center"></div>
+                </div>
+            </div>
+
+            <div class="playing-bar"><div class="progress" id="bar-techno"></div></div>
+
+            <div class="rockola-controls">
+                <button class="rockola-btn" onclick="prevTrack()">&#9664;&#9664; PREV</button>
+                <button class="rockola-btn play" onclick="controlTechno('play')">&#9654; PLAY</button> 
+                <button class="rockola-btn stop" onclick="controlTechno('pause')">&#9208; STOP</button>
+                <button class="rockola-btn" onclick="nextTrack()">NEXT &#9654;&#9654;</button>
+                <button class="rockola-btn vol" onclick="changeVol(0.1)">VOL +</button>
+                <button class="rockola-btn vol" onclick="changeVol(-0.1)">VOL -</button>
+                <button class="rockola-btn loop" onclick="toggleLoop()">LOOP: <span id="loop-stat">ON</span></button>
+            </div>
+            <div class="volume-bar-container">
+                <div class="volume-bar" id="volume-bar"></div>
+            </div>
+        </div>
+
+        <audio id="audio-techno" loop></audio>
+
+        <div id="mario-trigger" class="mario-block" onclick="handleMarioClick()">?</div>
+        <button class="stop-mario-btn" onclick="stopMario()">[ SILENCIAR_MARIO ]</button>
+        <p id="counter-display" style="font-size: 0.8rem; color: #555; text-align: center;">REGISTROS: 0 / 30</p>
+        
+        <audio id="audio-mario-1" src="https://archive.org/download/soda-stereo-persiana-americana-official-audio-mp-3-160-k/Procuro%20Olvidarte%20-%20Cuarteto%20de%20Nos%20%28Karaoke%29%28MP3_320K%29.mp3"></audio>
+        <audio id="audio-mario-30" src="https://archive.org/download/soda-stereo-persiana-americana-official-audio-mp-3-160-k/vartolito.mp4.xd%28MP3_160K%29.mp3"></audio>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN DE PLAYLIST - ¡EDITA ESTO CON TUS CANCIONES!
+        const playlist = [
+            { name: "Soda Stereo - Persiana Americana", url: "https://archive.org/download/soda-stereo-persiana-americana-official-audio-mp-3-160-k/Soda%20Stereo%20-%20Persiana%20Americana%20%28Official%20Audio%29%28MP3_160K%29.mp3" },
+            { name: "Cuarteto de Nos - Ya no sé qué hacer conmigo", url: "https://archive.org/download/cuarteto-de-nos-ya-no-se-que-hacer-conmigo_202302/Cuarteto%20de%20Nos%20-%20Ya%20no%20s%C3%A9%20qu%C3%A9%20hacer%20conmigo.mp3" },
+            { name: "Soda Stereo - De Música Ligera", url: "https://archive.org/download/soda-stereo-persiana-americana-official-audio-mp-3-160-k/De%20M%C3%BAsica%20Ligera%20%28Remasterizado%202007%29.mp3" },
+            { name: "Gustavo Cerati - Crimen", url: "https://archive.org/download/soda-stereo-persiana-americana-official-audio-mp-3-160-k/Crimen.mp3" }
+        ];
+        
+        let currentTrackIndex = 0;
+        const audioTechno = document.getElementById('audio-techno');
+        const barTechno = document.getElementById('bar-techno');
+        const statusTechno = document.getElementById('status-techno');
+        const trackNameDisp = document.getElementById('track-name');
+        const currentTimeDisp = document.getElementById('current-time');
+        const vinylDisc = document.getElementById('vinyl-disc');
+        const volumeBar = document.getElementById('volume-bar');
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function loadTrack(index) {
+            audioTechno.src = playlist[index].url;
+            trackNameDisp.innerText = playlist[index].name;
+            statusTechno.innerText = "SISTEMA: LISTO";
+            audioTechno.load(); // Cargar el nuevo audio
+        }
+
+        audioTechno.addEventListener('loadedmetadata', () => {
+            currentTimeDisp.innerText = `00:00 / ${formatTime(audioTechno.duration)}`;
+            updateVolumeBar(); // Actualizar barra de volumen al cargar
+        });
+
+        audioTechno.ontimeupdate = () => {
+            if (audioTechno.duration) {
+                const pct = (audioTechno.currentTime / audioTechno.duration) * 100;
+                barTechno.style.width = pct + "%";
+                currentTimeDisp.innerText = `${formatTime(audioTechno.currentTime)} / ${formatTime(audioTechno.duration)}`;
+            }
+        };
+
+        // Cuando la canción termina, automáticamente pasa a la siguiente
+        audioTechno.onended = () => {
+            if (!audioTechno.loop) { // Si no está en loop, pasa a la siguiente
+                nextTrack();
+            }
+        };
+
+        function controlTechno(action) {
+            if(action === 'play') {
+                audioTechno.play();
+                statusTechno.innerText = "SISTEMA: EJECUTANDO";
+                vinylDisc.classList.add('playing'); // Inicia animación del disco
+            } else {
+                audioTechno.pause();
+                statusTechno.innerText = "SISTEMA: PAUSADO";
+                vinylDisc.classList.remove('playing'); // Pausa animación del disco
+            }
+        }
+
+        function nextTrack() {
+            currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+            loadTrack(currentTrackIndex);
+            controlTechno('play'); // Reproduce automáticamente la siguiente
+        }
+
+        function prevTrack() {
+            currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrackIndex);
+            controlTechno('play'); // Reproduce automáticamente la anterior
+        }
+
+        function updateVolumeBar() {
+            volumeBar.style.width = (audioTechno.volume * 100) + "%";
+        }
+
+        function changeVol(delta) {
+            let v = audioTechno.volume + delta;
+            if (v >= 0 && v <= 1) {
+                audioTechno.volume = v;
+                updateVolumeBar();
+            }
+        }
+
+        function toggleLoop() {
+            audioTechno.loop = !audioTechno.loop;
+            document.getElementById('loop-stat').innerText = audioTechno.loop ? "ON" : "OFF";
+        }
+
+        // LÓGICA MARIO CON RESETEO AL CLICK 31
+        let clickCount = 0;
+        const marioBtn = document.getElementById('mario-trigger');
+        const audioM1 = document.getElementById('audio-mario-1');
+        const audioM30 = document.getElementById('audio-mario-30');
+        const counterDisplay = document.getElementById('counter-display');
+
+        function stopMario() {
+            audioM1.pause(); audioM1.currentTime = 0;
+            audioM30.pause(); audioM30.currentTime = 0;
+            marioBtn.style.backgroundColor = "#f7941d";
+            marioBtn.style.boxShadow = "inset -6px -6px 0px #8a4a00, 0 0 15px rgba(247, 148, 29, 0.7)";
+            marioBtn.innerText = "?";
+        }
+
+        function handleMarioClick() {
+            if (clickCount >= 30) { // Click 31 resetea
+                clickCount = 0;
+                stopMario();
+                counterDisplay.innerText = "REGISTROS: 0 / 30";
+                return;
+            }
+
+            clickCount++;
+            counterDisplay.innerText = `REGISTROS: ${clickCount} / 30`;
+            marioBtn.style.transform = "translateY(-12px)";
+            setTimeout(() => marioBtn.style.transform = "translateY(0)", 100);
+
+            if (clickCount === 1) audioM1.play();
+            if (clickCount === 30) {
+                audioM1.pause(); audioM30.play();
+                marioBtn.style.backgroundColor = "#ff0000";
+                marioBtn.style.boxShadow = "0 0 20px #ff0000";
+                marioBtn.innerText = "!";
+                counterDisplay.innerText = "ERROR_CRÍTICO: RESET DISPONIBLE";
+            }
+        }
+        
+        // Inicializar la primera canción y el volumen
+        loadTrack(currentTrackIndex);
+        audioTechno.volume = 0.5; // Volumen inicial
+        updateVolumeBar();
+    </script>
+</body>
+</html>
