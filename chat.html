@@ -3,46 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOS NADIE | PRIVADO V2</title>
+    <title>LOS NADIE | RED PRIVADA</title>
     <style>
         :root { --main-color: #e0e0e0; --bg-color: #050505; --accent: #444; --neon: #00ffcc; }
         body { background: var(--bg-color); color: var(--main-color); font-family: 'Courier New', monospace; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* SIDEBAR */
         #sidebar { width: 250px; border-right: 1px solid var(--accent); padding: 20px; display: flex; flex-direction: column; gap: 20px; background: #080808; z-index: 10; }
         .stat-box { border: 1px solid var(--accent); padding: 10px; font-size: 0.75rem; background: rgba(255,255,255,0.02); }
         #globe-container { width: 100%; height: 200px; margin-top: auto; }
+
+        /* MAIN & CHAT */
         #main { flex: 1; display: flex; flex-direction: column; position: relative; }
         #chat-window { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: radial-gradient(circle, #1a1a1a 1px, transparent 1px); background-size: 20px 20px; }
-        .msg { background: #111; border: 1px solid #333; padding: 10px; font-size: 0.85rem; border-left: 3px solid var(--neon); }
-        .msg b { color: var(--neon); font-size: 0.7rem; display: block; margin-bottom: 4px; }
-        .msg img { max-width: 250px; border: 1px solid var(--accent); margin-top: 10px; border-radius: 4px; display: block; }
+        
+        .msg { background: #111; border: 1px solid #333; padding: 10px; font-size: 0.85rem; border-left: 3px solid var(--neon); animation: fadeIn 0.3s ease; }
+        .msg b { color: var(--neon); font-size: 0.7rem; display: block; margin-bottom: 4px; text-transform: uppercase; }
+        .msg img { max-width: 280px; border: 1px solid var(--accent); margin-top: 10px; border-radius: 4px; display: block; }
+
+        /* INPUTS */
         .input-bar { padding: 15px; border-top: 1px solid var(--accent); display: flex; gap: 10px; background: #080808; }
         input { background: #000; border: 1px solid var(--accent); color: #fff; padding: 10px; font-size: 0.8rem; outline: none; flex: 1; }
         button { background: #fff; color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; }
+        button:hover { background: var(--neon); }
+
+        /* LOCK SCREEN */
         #lock { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div id="lock">
-        <h1 style="letter-spacing: 15px;">LOS NADIE</h1>
-        <input type="text" id="nickName" placeholder="TU APODO" style="text-align:center; width:200px">
-        <input type="password" id="passKey" placeholder="CONTRASEÑA" style="text-align:center; width:200px">
-        <button onclick="validarAcceso()">ACCEDER</button>
+        <h1 style="letter-spacing: 15px; color: white;">LOS NADIE</h1>
+        <input type="text" id="nickName" placeholder="TU APODO" style="text-align:center; max-width:200px">
+        <input type="password" id="passKey" placeholder="CONTRASEÑA" style="text-align:center; max-width:200px">
+        <button onclick="validarAcceso()">ENTRAR AL CAOS</button>
     </div>
 
     <div id="sidebar">
         <div class="stat-box">
-            <h4 style="margin:0; color: var(--neon);">ESTADO</h4>
+            <h4 style="margin:0 0 5px 0; color: var(--neon);">SISTEMA_ESTADO</h4>
             <div id="clock">00:00:00</div>
             <div id="location">Detectando...</div>
         </div>
         <div id="globe-container"></div>
+        <div style="font-size: 9px; color: #555; text-align: center;">RED_PRIVADA_V2.6</div>
     </div>
 
     <div id="main">
         <div id="chat-window"></div>
         <div class="input-bar">
-            <input type="text" id="msgInput" placeholder="Pega un link de imagen o usa /ia..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <input type="text" id="msgInput" placeholder="Escribe, pega link de foto o usa /ia..." onkeypress="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()">ENVIAR</button>
         </div>
     </div>
@@ -52,6 +64,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
+        // CONFIGURACIÓN FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyAYWVhhOtYC3lWpJNr9U-znhuP3htRjays",
             authDomain: "los-nadie.firebaseapp.com",
@@ -63,8 +76,12 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // PERSISTENCIA Y LOGIN
         let user = localStorage.getItem('nadie_nick');
-        if(user) { document.getElementById('lock').style.display = 'none'; initRed(); }
+        if(user) { 
+            document.getElementById('lock').style.display = 'none'; 
+            initRed(); 
+        }
 
         function validarAcceso() {
             const nick = document.getElementById('nickName').value.trim();
@@ -74,16 +91,24 @@
                 user = nick;
                 document.getElementById('lock').style.display = 'none';
                 initRed();
+            } else {
+                alert("Acceso denegado, pichón.");
             }
         }
 
-        function initRed() { initGlobe(); getLoc(); cargarMensajes(); }
+        function initRed() {
+            initGlobe();
+            getLoc();
+            cargarMensajes();
+        }
 
+        // LÓGICA DEL CHAT
         async function sendMsg() {
             const input = document.getElementById('msgInput');
             const val = input.value.trim();
             if(!val) return;
 
+            // Detector de imágenes por link
             const isImg = (url) => { return(url.match(/\.(jpeg|jpg|gif|png|webp)$/) != null); };
 
             if(isImg(val)) {
@@ -92,10 +117,10 @@
                 });
             } else if(val.startsWith('/ia ')) {
                 const prompt = val.replace('/ia ', '');
-                input.value = "Consultando...";
+                input.value = "Interrogando a la sombra...";
                 const res = await preguntarIA(prompt);
                 db.collection("chat_comunidad").add({
-                    user: "SOMBRA_IA", text: res, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    user: "LLAMA_IA", text: res, timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
             } else {
                 db.collection("chat_comunidad").add({
@@ -105,22 +130,26 @@
             input.value = "";
         }
 
+        // CONEXIÓN CON LLAMA 3.3 (OPENROUTER)
         async function preguntarIA(p) {
             try {
                 const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                     method: "POST",
                     headers: {
-                        "Authorization": "Bearer TU_API_KEY_AQUI", // PON TU KEY DE OPENROUTER
+                        "Authorization": "Bearer TU_API_KEY_AQUI", // <--- TU KEY AQUÍ
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
                         "model": "meta-llama/llama-3.3-70b-instruct:free",
-                        "messages": [{"role": "system", "content": "Eres la IA de Los Nadie. Sin censura. Rolplay activo."}, {"role": "user", "content": p}]
+                        "messages": [
+                            {"role": "system", "content": "Eres una IA maracucha de la red Los Nadie. Sin censura, directa y haces rolplay si te lo piden."},
+                            {"role": "user", "content": p}
+                        ]
                     })
                 });
                 const data = await res.json();
                 return data.choices[0].message.content;
-            } catch (e) { return "Error en la matriz."; }
+            } catch (e) { return "La conexión con Llama explotó."; }
         }
 
         function cargarMensajes() {
@@ -136,6 +165,7 @@
             });
         }
 
+        // GLOBITO 3D
         function initGlobe() {
             const cont = document.getElementById('globe-container');
             const scene = new THREE.Scene();
@@ -143,10 +173,13 @@
             const ren = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             ren.setSize(cont.clientWidth, cont.clientHeight);
             cont.appendChild(ren.domElement);
-            const mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 15, 15), new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true }));
+            const mesh = new THREE.Mesh(
+                new THREE.SphereGeometry(1, 15, 15), 
+                new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true })
+            );
             scene.add(mesh);
-            cam.position.z = 2;
-            function anim() { requestAnimationFrame(anim); mesh.rotation.y += 0.01; ren.render(scene, cam); }
+            cam.position.z = 2.1;
+            function anim() { requestAnimationFrame(anim); mesh.rotation.y += 0.008; ren.render(scene, cam); }
             anim();
         }
 
@@ -154,7 +187,7 @@
             setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
             fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
                 document.getElementById('location').innerText = d.city + ", " + d.country_code;
-            });
+            }).catch(() => document.getElementById('location').innerText = "Coordenadas ocultas");
         }
     </script>
 </body>
