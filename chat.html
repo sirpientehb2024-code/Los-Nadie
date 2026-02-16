@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LOS NADIE | RED</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOS NADIE | NODO CENTRAL</title>
     <style>
-        :root { --neon: #00ffcc; --bg: #050505; --text: #e0e0e0; }
+        :root { --neon: #00ffcc; --bg: #050505; --panel: #0a0a0a; --text: #e0e0e0; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body { 
@@ -17,159 +17,122 @@
             flex-direction: column; 
             overflow: hidden; 
         }
-        
-        /* HEADER - Ajustado para que no estorbe */
+
+        /* HEADER */
         #top-bar { 
             flex: 0 0 auto;
             display: flex; 
             justify-content: space-between; 
-            padding: 15px; 
-            border-bottom: 1px solid #333; 
-            background: #080808; 
-            font-size: 0.75rem; 
-            position: relative;
-            z-index: 10;
+            padding: 10px 20px; 
+            border-bottom: 1px solid #1a1a1a; 
+            background: #000; 
+            font-size: 0.8rem;
         }
 
-        #globe-container { 
-            position: absolute; 
-            top: 5px; 
-            right: 10px; 
-            width: 50px; 
-            height: 50px; 
-            z-index: 5; 
-            pointer-events: none; 
-        }
-
-        /* ÁREA DE CHAT - Corregido el flex y el scroll */
+        /* CHAT WINDOW */
         #chat-window { 
             flex: 1 1 auto; 
             overflow-y: auto; 
-            padding: 15px; 
+            padding: 20px; 
             display: flex; 
             flex-direction: column; 
-            gap: 10px; 
-            background: radial-gradient(circle, #151515 1px, transparent 1px); 
-            background-size: 20px 20px;
-            scroll-behavior: smooth;
+            gap: 12px; 
+            background: linear-gradient(rgba(5,5,5,0.9), rgba(5,5,5,0.9)), 
+                        url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
         }
 
         .msg { 
-            background: rgba(15,15,15,0.95); 
-            border: 1px solid #252525; 
-            padding: 10px; 
-            border-left: 3px solid var(--neon); 
-            max-width: 90%;
-            animation: slideIn 0.2s ease; 
+            background: rgba(20,20,20,0.8); 
+            border: 1px solid #222; 
+            padding: 10px 15px; 
+            border-left: 2px solid var(--neon); 
+            max-width: 85%;
+            align-self: flex-start;
+            animation: fadeIn 0.3s ease;
         }
 
-        .msg b { color: var(--neon); font-size: 0.65rem; display: block; margin-bottom: 4px; }
-        .msg span { font-size: 0.9rem; line-height: 1.3; }
-        .msg img { max-width: 100%; border-radius: 4px; margin-top: 8px; border: 1px solid #444; }
+        .msg.me { align-self: flex-end; border-left: none; border-right: 2px solid var(--neon); text-align: right; }
+        .msg b { color: var(--neon); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+        .msg span { display: block; margin-top: 5px; word-wrap: break-word; }
 
-        /* INPUT BAR - Ahora es parte del flujo flex */
+        /* INPUT AREA */
         .input-bar { 
-            flex: 0 0 auto;
             padding: 15px; 
             background: #000; 
-            border-top: 1px solid #333; 
             display: flex; 
             gap: 10px; 
+            border-top: 1px solid #1a1a1a;
         }
 
         input { 
-            background: #0a0a0a; 
-            border: 1px solid #444; 
-            color: #fff; 
+            background: #0d0d0d; 
+            border: 1px solid #333; 
+            color: var(--neon); 
             padding: 12px; 
             flex: 1; 
             outline: none; 
-            font-size: 16px; 
         }
 
         button { 
             background: var(--neon); 
             border: none; 
-            padding: 0 20px; 
-            font-weight: bold; 
+            padding: 0 25px; 
+            font-weight: 900; 
             cursor: pointer; 
-            color: #000; 
+            transition: 0.3s;
         }
 
-        /* PANTALLA DE BLOQUEO - Z-INDEX CORREGIDO */
+        button:hover { background: #fff; box-shadow: 0 0 10px var(--neon); }
+
+        /* LOGIN OVERLAY */
         #lock { 
-            position: fixed; 
-            inset: 0; 
-            background: #000; 
-            z-index: 1000; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 15px; 
-            padding: 20px;
+            position: fixed; inset: 0; background: #000; z-index: 9999; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
         }
 
-        #lock input { 
-            flex: none; 
-            width: 280px; 
-            text-align: center; 
-            border-radius: 0; 
-            margin-bottom: 5px; 
-        }
-
-        @keyframes slideIn { 
-            from { opacity: 0; transform: translateX(-5px); } 
-            to { opacity: 1; transform: translateX(0); } 
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div id="lock">
-        <h1 style="letter-spacing: 10px; margin-bottom: 20px;">LOS NADIE</h1>
-        <input type="text" id="nickName" placeholder="TU APODO">
-        <input type="password" id="passKey" placeholder="LLAVE MAESTRA">
-        <button onclick="validarAcceso()" style="height: 45px; width: 280px;">ENTRAR AL NODO</button>
-        <p id="err" style="color: #ff4c4c; font-size: 0.75rem; display: none;">LLAVE INVÁLIDA O NULO</p>
+        <h2 style="color: var(--neon); letter-spacing: 5px; margin-bottom: 20px;">ACCESO RESTRINGIDO</h2>
+        <input type="text" id="nickName" placeholder="NICKNAME" style="width: 250px; text-align: center; margin-bottom: 10px;">
+        <input type="password" id="passKey" placeholder="PASSWORD" style="width: 250px; text-align: center; margin-bottom: 15px;">
+        <button onclick="validarAcceso()" style="height: 40px; width: 250px;">CONECTAR</button>
     </div>
 
     <div id="top-bar">
-        <div>
-            <b style="color: var(--neon);">ID_NODO: <span id="location">Cargando...</span></b><br>
-            <span id="clock">00:00:00</span>
-        </div>
-        <div style="text-align: right;">
-            <b style="color: #666;">PROTOCOLO_V3.1</b>
-        </div>
-        <div id="globe-container"></div>
+        <div>NODO: <span id="location" style="color: var(--neon);">...</span></div>
+        <div id="clock">00:00:00</div>
     </div>
 
     <div id="chat-window"></div>
 
     <div class="input-bar">
-        <input type="text" id="msgInput" placeholder="Mensaje o /ia..." onkeypress="if(event.key==='Enter') sendMsg()">
+        <input type="text" id="msgInput" placeholder="Escribe al vacío..." onkeypress="if(event.key==='Enter') sendMsg()">
         <button onclick="sendMsg()">></button>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
+        // ADVERTENCIA: No dejéis estas llaves reales en un Repo Público.
         const firebaseConfig = {
-            apiKey: "AIzaSyAYWVhhOtYC3lWpJNr9U-znhuP3htRjays",
+            apiKey: "TU_API_KEY",
             authDomain: "los-nadie.firebaseapp.com",
             projectId: "los-nadie",
-            storageBucket: "los-nadie.firebasestorage.app",
+            storageBucket: "los-nadie.appspot.com",
             messagingSenderId: "681997586686",
             appId: "1:681997586686:web:d82eec0594d5ab88cc95af"
         };
+        
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-
         let user = localStorage.getItem('nadie_nick');
-        if(user) { document.getElementById('lock').style.display = 'none'; initRed(); }
+
+        if(user) { document.getElementById('lock').remove(); initRed(); }
 
         function validarAcceso() {
             const nick = document.getElementById('nickName').value.trim();
@@ -177,86 +140,49 @@
             if(nick && pass === "Nadie") {
                 localStorage.setItem('nadie_nick', nick);
                 user = nick;
-                document.getElementById('lock').style.display = 'none';
+                document.getElementById('lock').remove();
                 initRed();
-            } else { document.getElementById('err').style.display = 'block'; }
+            } else { alert("Llave incorrecta, pajuo."); }
         }
 
-        function initRed() { initGlobe(); getLoc(); cargarMensajes(); }
+        function initRed() {
+            getLoc();
+            cargarMensajes();
+        }
+
+        function getLoc() {
+            setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+            fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+                document.getElementById('location').innerText = `${d.city}, ${d.country_code}`;
+            });
+        }
 
         async function sendMsg() {
             const input = document.getElementById('msgInput');
             const val = input.value.trim();
             if(!val) return;
 
-            const isImg = (url) => (url.match(/\.(jpeg|jpg|gif|png|webp)$/) != null);
-
-            if(isImg(val)) {
-                db.collection("chat_comunidad").add({ user: user, imageUrl: val, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-            } else if(val.startsWith('/ia ')) {
-                const prompt = val.replace('/ia ', '');
-                input.value = "Pensando...";
-                const res = await preguntarIA(prompt);
-                db.collection("chat_comunidad").add({ user: "LLAMA_3.3_IA", text: res, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-            } else {
-                db.collection("chat_comunidad").add({ user: user, text: val, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-            }
+            await db.collection("chat_comunidad").add({
+                user: user,
+                text: val,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
             input.value = "";
-        }
-
-        async function preguntarIA(p) {
-            try {
-                const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Authorization": "Bearer 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",
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        "model": "meta-llama/llama-3.3-70b-instruct:free",
-                        "messages": [
-                            {"role": "system", "content": "Eres Llama 3.3, la IA de la red Los Nadie. Hablas con jerga maracucha, directo y con estilo cyberpunk."},
-                            {"role": "user", "content": p}
-                        ]
-                    })
-                });
-                const data = await res.json();
-                return data.choices?.[0]?.message?.content || "El nodo no respondió.";
-            } catch (e) { return "Error de conexión neuronal."; }
         }
 
         function cargarMensajes() {
             const win = document.getElementById('chat-window');
-            db.collection("chat_comunidad").orderBy("timestamp", "asc").limitToLast(50).onSnapshot(snap => {
+            db.collection("chat_comunidad").orderBy("timestamp", "desc").limit(50).onSnapshot(snap => {
                 win.innerHTML = "";
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    const content = d.imageUrl ? `<img src="${d.imageUrl}" loading="lazy">` : `<span>${d.text}</span>`;
-                    win.innerHTML += `<div class="msg"><b>${d.user}</b>${content}</div>`;
+                // Invertimos el array para que los nuevos salgan abajo
+                const docs = [];
+                snap.forEach(doc => docs.push(doc.data()));
+                docs.reverse().forEach(d => {
+                    const isMe = d.user === user ? 'me' : '';
+                    win.innerHTML += `<div class="msg ${isMe}"><b>${d.user}</b><span>${d.text}</span></div>`;
                 });
                 win.scrollTop = win.scrollHeight;
             });
-        }
-
-        function initGlobe() {
-            const cont = document.getElementById('globe-container');
-            const scene = new THREE.Scene();
-            const cam = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-            const ren = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            ren.setSize(50, 50);
-            cont.appendChild(ren.domElement);
-            const mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 15, 15), new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true }));
-            scene.add(mesh);
-            cam.position.z = 2;
-            function anim() { requestAnimationFrame(anim); mesh.rotation.y += 0.015; ren.render(scene, cam); }
-            anim();
-        }
-
-        function getLoc() {
-            setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-            fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
-                document.getElementById('location').innerText = d.city + ", " + d.country_code;
-            }).catch(() => document.getElementById('location').innerText = "VENEZUELA");
         }
     </script>
 </body>
