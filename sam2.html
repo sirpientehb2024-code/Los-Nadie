@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMUEL TAVELLA | EL SEDUCTOR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy&family=Montserrat:wght@300;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sexy-red: #ff3366;
+            --velvet-black: #0a0a0a;
+            --soft-white: #fffaff;
+            /* Añadimos una variable para el overlay del fondo */
+            --bg-overlay: rgba(10, 10, 10, 0.85); 
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /* Aplicamos la imagen de fondo con un linear-gradient encima para legibilidad */
+            background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                        url('https://archive.org/download/1771160493898/1771160493898.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--soft-white);
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        .nav-top {
+            padding: 20px;
+            text-align: left;
+        }
+
+        .btn-back {
+            font-family: 'Permanent Marker', cursive;
+            color: var(--sexy-red);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px 20px 100px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .photo-frame {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--sexy-red);
+            box-shadow: 0 0 40px rgba(255, 51, 102, 0.4);
+            background: #111;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .heart-badge {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 2.5rem;
+            color: var(--sexy-red);
+            filter: drop-shadow(0 0 5px #000);
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            font-family: 'Satisfy', cursive;
+            font-size: 4.5rem;
+            color: var(--sexy-red);
+            margin: 10px 0;
+            line-height: 1;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            font-weight: 900;
+            font-size: 1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #bbb; /* Un pelín más claro para que resalte sobre el fondo nuevo */
+            margin-bottom: 20px;
+        }
+
+        .bio-text {
+            font-size: 1.1rem;
+            font-weight: 400; /* Subimos un pelo el grosor para que no se pierda */
+            line-height: 1.6;
+            max-width: 450px;
+            margin: 0 auto;
+            color: #eee;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .pills {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .pill {
+            background: rgba(255, 51, 102, 0.1); /* Un fondo sutil para las pastillas */
+            border: 1px solid var(--sexy-red);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: var(--sexy-red);
+            text-transform: uppercase;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-top">
+        <a href="index.html" class="btn-back">← VOLVER</a>
+    </nav>
+
+    <main class="profile-container">
+        
+        <div class="image-wrapper">
+            <div class="photo-frame">
+                <img src="https://i.pinimg.com/736x/0f/61/f7/0f61f78c740779d04b71076b7752983d.jpg" alt="Samuel Tavella">
+            </div>
+            <div class="heart-badge">♥</div>
+        </div>
+
+        <p class="subtitle">Bajo & Seducción</p>
+        <h1>Samuel Tavella</h1>
+        
+        <div class="bio-text">
+            No es un bajista, es un peligro público para los corazones solitarios. 
+            Con una sonrisa que desarma y un slap que te vuela la cabeza, 
+            Sam es el alma dulce de <strong>Los Nadie</strong>. 
+            Cuidado: si lo mirás mucho, te terminás comprando el disco.
+        </div>
+
+        <div class="pills">
+            <div class="pill">Cariñoso</div>
+            <div class="pill">Slap Maestro</div>
+            <div class="pill">Favorito de todas</div>
+        </div>
+
+    </main>
+
+</body>
+</html>
