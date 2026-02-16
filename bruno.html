@@ -3,166 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRUNO | THE CUTE GUITARIST</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Varela+Round&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <title>BRUNO | ARCHIVO_RECONSTRUIDO_1984</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            --femboy-pink: #ffb7c5;
-            --neon-purple: #9d50bb;
-            --dark-space: #0f0c29;
-            --soft-white: #fff0f5;
+            --vhs-yellow: #ffd700;
+            --vhs-black: #050505;
+            --femboy-subtle: #ea9999;
         }
-
         body {
+            background-color: var(--vhs-black);
+            color: var(--vhs-yellow);
+            font-family: 'VT323', monospace;
             margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: var(--soft-white);
-            font-family: 'Varela Round', sans-serif;
             overflow-x: hidden;
-            text-align: center;
-        }
-
-        /* --- DECORACIÓN FLOTANTE (CUTE) --- */
-        .decor {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.6;
-        }
-
-        /* --- CABECERA --- */
-        nav {
-            padding: 20px;
-            text-align: left;
-        }
-
-        .btn-exit {
-            font-family: 'VT323', monospace;
-            color: var(--femboy-pink);
-            text-decoration: none;
-            font-size: 1.5rem;
-            border: 1px dashed var(--femboy-pink);
-            padding: 5px 10px;
-        }
-
-        /* --- PERFIL --- */
-        .profile-card {
-            max-width: 500px;
-            margin: 50px auto;
-            background: rgba(255, 183, 197, 0.1);
-            backdrop-filter: blur(10px);
-            border: 3px solid var(--femboy-pink);
-            border-radius: 30px;
-            padding: 30px;
-            box-shadow: 0 0 20px var(--femboy-pink);
-            position: relative;
-            z-index: 10;
-        }
-
-        .photo-bruno {
-            width: 250px;
-            height: 250px;
-            margin: 0 auto;
-            border: 5px solid #fff;
-            border-radius: 20px;
-            overflow: hidden;
-            transform: rotate(-2deg);
-            box-shadow: 10px 10px 0px var(--neon-purple);
-        }
-
-        .photo-bruno img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            /* Filtro suave y pastel */
-            filter: saturate(1.2) brightness(1.1);
-        }
-
-        h1 {
-            font-family: 'Permanent Marker', cursive;
-            font-size: 3rem;
-            color: var(--femboy-pink);
-            margin: 20px 0 5px 0;
-            text-shadow: 3px 3px 0px var(--dark-space);
-        }
-
-        .nickname {
-            font-family: 'VT323', monospace;
-            font-size: 1.8rem;
-            background: var(--neon-purple);
-            padding: 2px 15px;
-            display: inline-block;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .bio {
-            font-size: 1rem;
-            line-height: 1.5;
-            background: rgba(0,0,0,0.3);
-            padding: 15px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-        }
-
-        /* --- STATS CUTE --- */
-        .stats-bruno {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            text-transform: uppercase;
+        }
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 100;
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+        .vhs-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://media.giphy.com/media/oEI9uWU0WMrQm6m6W2/giphy.gif');
+            opacity: 0.05;
+            z-index: 99;
+            pointer-events: none;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            border-left: 5px solid var(--vhs-yellow);
+            border-right: 5px solid var(--vhs-yellow);
+            padding: 40px 20px;
+            background: rgba(10, 10, 10, 0.9);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+            position: relative;
+        }
+        .vhs-header {
             text-align: left;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--vhs-yellow);
         }
-
-        .stat-line {
+        .profile-section {
             display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 5px 0;
+            flex-direction: column;
+            align-items: center;
         }
-
-        .stat-line b { color: var(--femboy-pink); }
-
-        .mood-tag {
-            font-size: 0.8rem;
-            color: #aaa;
+        .vhs-photo {
+            width: 280px;
+            height: 350px;
+            background: #222;
+            border: 2px solid var(--vhs-yellow);
+            filter: grayscale(0.5) contrast(1.2) sepia(0.3);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .tracking-glitch {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            top: 0;
+            animation: tracking 4s infinite linear;
+        }
+        @keyframes tracking {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        h1 { font-size: 4rem; margin: 0; color: #fff; text-shadow: 2px 2px #ff0000, -2px -2px #0000ff; }
+        .femboy-tag {
+            color: var(--femboy-subtle);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .techno-player {
+            margin-top: 30px;
+            border: 2px solid var(--vhs-yellow);
+            padding: 15px;
+            background: #111;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .playing-bar {
+            height: 10px;
+            background: #333;
+            margin: 10px 0;
+            position: relative;
+        }
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: var(--vhs-yellow);
+            box-shadow: 0 0 10px var(--vhs-yellow);
+            transition: width 0.3s;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            user-select: none;
+        }
+        .controls span:hover {
+            color: #fff;
+            text-shadow: 0 0 5px var(--vhs-yellow);
+        }
+        .mario-block {
+            width: 60px;
+            height: 60px;
+            background-color: #f7941d;
+            border: 4px solid #000;
+            margin: 30px auto 10px auto;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #000;
+            box-shadow: inset -4px -4px 0px #8a4a00;
+            transition: transform 0.1s;
+        }
+        .mario-block:active {
+            transform: translateY(-10px);
+        }
+        .stats-table {
+            width: 100%;
             margin-top: 20px;
-            font-style: italic;
+            text-align: left;
+            border-collapse: collapse;
         }
-
+        .stats-table td {
+            padding: 8px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        @keyframes pulse {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
-
-    <div class="decor" style="top: 10%; left: 10%; font-size: 3rem;">🌸</div>
-    <div class="decor" style="bottom: 15%; right: 10%; font-size: 4rem;">🎸</div>
-
-    <nav>
-        <a href="index.html" class="btn-exit"> [ ESCAPE_ ] </a>
-    </nav>
-
-    <div class="profile-card">
-        <div class="photo-bruno">
-            <img src="https://i.pinimg.com/736x/27/f8/bd/27f8bd1e9617be97a2a8ddd10d83872c.jpg" alt="Bruno Femboy">
+    <div class="vhs-overlay"></div>
+    <div class="container">
+        <div class="vhs-header">
+            PLAY ▶ 00:42:01
         </div>
 
-        <h1>BRUNO</h1>
-        <div class="nickname">"Bruno Femboy"</div>
-
-        <div class="bio">
-            El guitarrista que prefiere hablarte por Discord que en persona. 
-            Bruno es el ruido melódico de la banda. No lo toquéis, es antisocial, 
-            pero dejadle unos dulces y tocará el solo más desgarrador que hayáis escuchado.
+        <div class="profile-section">
+            <div class="vhs-photo">
+                <div class="tracking-glitch"></div>
+                <img src="tu_foto.jpg" alt="SUJETO_BRUNO" style="width:100%; height:100%; object-fit:cover;">
+            </div>
+            <h1>BRUNO</h1>
+            <div class="femboy-tag">[ CLASIFICACIÓN: FEMBOY_UNIT ]</div>
+            <p>REGISTRO 80s: Guitarrista con tendencias asociales. El ruido que genera oculta sus gritos internos. No alimentar después de medianoche.</p>
         </div>
 
-        <div class="stats-bruno">
-            <div class="stat-line"><span><b>Skill:</b></span> <span>Shredding & Gaming</span></div>
-            <div class="stat-line"><span><b>Social:</b></span> <span>0% (No molestar)</span></div>
-            <div class="stat-line"><span><b>Fav:</b></span> <span>Monster & Peluches</span></div>
+        <table class="stats-table">
+            <tr><td>SKILL:</td><td>SHREDDING / DISTORSIÓN</td></tr>
+            <tr><td>ESTADO:</td><td>NO DISPONIBLE / DISCORD ONLY</td></tr>
+            <tr><td>VICIO:</td><td>MONSTER / CINTAS PERDIDAS</td></tr>
+        </table>
+
+        <div class="techno-player">
+            <div id="status-techno">SISTEMA: STANDBY</div>
+            <div class="playing-bar"><div class="progress" id="bar-techno"></div></div>
+            <div class="controls">
+                <span onclick="controlTechno('play')">[ PLAY ]</span> 
+                <span onclick="controlTechno('pause')">[ STOP ]</span>
+                <span onclick="changeVol(0.1)">[ VOL+ ]</span>
+                <span onclick="changeVol(-0.1)">[ VOL- ]</span>
+                <span onclick="toggleLoop()">[ REPETIR: <span id="loop-stat">ON</span> ]</span>
+            </div>
         </div>
 
-        <div class="mood-tag">Estado: Teniendo una crisis existencial cute...</div>
+        <audio id="audio-techno" src="https://archive.org/download/soda-stereo-persiana-americana-official-audio-mp-3-160-k/Soda%20Stereo%20-%20Persiana%20Americana%20%28Official%20Audio%29%28MP3_160K%29.mp3" loop></audio>
+
+        <div id="mario-trigger" class="mario-block" onclick="handleMarioClick()">?</div>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <span onclick="stopMario()" style="cursor:pointer; color: #ff4444; border: 1px solid #ff4444; padding: 2px 5px;">
+                [ DETENER_RUIDO_MARIO ]
+            </span>
+        </div>
+
+        <p id="counter-display" style="font-size: 0.8rem; color: #555; text-align: center;">REGISTROS: 0 / 30</p>
+        <p style="font-size: 0.8rem; text-align: center;">GOLPEA PARA INTERFERENCIA</p>
+        
+        <audio id="audio-mario-1" src="https://archive.org/download/soda-stereo-persiana-americana-official-audio-mp-3-160-k/Procuro%20Olvidarte%20-%20Cuarteto%20de%20Nos%20%28Karaoke%29%28MP3_320K%29.mp3"></audio>
+        <audio id="audio-mario-30" src="https://archive.org/download/soda-stereo-persiana-americana-official-audio-mp-3-160-k/vartolito.mp4.xd%28MP3_160K%29.mp3"></audio>
     </div>
 
+    <script>
+        const audioTechno = document.getElementById('audio-techno');
+        const barTechno = document.getElementById('bar-techno');
+        const statusTechno = document.getElementById('status-techno');
+        const audioM1 = document.getElementById('audio-mario-1');
+        const audioM30 = document.getElementById('audio-mario-30');
+        const marioBtn = document.getElementById('mario-trigger');
+        const counterDisplay = document.getElementById('counter-display');
+        let clickCount = 0;
+
+        // ACTUALIZAR BARRA DE PROGRESO
+        audioTechno.ontimeupdate = () => {
+            const pct = (audioTechno.currentTime / audioTechno.duration) * 100;
+            barTechno.style.width = pct + "%";
+        };
+
+        function controlTechno(action) {
+            if(action === 'play') {
+                audioTechno.play();
+                statusTechno.innerText = "SISTEMA: EJECUTANDO_LOOP";
+                barTechno.style.animation = "pulse 1s infinite alternate";
+            } else {
+                audioTechno.pause();
+                statusTechno.innerText = "SISTEMA: PAUSADO";
+                barTechno.style.animation = "none";
+            }
+        }
+
+        function changeVol(delta) {
+            let newVol = audioTechno.volume + delta;
+            if (newVol >= 0 && newVol <= 1) audioTechno.volume = newVol;
+        }
+
+        function toggleLoop() {
+            audioTechno.loop = !audioTechno.loop;
+            document.getElementById('loop-stat').innerText = audioTechno.loop ? "ON" : "OFF";
+        }
+
+        function stopMario() {
+            audioM1.pause();
+            audioM1.currentTime = 0;
+            audioM30.pause();
+            audioM30.currentTime = 0;
+            marioBtn.style.backgroundColor = "#f7941d";
+            marioBtn.innerText = "?";
+        }
+
+        function handleMarioClick() {
+    // Si ya llegamos a 31, reseteamos todo a 0
+    if (clickCount >= 30) {
+        clickCount = 0;
+        stopMario(); // Usamos la función de silenciar que ya creamos
+        counterDisplay.innerText = `REGISTROS: 0 / 30`;
+        marioBtn.style.backgroundColor = "#f7941d";
+        marioBtn.style.boxShadow = "inset -4px -4px 0px #8a4a00";
+        marioBtn.innerText = "?";
+        return; // Salimos de la función para que no sume en este click
+    }
+
+    clickCount++;
+    counterDisplay.innerText = `REGISTROS: ${clickCount} / 30`;
+    
+    // Efecto visual de golpe
+    marioBtn.style.transform = "translateY(-15px)";
+    marioBtn.style.filter = "invert(1)";
+    setTimeout(() => { 
+        marioBtn.style.transform = "translateY(0)"; 
+        marioBtn.style.filter = "invert(0)";
+    }, 100);
+
+    // Lógica de sonidos según el conteo
+    if (clickCount === 1) {
+        audioM1.play();
+    }
+
+    if (clickCount === 30) {
+        audioM1.pause();
+        audioM30.play();
+        marioBtn.style.backgroundColor = "#ff0000";
+        marioBtn.style.boxShadow = "0 0 20px #ff0000";
+        marioBtn.innerText = "!";
+        counterDisplay.innerText = "ERROR_CRÍTICO: ARCHIVO_ENCONTRADO";
+    }
+}
+    </script>
 </body>
 </html>
