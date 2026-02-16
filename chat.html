@@ -147,50 +147,42 @@
 
         // LÓGICA DE LOGIN Y CHAT
         function login() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).then(() => {
-                document.getElementById('lock').style.display = 'none';
-                initGlobe();
-                getLoc();
-                cargarMensajes();
-            }).catch(e => console.error(e));
-        }
+    const provider = new firebase.auth.GoogleAuthProvider();
+    
+    // Esto le dice a Firebase: "Recordame en este bicho hasta que yo diga basta"
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => {
+            // Una vez seteada la persistencia, tiramos el popup
+            return auth.signInWithPopup(provider);
+        })
+        .then((result) => {
+            // Si ya entró, quitamos el candado y arrancamos todo
+            entrarALaRed();
+        })
+        .catch((err) => {
+            console.error("Error en el protocolo de entrada:", err);
+            alert("Error: " + err.message);
+        });
+}
 
-        function sendMsg() {
-            const input = document.getElementById('msgInput');
-            if(input.value.trim() && auth.currentUser) {
-                db.collection("chat_comunidad").add({
-                    user: auth.currentUser.displayName,
-                    text: input.value,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                input.value = "";
-            }
-        }
+// Función auxiliar para no repetir código
+function entrarALaRed() {
+    document.getElementById('lock').style.display = 'none';
+    initGlobe();
+    getLoc();
+    cargarMensajes();
+}
 
-        function cargarMensajes() {
-            db.collection("chat_comunidad").orderBy("timestamp", "asc").limitToLast(50)
-            .onSnapshot(snap => {
-                const win = document.getElementById('chat-window');
-                win.innerHTML = "";
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    const t = d.timestamp ? new Date(d.timestamp.seconds*1000).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : '..:..';
-                    win.innerHTML += `<div class="msg"><b>[${t}] ${d.user}</b>${d.text}</div>`;
-                });
-                win.scrollTop = win.scrollHeight;
-            });
-        }
-
-        function getLoc() {
-            setInterval(() => {
-                const now = new Date();
-                document.getElementById('clock').innerText = now.toLocaleTimeString();
-            }, 1000);
-            fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
-                document.getElementById('location').innerText = `${d.city}, ${d.country_code}`;
-            });
-        }
+// ESTO ES LO MÁS IMPORTANTE: 
+// Revisa si ya había una sesión activa al cargar la página
+auth.onAuthStateChanged((user) => {
+    if (user) {
+        console.log("Nadie reconocido: ", user.displayName);
+        entrarALaRed(); // Entra directo sin preguntar nada
+    } else {
+        console.log("No hay nadie en la red. Acceso bloqueado.");
+    }
+});
 
         function playMusic() {
             const url = document.getElementById('musicUrl').value;
