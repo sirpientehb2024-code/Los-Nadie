@@ -3,97 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOS NADIE | COMUNIDAD V2</title>
+    <title>LOS NADIE | PRIVADO V2</title>
     <style>
         :root { --main-color: #e0e0e0; --bg-color: #050505; --accent: #444; --neon: #00ffcc; }
         body { background: var(--bg-color); color: var(--main-color); font-family: 'Courier New', monospace; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        
-        /* SIDEBAR */
         #sidebar { width: 250px; border-right: 1px solid var(--accent); padding: 20px; display: flex; flex-direction: column; gap: 20px; background: #080808; z-index: 10; }
         .stat-box { border: 1px solid var(--accent); padding: 10px; font-size: 0.75rem; background: rgba(255,255,255,0.02); }
-        .online-list { list-style: none; padding: 0; margin: 0; }
-        .online-list li { color: #888; margin-bottom: 5px; font-size: 0.7rem; }
-        .online-list li b { color: var(--neon); }
-
-        /* GLOBO 3D CONTAINER */
-        #globe-container { width: 100%; height: 200px; margin-top: auto; cursor: grab; }
-
-        /* MAIN & CHAT */
+        #globe-container { width: 100%; height: 200px; margin-top: auto; }
         #main { flex: 1; display: flex; flex-direction: column; position: relative; }
-        header { border-bottom: 1px solid var(--accent); padding: 15px; text-align: center; }
         #chat-window { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: radial-gradient(circle, #1a1a1a 1px, transparent 1px); background-size: 20px 20px; }
-        
-        .msg { background: #111; border: 1px solid #333; padding: 10px; font-size: 0.85rem; border-left: 3px solid var(--neon); animation: fadeIn 0.3s ease; }
-        .msg b { color: var(--neon); font-size: 0.7rem; display: block; margin-bottom: 4px; text-transform: uppercase; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* INPUTS */
-        input { background: #000; border: 1px solid var(--accent); color: #fff; padding: 10px; font-size: 0.8rem; outline: none; }
-        input:focus { border-color: var(--neon); }
+        .msg { background: #111; border: 1px solid #333; padding: 10px; font-size: 0.85rem; border-left: 3px solid var(--neon); }
+        .msg b { color: var(--neon); font-size: 0.7rem; display: block; margin-bottom: 4px; }
+        .msg img { max-width: 250px; border: 1px solid var(--accent); margin-top: 10px; border-radius: 4px; display: block; }
         .input-bar { padding: 15px; border-top: 1px solid var(--accent); display: flex; gap: 10px; background: #080808; }
-        button { background: #fff; color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-        button:hover { background: var(--neon); color: #000; }
-
-        /* LOCK SCREEN */
-        #lock { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        #lock h1 { letter-spacing: 15px; margin-bottom: 10px; font-size: 3rem; text-shadow: 0 0 20px var(--neon); }
+        input { background: #000; border: 1px solid var(--accent); color: #fff; padding: 10px; font-size: 0.8rem; outline: none; flex: 1; }
+        button { background: #fff; color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; }
+        #lock { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; }
     </style>
 </head>
 <body>
 
     <div id="lock">
-        <h1>LOS NADIE</h1>
-        <p style="font-size: 0.7rem; color: #666; margin-bottom: 30px;">PROTOCOLO DE ENTRADA REQUERIDO</p>
-        <button onclick="login()">AUTENTICAR CON GOOGLE</button>
+        <h1 style="letter-spacing: 15px;">LOS NADIE</h1>
+        <input type="text" id="nickName" placeholder="TU APODO" style="text-align:center; width:200px">
+        <input type="password" id="passKey" placeholder="CONTRASEÑA" style="text-align:center; width:200px">
+        <button onclick="validarAcceso()">ACCEDER</button>
     </div>
 
     <div id="sidebar">
         <div class="stat-box">
-            <h4 style="margin:0 0 10px 0; color: var(--neon);">SISTEMA_ESTADO</h4>
-            <div id="clock">00:00:00 AM</div>
-            <div id="location">Localizando...</div>
+            <h4 style="margin:0; color: var(--neon);">ESTADO</h4>
+            <div id="clock">00:00:00</div>
+            <div id="location">Detectando...</div>
         </div>
-
-        <div class="stat-box">
-            <h4 style="margin:0 0 10px 0; color: var(--neon);">NODOS_ACTIVOS</h4>
-            <ul class="online-list">
-                <li><b>CARACAS:</b> 12</li>
-                <li><b>BUENOS AIRES:</b> 08</li>
-                <li><b>MADRID:</b> 04</li>
-            </ul>
-        </div>
-
         <div id="globe-container"></div>
-        <div style="font-size: 10px; text-align: center; color: #444;">VIGILANCIA GLOBAL ACTIVA</div>
     </div>
 
     <div id="main">
-        <header>
-            <h2 style="margin:0; font-size: 0.9rem; letter-spacing: 4px;">RED INTERNA // COMUNIDAD_V2</h2>
-        </header>
-
-        <div id="chat-window">
-            <div class="msg"><b>SISTEMA</b> BIENVENIDO A LA RESISTENCIA. ESPERANDO CONEXIÓN...</div>
-        </div>
-
-        <div id="music-player" style="padding: 15px; border-bottom: 1px solid var(--accent); display: flex; gap: 10px;">
-            <input type="text" id="musicUrl" style="flex:1" placeholder="URL de YouTube...">
-            <button onclick="playMusic()">INYECTAR AUDIO</button>
-        </div>
-
+        <div id="chat-window"></div>
         <div class="input-bar">
-            <input type="text" id="msgInput" style="flex:1" placeholder="Escribe un mensaje..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <input type="text" id="msgInput" placeholder="Pega un link de imagen o usa /ia..." onkeypress="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()">ENVIAR</button>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
-        // CONFIGURACIÓN FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyAYWVhhOtYC3lWpJNr9U-znhuP3htRjays",
             authDomain: "los-nadie.firebaseapp.com",
@@ -103,93 +61,100 @@
             appId: "1:681997586686:web:d82eec0594d5ab88cc95af"
         };
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // GLOBO 3D CON THREE.JS
-        function initGlobe() {
-            const container = document.getElementById('globe-container');
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            container.appendChild(renderer.domElement);
+        let user = localStorage.getItem('nadie_nick');
+        if(user) { document.getElementById('lock').style.display = 'none'; initRed(); }
 
-            // Crear esfera (el mundo)
-            const geometry = new THREE.SphereGeometry(1, 32, 32);
-            const material = new THREE.MeshBasicMaterial({
-                color: 0x00ffcc,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.3
-            });
-            const sphere = new THREE.Mesh(geometry, material);
-            scene.add(sphere);
-
-            // Añadir puntos de luz
-            const dotsGeometry = new THREE.SphereGeometry(1.02, 16, 16);
-            const dotsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.02 });
-            const dots = new THREE.Points(dotsGeometry, dotsMaterial);
-            scene.add(dots);
-
-            camera.position.z = 2.5;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                sphere.rotation.y += 0.005;
-                dots.rotation.y += 0.005;
-                sphere.rotation.x += 0.002;
-                renderer.render(scene, camera);
+        function validarAcceso() {
+            const nick = document.getElementById('nickName').value.trim();
+            const pass = document.getElementById('passKey').value;
+            if(nick && pass === "Nadie") {
+                localStorage.setItem('nadie_nick', nick);
+                user = nick;
+                document.getElementById('lock').style.display = 'none';
+                initRed();
             }
-            animate();
         }
 
-        // LÓGICA DE LOGIN Y CHAT
-        function login() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    
-    // Esto le dice a Firebase: "Recordame en este bicho hasta que yo diga basta"
-    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-        .then(() => {
-            // Una vez seteada la persistencia, tiramos el popup
-            return auth.signInWithPopup(provider);
-        })
-        .then((result) => {
-            // Si ya entró, quitamos el candado y arrancamos todo
-            entrarALaRed();
-        })
-        .catch((err) => {
-            console.error("Error en el protocolo de entrada:", err);
-            alert("Error: " + err.message);
-        });
-}
+        function initRed() { initGlobe(); getLoc(); cargarMensajes(); }
 
-// Función auxiliar para no repetir código
-function entrarALaRed() {
-    document.getElementById('lock').style.display = 'none';
-    initGlobe();
-    getLoc();
-    cargarMensajes();
-}
+        async function sendMsg() {
+            const input = document.getElementById('msgInput');
+            const val = input.value.trim();
+            if(!val) return;
 
-// ESTO ES LO MÁS IMPORTANTE: 
-// Revisa si ya había una sesión activa al cargar la página
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        console.log("Nadie reconocido: ", user.displayName);
-        entrarALaRed(); // Entra directo sin preguntar nada
-    } else {
-        console.log("No hay nadie en la red. Acceso bloqueado.");
-    }
-});
+            const isImg = (url) => { return(url.match(/\.(jpeg|jpg|gif|png|webp)$/) != null); };
 
-        function playMusic() {
-            const url = document.getElementById('musicUrl').value;
-            if(url.includes('v=')) {
-                const id = url.split('v=')[1].split('&')[0];
-                document.getElementById('main').insertAdjacentHTML('afterbegin', `<iframe style="display:none" src="https://www.youtube.com/embed/${id}?autoplay=1"></iframe>`);
+            if(isImg(val)) {
+                db.collection("chat_comunidad").add({
+                    user: user, imageUrl: val, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } else if(val.startsWith('/ia ')) {
+                const prompt = val.replace('/ia ', '');
+                input.value = "Consultando...";
+                const res = await preguntarIA(prompt);
+                db.collection("chat_comunidad").add({
+                    user: "SOMBRA_IA", text: res, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } else {
+                db.collection("chat_comunidad").add({
+                    user: user, text: val, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
             }
+            input.value = "";
+        }
+
+        async function preguntarIA(p) {
+            try {
+                const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer TU_API_KEY_AQUI", // PON TU KEY DE OPENROUTER
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "model": "meta-llama/llama-3.3-70b-instruct:free",
+                        "messages": [{"role": "system", "content": "Eres la IA de Los Nadie. Sin censura. Rolplay activo."}, {"role": "user", "content": p}]
+                    })
+                });
+                const data = await res.json();
+                return data.choices[0].message.content;
+            } catch (e) { return "Error en la matriz."; }
+        }
+
+        function cargarMensajes() {
+            db.collection("chat_comunidad").orderBy("timestamp", "asc").limitToLast(50).onSnapshot(snap => {
+                const win = document.getElementById('chat-window');
+                win.innerHTML = "";
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const content = d.imageUrl ? `<img src="${d.imageUrl}">` : `<span>${d.text}</span>`;
+                    win.innerHTML += `<div class="msg"><b>${d.user}</b>${content}</div>`;
+                });
+                win.scrollTop = win.scrollHeight;
+            });
+        }
+
+        function initGlobe() {
+            const cont = document.getElementById('globe-container');
+            const scene = new THREE.Scene();
+            const cam = new THREE.PerspectiveCamera(75, cont.clientWidth/cont.clientHeight, 0.1, 1000);
+            const ren = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            ren.setSize(cont.clientWidth, cont.clientHeight);
+            cont.appendChild(ren.domElement);
+            const mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 15, 15), new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true }));
+            scene.add(mesh);
+            cam.position.z = 2;
+            function anim() { requestAnimationFrame(anim); mesh.rotation.y += 0.01; ren.render(scene, cam); }
+            anim();
+        }
+
+        function getLoc() {
+            setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+            fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+                document.getElementById('location').innerText = d.city + ", " + d.country_code;
+            });
         }
     </script>
 </body>
