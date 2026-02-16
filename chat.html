@@ -5,173 +5,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOS NADIE | COMUNIDAD V2</title>
     <style>
-        :root { --main-color: #e0e0e0; --bg-color: #050505; --accent: #444; }
+        :root { --main-color: #e0e0e0; --bg-color: #050505; --accent: #444; --neon: #00ffcc; }
         body { background: var(--bg-color); color: var(--main-color); font-family: 'Courier New', monospace; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        #sidebar { width: 250px; border-right: 1px solid var(--accent); padding: 20px; display: flex; flex-direction: column; gap: 20px; background: #080808; }
-        .globe { font-size: 10px; text-align: center; color: #fff; animation: spin 5s linear infinite; white-space: pre; line-height: 8px; }
-        @keyframes spin { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
-        .stat-box { border: 1px solid var(--accent); padding: 10px; font-size: 0.75rem; }
+        
+        /* SIDEBAR */
+        #sidebar { width: 250px; border-right: 1px solid var(--accent); padding: 20px; display: flex; flex-direction: column; gap: 20px; background: #080808; z-index: 10; }
+        .stat-box { border: 1px solid var(--accent); padding: 10px; font-size: 0.75rem; background: rgba(255,255,255,0.02); }
         .online-list { list-style: none; padding: 0; margin: 0; }
-        .online-list li { color: #888; margin-bottom: 5px; }
+        .online-list li { color: #888; margin-bottom: 5px; font-size: 0.7rem; }
+        .online-list li b { color: var(--neon); }
+
+        /* GLOBO 3D CONTAINER */
+        #globe-container { width: 100%; height: 200px; margin-top: auto; cursor: grab; }
+
+        /* MAIN & CHAT */
         #main { flex: 1; display: flex; flex-direction: column; position: relative; }
         header { border-bottom: 1px solid var(--accent); padding: 15px; text-align: center; }
         #chat-window { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: radial-gradient(circle, #1a1a1a 1px, transparent 1px); background-size: 20px 20px; }
-        .msg { background: #111; border: 1px solid #333; padding: 10px; font-size: 0.85rem; border-radius: 4px; }
-        .msg b { color: #00ffcc; font-size: 0.7rem; display: block; margin-bottom: 4px; }
-        #music-player { padding: 15px; border-bottom: 1px solid var(--accent); display: flex; flex-direction: column; gap: 10px; }
-        input { background: transparent; border: 1px solid var(--accent); color: #fff; padding: 10px; font-size: 0.8rem; outline: none; }
-        .input-bar { padding: 15px; border-top: 1px solid var(--accent); display: flex; gap: 10px; }
-        button { background: #fff; color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #00ffcc; }
-        #lock { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        
+        .msg { background: #111; border: 1px solid #333; padding: 10px; font-size: 0.85rem; border-left: 3px solid var(--neon); animation: fadeIn 0.3s ease; }
+        .msg b { color: var(--neon); font-size: 0.7rem; display: block; margin-bottom: 4px; text-transform: uppercase; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* INPUTS */
+        input { background: #000; border: 1px solid var(--accent); color: #fff; padding: 10px; font-size: 0.8rem; outline: none; }
+        input:focus { border-color: var(--neon); }
+        .input-bar { padding: 15px; border-top: 1px solid var(--accent); display: flex; gap: 10px; background: #080808; }
+        button { background: #fff; color: #000; border: none; padding: 10px 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        button:hover { background: var(--neon); color: #000; }
+
+        /* LOCK SCREEN */
+        #lock { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #lock h1 { letter-spacing: 15px; margin-bottom: 10px; font-size: 3rem; text-shadow: 0 0 20px var(--neon); }
     </style>
 </head>
 <body>
 
     <div id="lock">
-        <h1 style="letter-spacing: 10px;">LOS NADIE</h1>
-        <div class="globe">
-       .-----------.
-      /   _     _   \
-     |   ( )   ( )   |
-     |    _     _    |
-      \  ( )   ( )  /
-       '-----------'
-        </div>
-        <p style="font-size: 0.7rem; margin: 20px 0;">EL MUNDO TE ESTÁ MIRANDO</p>
-        <button onclick="login()">ENTRAR AL CAOS (GOOGLE)</button>
+        <h1>LOS NADIE</h1>
+        <p style="font-size: 0.7rem; color: #666; margin-bottom: 30px;">PROTOCOLO DE ENTRADA REQUERIDO</p>
+        <button onclick="login()">AUTENTICAR CON GOOGLE</button>
     </div>
 
     <div id="sidebar">
         <div class="stat-box">
-            <h4 style="margin-top:0">COORDENADAS</h4>
+            <h4 style="margin:0 0 10px 0; color: var(--neon);">SISTEMA_ESTADO</h4>
             <div id="clock">00:00:00 AM</div>
-            <div id="location">Detectando...</div>
+            <div id="location">Localizando...</div>
         </div>
+
         <div class="stat-box">
-            <h4 style="margin-top:0">EN LA RED (24)</h4>
+            <h4 style="margin:0 0 10px 0; color: var(--neon);">NODOS_ACTIVOS</h4>
             <ul class="online-list">
-                <li><b>Caracas:</b> 12 Nadies</li>
-                <li><b>Buenos Aires:</b> 8 Nadies</li>
-                <li><b>Madrid:</b> 4 Nadies</li>
+                <li><b>CARACAS:</b> 12</li>
+                <li><b>BUENOS AIRES:</b> 08</li>
+                <li><b>MADRID:</b> 04</li>
             </ul>
         </div>
-        <div class="globe">🌍 [ROTANDO]</div>
+
+        <div id="globe-container"></div>
+        <div style="font-size: 10px; text-align: center; color: #444;">VIGILANCIA GLOBAL ACTIVA</div>
     </div>
 
     <div id="main">
-        <div id="music-player">
-            <input type="text" id="musicUrl" placeholder="Pega Link de YouTube...">
-            <button onclick="playMusic()">CARGAR RUIDO</button>
-            <div id="player-container"></div>
-        </div>
-
         <header>
-            <h2 style="margin:0; font-size: 1rem; letter-spacing: 2px;">LOS NADIE // RED INTERNA</h2>
+            <h2 style="margin:0; font-size: 0.9rem; letter-spacing: 4px;">RED INTERNA // COMUNIDAD_V2</h2>
         </header>
 
         <div id="chat-window">
-            <div class="msg"><b>SISTEMA</b> BIENVENIDO A LA RESISTENCIA. LOGUÉATE PARA ESCRIBIR.</div>
+            <div class="msg"><b>SISTEMA</b> BIENVENIDO A LA RESISTENCIA. ESPERANDO CONEXIÓN...</div>
+        </div>
+
+        <div id="music-player" style="padding: 15px; border-bottom: 1px solid var(--accent); display: flex; gap: 10px;">
+            <input type="text" id="musicUrl" style="flex:1" placeholder="URL de YouTube...">
+            <button onclick="playMusic()">INYECTAR AUDIO</button>
         </div>
 
         <div class="input-bar">
-            <input type="text" id="msgInput" style="flex:1" placeholder="Di algo..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <input type="text" id="msgInput" style="flex:1" placeholder="Escribe un mensaje..." onkeypress="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()">ENVIAR</button>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
     <script>
+        // CONFIGURACIÓN FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyAYWVhhOtYC3lWpJNr9U-znhuP3htRjays",
             authDomain: "los-nadie.firebaseapp.com",
             projectId: "los-nadie",
             storageBucket: "los-nadie.firebasestorage.app",
             messagingSenderId: "681997586686",
-            appId: "1:681997586686:web:d82eec0594d5ab88cc95af",
-            measurementId: "G-3RE9MBN9XN"
+            appId: "1:681997586686:web:d82eec0594d5ab88cc95af"
         };
-
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
+        // GLOBO 3D CON THREE.JS
+        function initGlobe() {
+            const container = document.getElementById('globe-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            // Crear esfera (el mundo)
+            const geometry = new THREE.SphereGeometry(1, 32, 32);
+            const material = new THREE.MeshBasicMaterial({
+                color: 0x00ffcc,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3
+            });
+            const sphere = new THREE.Mesh(geometry, material);
+            scene.add(sphere);
+
+            // Añadir puntos de luz
+            const dotsGeometry = new THREE.SphereGeometry(1.02, 16, 16);
+            const dotsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.02 });
+            const dots = new THREE.Points(dotsGeometry, dotsMaterial);
+            scene.add(dots);
+
+            camera.position.z = 2.5;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                sphere.rotation.y += 0.005;
+                dots.rotation.y += 0.005;
+                sphere.rotation.x += 0.002;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        // LÓGICA DE LOGIN Y CHAT
         function login() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).then((result) => {
+            auth.signInWithPopup(provider).then(() => {
                 document.getElementById('lock').style.display = 'none';
-                getLoc(); 
+                initGlobe();
+                getLoc();
                 cargarMensajes();
-            }).catch((err) => {
-                alert("Error al entrar. Mirá la consola.");
-                console.error(err);
-            });
+            }).catch(e => console.error(e));
         }
 
         function sendMsg() {
             const input = document.getElementById('msgInput');
-            const text = input.value.trim();
-            
-            if(text && auth.currentUser) {
+            if(input.value.trim() && auth.currentUser) {
                 db.collection("chat_comunidad").add({
                     user: auth.currentUser.displayName,
-                    text: text,
+                    text: input.value,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                }).then(() => {
-                    input.value = "";
-                }).catch(e => console.error("Error enviando:", e));
-            } else if (!auth.currentUser) {
-                alert("¡Loguéate primero, mijo!");
+                });
+                input.value = "";
             }
         }
 
         function cargarMensajes() {
-            db.collection("chat_comunidad")
-              .orderBy("timestamp", "asc")
-              .limitToLast(50)
-              .onSnapshot((snapshot) => {
-                const chatWindow = document.getElementById('chat-window');
-                chatWindow.innerHTML = ""; 
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const time = data.timestamp ? new Date(data.timestamp.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '...';
-                    
-                    chatWindow.innerHTML += `
-                        <div class="msg">
-                            <b>[${time}] ${data.user}</b>
-                            <span>${data.text}</span>
-                        </div>`;
+            db.collection("chat_comunidad").orderBy("timestamp", "asc").limitToLast(50)
+            .onSnapshot(snap => {
+                const win = document.getElementById('chat-window');
+                win.innerHTML = "";
+                snap.forEach(doc => {
+                    const d = doc.data();
+                    const t = d.timestamp ? new Date(d.timestamp.seconds*1000).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : '..:..';
+                    win.innerHTML += `<div class="msg"><b>[${t}] ${d.user}</b>${d.text}</div>`;
                 });
-                chatWindow.scrollTop = chatWindow.scrollHeight;
+                win.scrollTop = win.scrollHeight;
             });
         }
 
         function getLoc() {
             setInterval(() => {
-                const date = new Date();
-                let h = date.getHours(), m = date.getMinutes(), s = date.getSeconds();
-                let amp = h >= 12 ? 'PM' : 'AM';
-                h = h % 12 || 12;
-                m = m < 10 ? '0'+m : m; s = s < 10 ? '0'+s : s;
-                document.getElementById('clock').innerText = `${h}:${m}:${s} ${amp}`;
+                const now = new Date();
+                document.getElementById('clock').innerText = now.toLocaleTimeString();
             }, 1000);
-
-            fetch('https://ipapi.co/json/').then(res => res.json()).then(data => {
-                document.getElementById('location').innerText = `${data.city}, ${data.country_name}`;
-            }).catch(() => document.getElementById('location').innerText = "Oculto...");
+            fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+                document.getElementById('location').innerText = `${d.city}, ${d.country_code}`;
+            });
         }
 
         function playMusic() {
             const url = document.getElementById('musicUrl').value;
-            const container = document.getElementById('player-container');
-            if(url.includes('youtube.com') || url.includes('youtu.be')) {
-                let vid = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
-                container.innerHTML = `<iframe src="https://www.youtube.com/embed/${vid}?autoplay=1" allow="autoplay"></iframe>`;
-            } else {
-                alert("Solo YouTube por ahora, no te pongáis creativo.");
+            if(url.includes('v=')) {
+                const id = url.split('v=')[1].split('&')[0];
+                document.getElementById('main').insertAdjacentHTML('afterbegin', `<iframe style="display:none" src="https://www.youtube.com/embed/${id}?autoplay=1"></iframe>`);
             }
         }
     </script>
