@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaporwave Stress Toy</title>
+    <style>
+        @font-face {
+            font-family: 'MS Sans Serif';
+            src: url('https://kbhgames.nyc3.cdn.digitaloceanspaces.com/retro-fonts/MS-Sans-Serif-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden; /* Evita scrollbars si el efecto se desborda */
+            background-color: #1a0033; /* Fondo oscuro para el vaporwave */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            perspective: 1000px; /* Para efectos 3D si queremos más adelante */
+        }
+
+        :root {
+            --win-gray: #c0c0c0;
+            --win-blue: #000080;
+            --vw-pink: #ff71ce;
+            --vw-blue: #01cdfe;
+            --vw-purple: #9d00ff;
+            --vw-orange: #ff4d4d;
+        }
+
+        .error-box {
+            width: 300px;
+            background: var(--win-gray);
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            padding: 2px;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.4);
+            z-index: 10; /* Para que esté por encima del overlay */
+            transition: transform 0.1s ease-out; /* Pequeño efecto al hacer click */
+        }
+
+        .error-box:active {
+            transform: translateY(2px);
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.4);
+        }
+
+        .title-bar {
+            background: linear-gradient(90deg, var(--win-blue), var(--vw-purple));
+            color: white;
+            padding: 3px 6px;
+            font-family: 'MS Sans Serif', Arial, sans-serif;
+            font-weight: bold;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--vw-pink);
+        }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+            font-family: 'MS Sans Serif', sans-serif;
+            font-size: 14px;
+            color: #000;
+            text-shadow: 1px 1px var(--vw-blue);
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+        }
+
+        .content strong {
+            display: block;
+            margin-top: 10px;
+            font-size: 18px;
+            color: var(--vw-orange);
+            text-shadow: 2px 2px 0px var(--vw-blue);
+        }
+
+        .ram-coin {
+            position: absolute;
+            font-size: 30px;
+            pointer-events: none;
+            animation: mario-jump 0.8s ease-out forwards;
+            z-index: 100;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            color: gold; /* Para que parezca moneda */
+        }
+
+        @keyframes mario-jump {
+            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+            50% { transform: translateY(-100px) rotate(180deg) scale(1.2); opacity: 1; filter: drop-shadow(0 0 10px var(--vw-pink)); }
+            100% { transform: translateY(-150px) rotate(360deg) scale(0.8); opacity: 0; filter: drop-shadow(0 0 5px transparent); }
+        }
+
+        /* --- EFECTO VAPORWAVE DE PANTALLA COMPLETA --- */
+        .vaporwave-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(45deg, rgba(255,113,206,0.2), rgba(157,0,255,0.2), rgba(1,205,254,0.2));
+            pointer-events: none; /* Permite que los clicks pasen a elementos debajo */
+            opacity: 0;
+            transition: opacity 0.5s ease-out; /* Transición suave para aparecer/desaparecer */
+            z-index: 5; /* Por debajo del error-box */
+        }
+
+        .vaporwave-overlay.active {
+            opacity: 1;
+            animation: 
+                vape-glitch 0.2s infinite alternate,
+                vape-swirl 10s linear infinite,
+                vape-blur 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes vape-glitch {
+            0% { transform: translate(0); }
+            33% { transform: translate(-2px, -2px) scaleX(1.01); filter: hue-rotate(5deg); }
+            66% { transform: translate(2px, 2px) scaleX(0.99); filter: hue-rotate(-5deg); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes vape-swirl {
+            0% { transform: scale(1) rotate(0deg); filter: blur(0px) hue-rotate(0deg); }
+            25% { transform: scale(1.05) rotate(10deg); filter: blur(1px) hue-rotate(45deg); }
+            50% { transform: scale(1.1) rotate(0deg); filter: blur(2px) hue-rotate(90deg); }
+            75% { transform: scale(1.05) rotate(-10deg); filter: blur(1px) hue-rotate(135deg); }
+            100% { transform: scale(1) rotate(0deg); filter: blur(0px) hue-rotate(180deg); }
+        }
+
+        @keyframes vape-blur {
+            0%, 100% { filter: blur(0px); }
+            50% { filter: blur(3px); }
+        }
+
+        /* Rejilla de fondo (opcional, para más efecto) */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: grid-move 30s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        @keyframes grid-move {
+            from { background-position: 0 0; }
+            to { background-position: 4000px 4000px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="grid-background"></div>
+
+    <div class="vaporwave-overlay" id="vape-overlay"></div>
+
+    <div class="error-box" id="vape-toy">
+        <div class="title-bar">
+            <span>SYSTEM FAILURE 1995</span>
+            <span>×</span>
+        </div>
+        <div class="content">
+            <p>ESTHETIC ERROR: SLOW DOWN</p>
+            <strong id="slogan">RELAX OR DIE</strong>
+        </div>
+    </div>
+
+    <script>
+        const box = document.getElementById('vape-toy');
+        const vapeOverlay = document.getElementById('vape-overlay');
+        let currentSlogan = 'RELAX OR DIE';
+        const slogans = [
+            'RELAX OR DIE',
+            'S L O W  D O W N',
+            'E N J O Y  T H E  G L I T C H',
+            'F E E L  T H E  A E S T H E T I C',
+            'S Y N T H E S I Z E  Y O U R  M I N D',
+            'D R E A M I N G  O F  F U T U R E S',
+            'T A K E  A  B R E A K',
+            'P R O C E S S I N G  E M O T I O N S'
+        ];
+
+        // Audio context para sonido sintético vaporwave
+        const playVapeSound = () => {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const lfo = ctx.createOscillator();
+            const lfoGain = ctx.createGain();
+
+            // Configuración del oscilador principal (onda de sierra, baja frecuencia)
+            osc.type = 'sawtooth'; 
+            osc.frequency.setValueAtTime(110, ctx.currentTime); // C2
+            osc.frequency.linearRampToValueAtTime(88, ctx.currentTime + 1); // Baja a F1 para un efecto más profundo
+
+            // LFO para un vibrato sutil y "wobbly"
+            lfo.type = 'sine';
+            lfo.frequency.setValueAtTime(5, ctx.currentTime); // 5Hz
+            lfoGain.gain.setValueAtTime(15, ctx.currentTime); // Amplitud del vibrato (cuánto modula la frecuencia)
+
+            lfo.connect(lfoGain);
+            lfoGain.connect(osc.frequency); // El LFO modula la frecuencia del oscilador principal
+
+            // Gain stage para controlar el volumen y aplicar un fade-out
+            gain.gain.setValueAtTime(0.2, ctx.currentTime); // Volumen inicial
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2); // Fade out suave
+
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc.start();
+            lfo.start();
+            osc.stop(ctx.currentTime + 2); // Duración total del sonido
+            lfo.stop(ctx.currentTime + 2);
+        };
+
+        box.addEventListener('click', (e) => {
+            playVapeSound();
+
+            // Activar el efecto de pantalla completa
+            vapeOverlay.classList.add('active');
+            
+            // Cambiar slogan aleatoriamente
+            let newSlogan = slogans[Math.floor(Math.random() * slogans.length)];
+            while (newSlogan === currentSlogan && slogans.length > 1) { // Evita repetir el mismo slogan si hay más de uno
+                newSlogan = slogans[Math.floor(Math.random() * slogans.length)];
+            }
+            currentSlogan = newSlogan;
+            document.getElementById('slogan').textContent = currentSlogan;
+
+
+            // Desactivar el efecto después de un tiempo (ej. 3 segundos)
+            setTimeout(() => {
+                vapeOverlay.classList.remove('active');
+            }, 3000); 
+
+            // Crear la "moneda" de RAM
+            const ram = document.createElement('div');
+            ram.innerHTML = '📟'; // Icono de RAM
+            ram.className = 'ram-coin';
+            
+            // Posicionar la "moneda" donde se hizo click
+            // Usamos e.clientX/Y y offsetParent para que funcione bien si el box no está en (0,0)
+            const boxRect = box.getBoundingClientRect();
+            ram.style.left = `${e.clientX - boxRect.left}px`;
+            ram.style.top = `${e.clientY - boxRect.top}px`;
+            
+            box.appendChild(ram);
+            setTimeout(() => ram.remove(), 800); // La animación dura 0.8s
+        });
+    </script>
+</body>
+</html>
