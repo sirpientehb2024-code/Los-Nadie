@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALÍGULA | Creisbel Ceballos</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rubik+Glitch&family=Bungee+Shade&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --reggae-green: #009639;
+            --reggae-yellow: #ffcc00;
+            --reggae-red: #d11013;
+            --smoke-white: rgba(255, 255, 255, 0.4);
+        }
+
+        /* EFECTO DROGADO SUTIL (No rompe la lectura) */
+        @keyframes trippy-chill {
+            0%, 100% { filter: hue-rotate(0deg) blur(0px); transform: scale(1); }
+            50% { filter: hue-rotate(10deg) blur(0.5px); transform: scale(1.002); }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            color: #f0f0f0;
+            font-family: 'Special Elite', serif;
+            animation: trippy-chill 10s infinite ease-in-out;
+            overflow-x: hidden;
+        }
+
+        /* FONDO GRAFFITI */
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)),
+                        url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+            z-index: -1;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(0,0,0,0.5);
+            border-bottom: 4px solid var(--reggae-green);
+        }
+
+        /* FOTO DE PERFIL */
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--reggae-yellow);
+            box-shadow: 0 0 20px var(--reggae-red);
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        /* TÍTULO CON HUMO */
+        .smoke-title {
+            font-family: 'Rubik Glitch', cursive;
+            font-size: clamp(3rem, 12vw, 6rem);
+            color: var(--reggae-yellow);
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .smoke-title span {
+            display: inline-block;
+            animation: smoke-float 3s infinite ease-in-out;
+        }
+
+        @keyframes smoke-float {
+            0%, 100% { transform: translateY(0); text-shadow: 2px 2px 0px var(--reggae-red); }
+            50% { 
+                transform: translateY(-8px); 
+                text-shadow: 0 -15px 20px var(--smoke-white), 2px 2px 0px var(--reggae-red);
+                filter: blur(1px);
+            }
+        }
+
+        .aka {
+            font-family: 'Bungee Shade', cursive;
+            font-size: 1.2rem;
+            color: var(--reggae-green);
+            letter-spacing: 3px;
+        }
+
+        /* CONTENIDO */
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .bio-card {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 30px;
+            border-left: 10px solid var(--reggae-red);
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            transform: rotate(-1deg);
+            box-shadow: 10px 10px 0px #000;
+        }
+
+        /* REPRODUCTOR PLAYLIST */
+        .playlist-box {
+            margin-top: 50px;
+            background: #111;
+            border: 2px solid #333;
+            padding: 20px;
+        }
+
+        .playlist-header {
+            color: var(--reggae-yellow);
+            text-align: center;
+            font-family: 'Rubik Glitch';
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .track {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #1a1a1a;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .track:hover {
+            border-color: var(--reggae-green);
+            background: #222;
+        }
+
+        .track.active {
+            background: var(--reggae-green);
+            color: #000;
+        }
+
+        /* CONTROLES */
+        .player-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            background: #000;
+            padding: 20px;
+        }
+
+        .main-btns {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-ctrl {
+            background: none;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: 'Permanent Marker';
+        }
+
+        .btn-ctrl:hover {
+            background: var(--reggae-yellow);
+            color: #000;
+            border-color: var(--reggae-yellow);
+        }
+
+        input[type="range"] {
+            accent-color: var(--reggae-red);
+            width: 200px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+
+    <header>
+        <img src="https://i.imgur.com/8Km9tLL.png" alt="Calígula" class="profile-pic">
+        <div class="smoke-title" id="humo">CALÍGULA</div>
+        <div class="aka">CREISBEL CEBALLOS</div>
+        <p style="color: var(--reggae-yellow); font-family: 'Permanent Marker';">VOCALISTA // RAPPER // REGGAE VIBES</p>
+    </header>
+
+    <div class="container">
+        <section class="bio-card">
+            <h2 style="color: var(--reggae-green); margin-top: 0;">EL EXPEDIENTE</h2>
+            <p>Directo del Chaltén pal mundo. Calígula mezcla el flow pesado de los 90 con la mística del reggae. No es música para sordos, es ruido para los que saben caminar la calle.</p>
+        </section>
+
+        <section class="playlist-box">
+            <div class="playlist-header">TRACKLIST_STASH</div>
+            
+            <div id="list">
+                <div class="track" onclick="playSong('track1.mp3', this)">
+                    <span>01. FLOW CALÍGULA</span>
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="track" onclick="playSong('track2.mp3', this)">
+                    <span>02. HUMO NOVENTERO</span>
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="track" onclick="playSong('track3.mp3', this)">
+                    <span>03. CALLE Y FE</span>
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+
+            <audio id="player"></audio>
+
+            <div class="player-controls">
+                <div class="main-btns">
+                    <button class="btn-ctrl" onclick="seek(-10)"><i class="fas fa-backward"></i></button>
+                    <button class="btn-ctrl" id="master-play" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+                    <button class="btn-ctrl" onclick="seek(10)"><i class="fas fa-forward"></i></button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-volume-down"></i>
+                    <input type="range" min="0" max="1" step="0.1" oninput="setVol(this.value)">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <div id="status" style="font-size: 0.7rem; color: var(--reggae-green);">ESPERANDO ÓRDENES...</div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        LOS NADIE | SECTOR CALÍGULA | 2026
+    </footer>
+
+    <script>
+        // Separar letras para el efecto humo
+        const title = document.getElementById('humo');
+        const text = title.innerText;
+        title.innerHTML = '';
+        text.split('').forEach((l, i) => {
+            const s = document.createElement('span');
+            s.innerText = l === ' ' ? '\u00A0' : l;
+            s.style.animationDelay = (i * 0.1) + 's';
+            title.appendChild(s);
+        });
+
+        // Lógica del Reproductor
+        const audio = document.getElementById('player');
+        const masterPlay = document.getElementById('master-play');
+        const status = document.getElementById('status');
+
+        function playSong(url, el) {
+            document.querySelectorAll('.track').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            
+            audio.src = url;
+            audio.play();
+            masterPlay.innerHTML = '<i class="fas fa-pause"></i>';
+            status.innerText = "REPRODUCIENDO: " + el.querySelector('span').innerText;
+        }
+
+        function togglePlay() {
+            if (!audio.src) return;
+            if (audio.paused) {
+                audio.play();
+                masterPlay.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                audio.pause();
+                masterPlay.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        }
+
+        function seek(s) { audio.currentTime += s; }
+        function setVol(v) { audio.volume = v; }
+
+        audio.onended = () => { masterPlay.innerHTML = '<i class="fas fa-play"></i>'; };
+    </script>
+</body>
+</html>
