@@ -4,19 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LOS NADIE | Oficial</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Permanent+Marker&family=Special+Elite&display=swap" rel="stylesheet">
+    <link <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Press+Start+2P&family=Special+Elite&family=Permanent+Marker&family=Vampiro+One&family=Orbitron:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        .btn-punk i {
-    margin-right: 10px; /* Para que el icono no esté pegado a la letra */
-    transition: transform 0.2s;
-}
-
-.btn-punk:hover i {
-    transform: scale(1.3) rotate(-10deg);
-    color: #000;
-}
-
+        
         :root {
             --punk-red: #ff0000;
             --oil-black: rgba(0, 0, 0, 0.85);
@@ -27,7 +18,6 @@
             margin: 0;
             padding: 0;
             background-color: #000;
-            /* TU IMAGEN DE FONDO */
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
                               url('https://preview.redd.it/waesge4ii3mz.png?width=640&crop=smart&auto=webp&s=233b9bc060b0dfe499ab3f4cf54d26ed36501f3e');
             background-attachment: fixed;
@@ -39,16 +29,185 @@
 
         header {
             text-align: center;
-            padding: 100px 20px;
+            padding: 80px 20px;
         }
 
-        h1 {
-            font-family: 'Nosifer', cursive;
-            font-size: clamp(3.5rem, 15vw, 8rem);
-            color: var(--punk-red);
-            margin: 0;
-            text-shadow: 10px 10px 0px #000;
-            letter-spacing: -5px;
+        /* --- CONTENEDOR PRINCIPAL --- */
+h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 0;
+    padding: 20px;
+    perspective: 1000px;
+}
+
+/* --- "LOS": ONDEADO BANDERA ARGENTINA --- */
+@keyframes wave-ar {
+    0%, 100% { transform: translateY(0) skewY(0deg); }
+    25% { transform: translateY(-8px) skewY(2deg); }
+    75% { transform: translateY(8px) skewY(-2deg); }
+}
+
+.char-l, .char-o, .char-s {
+    display: inline-block;
+    background: linear-gradient(to bottom, #74ACDF 33%, #fff 33%, #fff 66%, #74ACDF 66%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(4px 4px 0px #000);
+    animation: wave-ar 3s ease-in-out infinite;
+}
+.char-l { font-family: 'Vampiro One', cursive; animation-delay: 0s; }
+/* --- "O": EL SOL DE MAYO --- */
+.char-o { 
+    font-family: 'Monoton', cursive; 
+    animation-delay: 0.2s;
+    /* Mantenemos el celeste pero metemos el sol amarillo en el medio */
+    background: radial-gradient(circle, #f5db05 25%, transparent 26%), 
+                linear-gradient(to bottom, #74ACDF 33%, #fff 33%, #fff 66%, #74ACDF 66%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 5px rgba(245, 219, 5, 0.8)); /* Resplandor de sol */
+}
+.char-s { font-family: 'Press Start 2P', cursive; font-size: 0.7em; animation-delay: 0.4s; }
+
+/* --- "N" y "A": TERROR ANALÓGICO / FEMBOY --- */
+@keyframes flicker-femboy {
+    0% { opacity: 1; transform: scale(1); }
+    5% { opacity: 0.8; transform: scale(1.02) skewX(5deg); }
+    10% { opacity: 1; transform: scale(1); }
+    100% { opacity: 1; }
+}
+
+/* --- "N" y "A": TERROR ANALÓGICO / MANDELA EFFECT --- */
+.char-n, .char-a {
+    font-family: 'Special Elite', serif;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: #fff; /* Blanco puro para que resalte el glitch */
+    display: inline-block;
+    position: relative;
+    /* Brillo base tipo monitor viejo */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 
+                 2px 0 1px #ff0000, 
+                 -2px 0 1px #0000ff;
+    animation: mandela-distort 3s infinite alternate, analog-glow 0.1s infinite;
+}
+
+.char-a { 
+    animation-delay: 0.5s; /* Desincronizado para más inquietud */
+}
+
+/* Deformación tipo Catálogo Mandela (caras estiradas) */
+@keyframes mandela-distort {
+    0% { transform: scaleY(1) skewX(0deg); filter: brightness(1); }
+    5% { transform: scaleY(1.4) scaleX(0.8) skewX(10deg); filter: brightness(1.5); }
+    10% { transform: scaleY(1) skewX(0deg); }
+    15% { transform: scaleY(1.2) contrast(200%); }
+    20% { transform: scaleY(1); }
+    90% { transform: scaleY(1) translateY(0); }
+    95% { transform: scaleY(2) translateY(-10px) scaleX(0.5); filter: invert(1); }
+    100% { transform: scaleY(1); }
+}
+
+/* Brillo parpadeante de señal dañada */
+@keyframes analog-glow {
+    0% { text-shadow: 2px 0 5px #ff0000, -2px 0 5px #0000ff; opacity: 1; }
+    50% { text-shadow: 5px 0 15px #ff0000, -5px 0 15px #0000ff; opacity: 0.8; }
+    100% { text-shadow: 2px 0 2px #ff0000, -2px 0 2px #0000ff; opacity: 0.9; }
+}
+
+}
+.char-a { transform: rotate(-5deg); margin-left: -5px; }
+
+/* --- "DI": CYBERPUNK & LIGHTNING --- */
+.char-d, .char-i {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.2rem, 7vw, 4.5rem);
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #03e9f4, 0 0 20px #03e9f4, 0 0 40px #03e9f4;
+    animation: neon-flicker 1.5s infinite alternate;
+    display: inline-block;
+}
+
+.char-d {
+    color: #f0f; /* Rosa Cyberpunk */
+    text-shadow: 0 0 5px #fff, 0 0 10px #f0f, 0 0 20px #f0f;
+    transform: skewX(-10deg);
+}
+
+.char-i {
+    position: relative;
+    color: #03e9f4; /* Cyan Cyberpunk */
+}
+
+/* El Relámpago en la I */
+.char-i::before {
+    content: "⚡";
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    color: #fff;
+    text-shadow: 0 0 10px #fff, 0 0 20px #f5db05;
+    animation: lightning-strike 2s infinite;
+    opacity: 0;
+}
+
+/* --- ANIMACIONES --- */
+@keyframes neon-flicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #03e9f4, 0 0 20px #03e9f4;
+    }
+    20%, 24%, 55% {        
+        text-shadow: none;
+        opacity: 0.5;
+    }
+}
+
+@keyframes lightning-strike {
+    0%, 10%, 100% { opacity: 0; transform: translateX(-50%) scale(1); }
+    11% { opacity: 1; transform: translateX(-50%) scale(1.5); filter: brightness(2); }
+    12% { opacity: 0.5; }
+    13% { opacity: 1; filter: contrast(200%); }
+    15% { opacity: 0; }
+}
+
+/* --- "E": EL PERSONAJE --- */
+.char-e {
+    position: relative;
+    font-family: 'Permanent Marker', cursive;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    background: linear-gradient(to bottom, #3b7e05 33%, #f5db05 33%, #f5db05 66%, #cc1100 66%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-right: 30px; /* Espacio para el pucho */
+    display: inline-block;
+    filter: drop-shadow(2px 2px 0px #000);
+}
+
+/* El Pucho */
+.char-e::after {
+    content: "";
+    position: absolute;
+    right: -5px;
+    bottom: 35%;
+    width: 20px;
+    height: 5px;
+    background: linear-gradient(to right, #fff 60%, #f5db05 60%, #ff4500 90%);
+    border-radius: 1px;
+    transform: rotate(-15deg);
+    box-shadow: 0 0 5px #ff4500;
+    animation: pucho-glow 2s infinite;
+}
+
+/* Animación de la brasa del pucho */
+@keyframes pucho-glow {
+    0%, 100% { box-shadow: 0 0 5px #ff4500; }
+    50% { box-shadow: 0 0 15px #ff8000; filter: brightness(1.2); }
+}
         }
 
         .slogan {
@@ -61,294 +220,845 @@
             transform: rotate(-3deg);
             margin-top: 10px;
             box-shadow: 8px 8px 0px #000;
-                }
+        }
 
         .clock-station {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin: 40px auto;
-}
+            display: flex;
+            justify-content: center;
+            margin: 40px auto;
+        }
 
-/* RELOJ RETRO 50's */
-.retro-analog {
-    width: 160px;
-    height: 160px;
-    background: radial-gradient(circle, #0a1128 0%, #000 100%);
-    border: 8px solid #222;
-    border-radius: 50%;
-    position: relative;
-    box-shadow: 0 0 20px rgba(0, 102, 255, 0.3), inset 0 0 15px #000;
-}
+        /* DESPERTADOR DIGITAL */
+        .digital-alarm {
+            background: #1a0000;
+            border: 3px solid var(--punk-red);
+            padding: 20px;
+            position: relative;
+            box-shadow: 5px 5px 0px #000;
+            min-width: 250px;
+        }
 
-.roman-num {
-    position: absolute;
-    font-family: 'Times New Roman', serif;
-    color: #4a6fa5;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
+        .alarm-label {
+            font-size: 0.7rem;
+            color: var(--punk-red);
+            position: absolute;
+            top: 5px; left: 10px;
+            animation: blink 1s infinite;
+            font-weight: bold;
+        }
 
-.retro-analog { top: 5px; left: 50%; transform: translateX(-50%); } /* Ajuste XII */
+        .digital-display {
+            font-family: 'Courier New', monospace;
+            color: #fff;
+            font-size: 3.5rem;
+            text-shadow: 0 0 10px var(--punk-red);
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 10px;
+        }
 
-.hand-retro {
-    position: absolute;
-    bottom: 50%;
-    left: 50%;
-    transform-origin: bottom;
-    border-radius: 10px;
-}
+        #ampm { 
+            font-size: 1.2rem; 
+            color: var(--punk-red); 
+            font-weight: bold;
+        }
 
-.h-retro { width: 6px; height: 40px; background: #eee; z-index: 3; }
-.m-retro { width: 4px; height: 60px; background: #aaa; z-index: 2; }
-.s-retro { width: 2px; height: 70px; background: #00d4ff; z-index: 1; }
+        #location {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            color: #888;
+            text-transform: uppercase;
+        }
 
-.center-knob {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 12px; height: 12px;
-    background: #4a6fa5;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 4;
-}
+        @keyframes blink { 50% { opacity: 0; } }
 
-/* DESPERTADOR DIGITAL */
-.digital-alarm {
-    background: #1a0000;
-    border: 3px solid var(--punk-red);
-    padding: 15px;
-    position: relative;
-    box-shadow: 5px 5px 0px #000;
-}
-
-.alarm-label {
-    font-size: 0.6rem;
-    color: var(--punk-red);
-    position: absolute;
-    top: 5px; left: 10px;
-    animation: blink 1s infinite;
-}
-
-.digital-display {
-    font-family: 'Courier New', monospace;
-    color: #fff;
-    font-size: 3rem;
-    text-shadow: 0 0 10px var(--punk-red);
-}
-
-#ampm { font-size: 1rem; color: var(--punk-red); }
-
-@keyframes blink { 50% { opacity: 0; } }
-
-        /* --- MENÚ DE 6 BOTONES --- */
         .nav-container {
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
         }
 
         .btn-punk {
             font-family: 'Permanent Marker', cursive;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             color: #fff;
-            border: 4px solid #fff;
+            border: 3px solid #fff;
             padding: 15px;
             text-align: center;
             text-decoration: none;
-            font-size: 1.5rem;
-            transition: 0.3s;
+            font-size: 1.3rem;
+            transition: 0.2s;
             backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
+        .btn-punk i { margin-right: 10px; }
 
         .btn-punk:hover {
             background: var(--punk-red);
             border-color: var(--punk-red);
-            transform: scale(1.05) rotate(2deg);
+            transform: scale(1.05) rotate(1deg);
             color: #000;
         }
 
         section {
             max-width: 800px;
-            margin: 50px auto;
+            margin: 40px auto;
             background: var(--oil-black);
             padding: 40px;
             border-left: 10px solid var(--punk-red);
-            border-right: 2px solid var(--punk-red);
         }
 
         h2 {
             font-family: 'Permanent Marker', cursive;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: var(--punk-red);
-            text-transform: uppercase;
+            margin-top: 0;
         }
+        
+        /* LEO KASPER - Vaporwave/Rockabilly */
+.font-leo { 
+    font-family: 'Vampiro One', cursive; 
+    color: #ff71ce !important; 
+    text-shadow: 3px 3px 0px #01cdfe, -3px -3px 0px #fffb96;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.leo-click-active {
+    animation: vapor-explode 0.6s ease-out;
+}
+@keyframes vapor-explode {
+    0% { transform: scale(1); filter: hue-rotate(0deg); }
+    50% { transform: scale(1.5) rotate(5deg); filter: hue-rotate(180deg); }
+    100% { transform: scale(1); filter: hue-rotate(360deg); }
+}
 
-        .member-card {
-            font-size: 2rem;
-            border-bottom: 2px dashed #444;
-            padding: 10px 0;
-        }
+/* SAMUEL TAVELLA - Rock-Pop 80s Argentino */
+.font-samuel { 
+    font-family: 'Monoton', cursive; 
+    color: #00aae4 !important; /* Celeste Soda Stereo */
+    letter-spacing: 2px;
+}
+.chalten-tag {
+    font-family: 'Special Elite', serif;
+    font-size: 0.7rem;
+    display: block;
+    color: #fff;
+    margin-top: -10px;
+    opacity: 0.1;
+}
+    
+/* BRUNO SENNA - Terror Analógico / Femboy */
+.font-bruno { 
+    font-family: 'Special Elite', serif;
+    color: #ffb7c5 !important; /* Rosa pastel femboy */
+    text-shadow: 2px 2px 0px #000, 0 0 5px #ff0000; /* Glitch de sangre */
+    position: relative;
+    animation: analog-flicker 2s infinite;
+}
+@keyframes analog-flicker {
+    0%, 100% { opacity: 1; transform: skew(0); }
+    33% { opacity: 0.8; transform: skew(1deg); }
+    66% { opacity: 0.9; transform: skew(-1deg); }
+}
+
+/* ANGEL - Rockwave/Synthwave */
+.font-angel { 
+    font-family: 'Orbitron', sans-serif;
+    color: #f0f !important;
+    text-shadow: 0 0 10px #f0f, 0 0 20px #0ff;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+/* Marco de Grabación VHS */
+body::after {
+    content: "REC ●";
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    color: red;
+    font-family: 'Courier New', monospace;
+    font-size: 1.5rem;
+    z-index: 9999;
+    animation: blink 1s infinite;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 9998;
+}
+
+/* El marco de la pantalla */
+.vhs-frame {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border: 20px solid rgba(0,0,0,0.5);
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 9997;
+}
+
+.vhs-tag {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    color: #0f0;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+        ..member-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    margin: 20px 0;
+    padding: 30px;
+    border: 2px solid #333;
+    transition: all 0.3s;
+    overflow: hidden;
+    /* Efecto de cinta adhesiva en las esquinas */
+}
+
+.member-card::before {
+    content: "CASE_FILE_#00" ;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--punk-red);
+    color: #000;
+    font-size: 0.6rem;
+    padding: 2px 10px;
+    font-weight: bold;
+}
+
+/* Animación de distorsión al pasar el mouse por el marco */
+.member-card:hover {
+    border-color: #fff;
+    box-shadow: 10px 10px 0px rgba(255, 0, 0, 0.5);
+    transform: translate(-5px, -5px);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+/* El marco específico para cada uno (Bordes personalizados) */
+.border-leo { border-style: double; border-width: 6px; border-color: #ff71ce; }
+.border-sam { border-style: dashed; border-color: #00aae4; }
+.border-bruno { border-style: dotted; border-width: 4px; border-color: #ffb7c5; }
+.border-angel { border-style: solid; border-width: 2px; border-color: #f0f; box-shadow: 0 0 15px #f0f; }
+.border-axel { border-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAElEQVQImWNgYMAHGP7//88AAQCmCAf2O6PTAAAAAElFTkSuQmCC') 1 repeat; border-width: 10px; }
+
+
 
         .download-track {
             display: flex;
             justify-content: space-between;
-            background: #111;
+            align-items: center;
+            background: #0a0a0a;
             margin: 10px 0;
             padding: 20px;
-            border: 1px solid #333;
+            border: 1px solid #222;
         }
 
         .download-track a {
             color: var(--punk-red);
             text-decoration: none;
-            font-weight: bold;
             border: 2px solid var(--punk-red);
-            padding: 5px 10px;
+            padding: 8px 15px;
+            font-weight: bold;
         }
 
         footer {
             text-align: center;
-            padding: 80px;
-            background: rgba(0,0,0,0.9);
-            font-size: 0.8rem;
+            padding: 60px;
+            background: #000;
+            font-size: 0.9rem;
             border-top: 5px solid var(--punk-red);
+            margin-top: 50px;
         }
-    </style>
-</head>
-<body>
+        
+<div class="phone-container">
+    <div class="metal-frame">
+        <div class="screen-glass">
+            <div class="green-screen">
+                <div class="terminal-header">
+                    <span id="os-ver">NADIE_OS v6.6.6</span>
+                    <span id="battery">99% [X]</span>
+                </div>
 
-    <header>
-    <h1>LOS NADIE</h1>
-    <div class="slogan">SOMOS TODO Y NADA</div>
+                <div id="main-display">
+                    <div id="mode-clock" class="active-mode">
+    <div class="big-clock" id="time">00:00</div>
     
-    <div class="clock-station">
-        <div class="retro-analog">
-            <div class="roman-num" style="top: 5px; left: 50%; transform: translateX(-50%);">XII</div>
-            <div class="roman-num" style="right: 10px; top: 50%; transform: translateY(-50%);">III</div>
-            <div class="roman-num" style="bottom: 5px; left: 50%; transform: translateX(-50%);">VI</div>
-            <div class="roman-num" style="left: 10px; top: 50%; transform: translateY(-50%);">IX</div>
-            <div class="hand-retro h-retro" id="h-retro"></div>
-            <div class="hand-retro m-retro" id="m-retro"></div>
-            <div class="hand-retro s-retro" id="s-retro"></div>
-            <div class="center-knob"></div>
-        </div>
-
-        <div class="digital-alarm">
-            <div class="alarm-label">ALARM ON</div>
-            <div class="digital-display">
-                <span id="time">00:00:00</span>
-                <span id="ampm">AM</span>
-            </div>
-            <div id="location">ZONA RADIACTIVA</div>
-        </div>
+    <div class="date-row" id="date">-- --- ----</div>
+    
+    <div id="geo-info" style="margin-top: 15px; border-top: 1px dashed #0f0; padding-top: 10px;">
+        <div id="location-text" style="font-weight: bold; letter-spacing: 2px;">DETECTANDO SUJETO...</div>
+        <div id="timezone-text" style="font-size: 9px; opacity: 0.6; margin-top: 4px;">ZONA: BUSCANDO...</div>
     </div>
-</header>
 
-    <div class="nav-container">
-    <a href="#historia" class="btn-punk">¿COMO SE CREO?</a>
-    <a href="#miembros" class="btn-punk">MIEMBROS</a>
-    <a href="arcade.html" class="btn-punk">ARCADE / RUIDO</a> 
-    <a href="#social" class="btn-punk">REDES SOCIALES</a>
-    <a href="#gigs" class="btn-punk">GIGS / FECHAS</a>
-    <a href="#merch" class="btn-punk">CHIRRE / MERCH</a>
-<a href="random.html" class="btn-punk"
->Cositas Random :3</a>
-<a href="chat.html" class="btn-punk"
->Chatcito uwu </a> 
+    <div class="glitch-text" style="margin-top: 20px; font-size: 10px; color: #0f0; font-style: italic;">
+        No te preocupes es privado ;)
+    </div>
 </div>
 
-    <main>
-        <section id="historia">
-            <h2>EL ORIGEN DEL CAOS</h2>
-            <p>No venimos de ninguna escuela de música. Venimos del asfalto, del ruido de los motores y de las ganas de molestar a los vecinos. Los Nadie somos el eco de lo que nadie quiere escuchar.</p>
-        </section>
+                    <div id="mode-calc" style="display:none;">
+                        <input type="text" id="calc-display" readonly>
+                        <div class="scientific-grid">
+                            <button onclick="f_sci('sin')">sin</button>
+                            <button onclick="f_sci('cos')">cos</button>
+                            <button onclick="f_sci('tan')">tan</button>
+                            <button onclick="f_sci('pi')">π</button>
+                            <button onclick="f_sci('sqrt')">√</button>
+                            <button onclick="f_sci('log')">log</button>
+                            <button onclick="f_sci('g')">G</button> <button onclick="f_sci('c')">C</button> <button onclick="press('7')">7</button><button onclick="press('8')">8</button><button onclick="press('9')">9</button><button onclick="op('/')">/</button>
+                            <button onclick="press('4')">4</button><button onclick="press('5')">5</button><button onclick="press('6')">6</button><button onclick="op('*')">*</button>
+                            <button onclick="press('1')">1</button><button onclick="press('2')">2</button><button onclick="press('3')">3</button><button onclick="op('-')">-</button>
+                            <button onclick="resetCalc()" style="color:red">C</button><button onclick="press('0')">0</button><button onclick="solve()">=</button><button onclick="op('+')">+</button>
+                            <button onclick="doomSecret()" class="btn-doom">DOOM</button>
+                            <button onclick="ansEverything()" class="btn-ans">ANS_ALL</button>
+                        </div>
+                    </div>
 
-        <section id="miembros">
-    <h2>EL REPERTORIO CAÓTICO</h2>
-    <div class="member-card"><a href="leo.html" style="color:inherit; text-decoration:none;">LEO KASPER</a></div>
-    <div class="member-card"><a href="sam2.html" style="color:inherit; text-decoration:none;">SAMUEL TAVELLA</a></div>
-    <div class="member-card"><a href="bruno.html" style="color:inherit; text-decoration:none;">BRUNO SENNA</a></div>
-    <div class="member-card"><a href="angel.html" style="color:inherit; text-decoration:none;">Angel "El Gordo"</a></div>
-</section>
+                    <div id="mode-doom" style="display:none; width:100%; height:100%;">
+                        <div class="doom-msg">DOOM_OS LOADING...</div>
+                        <iframe id="doom-frame" src="" width="100%" height="150" frameborder="0"></iframe>
+                        <button onclick="switchMode('clock')" style="font-size:10px; background:#f00; color:#fff;">EXIT_DOOM</button>
+                    </div>
+                </div>
 
-        <section id="Arcade">
-            <h2>LLEVATE EL RUIDO</h2>
-            <div class="download-track">
-                <span>V8 REVENGE (Single)</span>
-                <a href="#" download>GRAB IT</a>
+                <div class="nav-bar">
+                    <button onclick="switchMode('clock')"><i class="fas fa-clock"></i></button>
+                    <button onclick="switchMode('calc')"><i class="fas fa-calculator"></i></button>
+                    <button onclick="stressTest()" class="panic-btn">PANIC</button>
+                </div>
             </div>
-            <div class="download-track">
-                <span>TRASH PARADISE (Demo)</span>
-                <a href="#" download>GRAB IT</a>
-            </div>
-        </section>
-
-        <section id="social">
-    <h2>BÚSCANOS EN LA RED</h2>
-    <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-        
-        <a href="TU_LINK_AQUI" target="_blank" class="btn-punk" style="font-size: 1.2rem; padding: 15px 25px;">
-            <i class="fab fa-instagram"></i> INSTAGRAM
-        </a>
-
-        <a href="TU_LINK_AQUI" target="_blank" class="btn-punk" style="font-size: 1.2rem; padding: 15px 25px;">
-            <i class="fab fa-youtube"></i> YOUTUBE
-        </a>
-
-        <a href="TU_LINK_AQUI" target="_blank" class="btn-punk" style="font-size: 1.2rem; padding: 15px 25px;">
-            <i class="fab fa-facebook-f"></i> FACEBOOK
-        </a>
-
-        <a href="TU_LINK_AQUI" target="_blank" class="btn-punk" style="font-size: 1.2rem; padding: 15px 25px;">
-            <i class="fab fa-tiktok"></i> TIKTOK
-        </a>
+        </div>
     </div>
-</section>
-    </main>
+</div>
 
-    <footer>
-        <p>LOS NADIE | 2026 | NINGÚN DERECHO RESERVADO. COPIÁ ESTA VAINA.</p>
-    </footer>
-    
+<style>
+.phone-container { display: flex; justify-content: center; padding: 20px; }
+.metal-frame {
+    width: 320px;
+    height: 550px;
+    background: linear-gradient(145deg, #2a2a2a, #111, #333);
+    border-radius: 40px;
+    padding: 15px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 2px 2px 5px #555;
+    border: 4px solid #444;
+}
+.screen-glass {
+    background: #001100;
+    height: 100%;
+    border-radius: 25px;
+    padding: 10px;
+    border: 10px solid #1a1a1a;
+    overflow: hidden;
+    position: relative;
+}
+.green-screen {
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 8px #0f0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.terminal-header { display: flex; justify-content: space-between; font-size: 10px; border-bottom: 1px solid #0f0; padding-bottom: 5px; }
+#main-display { flex-grow: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+/* Reloj */
+.big-clock { font-size: 4rem; font-weight: bold; }
+.glitch-text { animation: flick 0.1s infinite; font-size: 10px; }
+
+/* Calculadora Científica */
+.scientific-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; width: 100%; }
+.scientific-grid button { 
+    background: rgba(0, 255, 0, 0.1); 
+    border: 1px solid #0f0; 
+    color: #0f0; 
+    font-size: 10px; 
+    padding: 10px 0;
+    cursor: pointer;
+}
+#calc-display { width: 100%; background: transparent; border: none; color: #0f0; text-align: right; font-size: 1.5rem; margin-bottom: 10px; outline: none; }
+.btn-doom { background: #500 !important; color: #f00 !important; font-weight: bold; }
+.btn-ans { background: #005 !important; color: #0af !important; grid-column: span 2; }
+
+/* Navegación */
+.nav-bar { display: flex; justify-content: space-around; border-top: 1px solid #0f0; padding-top: 10px; }
+.nav-bar button { background: none; border: 1px solid #0f0; color: #0f0; padding: 10px; width: 60px; border-radius: 10px; cursor: pointer; }
+
+@keyframes flick { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 0.9; } }
+.doom-msg { font-size: 12px; text-align: center; color: white; }
+</style>
+
+</head>
+<body>
+    <header>
+    <h1>
+        <span class="char-l">L</span>
+        <span class="char-o">O</span>
+        <span class="char-s">S</span>
+        
+        <span style="width: 20px;"></span>
+
+        <span class="char-n">N</span>
+        <span class="char-a">A</span>
+        
+        <span class="char-d">D</span>
+        <span class="char-i">I</span>
+        
+        <span class="char-e">E</span>
+    </h1>
+    <style>
+  :root {
+    --win-gray: #c0c0c0;
+    --win-blue: #000080;
+    --vw-pink: #ff71ce;
+    --vw-blue: #01cdfe;
+  }
+
+  .error-box {
+    width: 300px;
+    background: var(--win-gray);
+    border: 2px solid;
+    border-color: #fff #808080 #808080 #fff;
+    padding: 2px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+  }
+
+  .title-bar {
+    background: linear-gradient(90deg, var(--win-blue), var(--vw-pink));
+    color: white;
+    padding: 3px 6px;
+    font-family: "MS Sans Serif", Arial, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .content {
+    padding: 20px;
+    text-align: center;
+    font-family: "MS Sans Serif", sans-serif;
+    font-size: 14px;
+    color: #000;
+    text-shadow: 1px 1px var(--vw-blue);
+  }
+
+  .ram-coin {
+    position: absolute;
+    width: 30px;
+    pointer-events: none;
+    animation: mario-jump 0.6s ease-out forwards;
+    z-index: 100;
+  }
+
+  @keyframes mario-jump {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+    100% { transform: translateY(-80px) rotate(360deg); opacity: 0; }
+  }
+</style>
+
+<div class="error-box" id="vape-toy">
+  <div class="title-bar">
+    <span>SYSTEM FAILURE 1995</span>
+    <span>×</span>
+  </div>
+  <div class="content">
+    <p>ESTHETIC ERROR: SLOW DOWN</p>
+    <strong id="slogan">RELAX OR DIE</strong>
+  </div>
+</div>
+
 <script>
-    function updateClock() {
-        // 'now' agarra la fecha y hora EXACTA del dispositivo de quien visita la página
+  const box = document.getElementById('vape-toy');
+  
+  // Audio context para sonido sintético vaporwave
+  const playVapeSound = () => {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sawtooth'; 
+    osc.frequency.setValueAtTime(220, ctx.currentTime); // Nota baja
+    osc.frequency.exponentialRampToValueAtTime(110, ctx.currentTime + 0.5);
+
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.5);
+  };
+
+  box.addEventListener('click', (e) => {
+    playVapeSound();
+
+    // Crear la "moneda" de RAM
+    const ram = document.createElement('div');
+    ram.innerHTML = '📟'; // Icono de RAM
+    ram.className = 'ram-coin';
+    ram.style.left = `${e.offsetX}px`;
+    ram.style.top = `${e.offsetY}px`;
+    
+    box.appendChild(ram);
+    setTimeout(() => ram.remove(), 600);
+  });
+</script>  
+    </header>
+    </div>
+<div class="phone-container">
+    <div class="metal-frame">
+        <div class="screen-glass">
+            <div class="green-screen">
+                <div class="terminal-header">
+                    <span id="os-ver">NADIE_OS v6.6.6</span>
+                    <span id="battery">99% [X]</span>
+                </div>
+
+                <div id="main-display">
+                    <div id="mode-clock" class="active-mode">
+    <div class="big-clock" id="time">00:00</div>
+    
+    <div class="date-row" id="date">-- --- ----</div>
+    
+    <div id="geo-info" style="margin-top: 15px; border-top: 1px dashed #0f0; padding-top: 10px;">
+        <div id="location-text" style="font-weight: bold; letter-spacing: 2px;">DETECTANDO SUJETO...</div>
+        <div id="timezone-text" style="font-size: 9px; opacity: 0.6; margin-top: 4px;">ZONA: BUSCANDO...</div>
+    </div>
+
+    <div class="glitch-text" style="margin-top: 20px; font-size: 10px; color: #0f0; font-style: italic;">
+        No te preocupes es privado ;)
+    </div>
+</div>
+
+                    <div id="mode-calc" style="display:none;">
+                        <input type="text" id="calc-display" readonly>
+                        <div class="scientific-grid">
+                            <button onclick="f_sci('sin')">sin</button>
+                            <button onclick="f_sci('cos')">cos</button>
+                            <button onclick="f_sci('tan')">tan</button>
+                            <button onclick="f_sci('pi')">π</button>
+                            <button onclick="f_sci('sqrt')">√</button>
+                            <button onclick="f_sci('log')">log</button>
+                            <button onclick="f_sci('g')">G</button> <button onclick="f_sci('c')">C</button> <button onclick="press('7')">7</button><button onclick="press('8')">8</button><button onclick="press('9')">9</button><button onclick="op('/')">/</button>
+                            <button onclick="press('4')">4</button><button onclick="press('5')">5</button><button onclick="press('6')">6</button><button onclick="op('*')">*</button>
+                            <button onclick="press('1')">1</button><button onclick="press('2')">2</button><button onclick="press('3')">3</button><button onclick="op('-')">-</button>
+                            <button onclick="resetCalc()" style="color:red">C</button><button onclick="press('0')">0</button><button onclick="solve()">=</button><button onclick="op('+')">+</button>
+                            <button onclick="doomSecret()" class="btn-doom">DOOM</button>
+                            <button onclick="ansEverything()" class="btn-ans">ANS_ALL</button>
+                        </div>
+                    </div>
+
+                    <div id="mode-doom" style="display:none; width:100%; height:100%;">
+                        <div class="doom-msg">DOOM_OS LOADING...</div>
+                        <iframe id="doom-frame" src="" width="100%" height="150" frameborder="0"></iframe>
+                        <button onclick="switchMode('clock')" style="font-size:10px; background:#f00; color:#fff;">EXIT_DOOM</button>
+                    </div>
+                </div>
+
+                <div class="nav-bar">
+                    <button onclick="switchMode('clock')"><i class="fas fa-clock"></i></button>
+                    <button onclick="switchMode('calc')"><i class="fas fa-calculator"></i></button>
+                    <button onclick="stressTest()" class="panic-btn">PANIC</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                    <div id="mode-calc" style="display:none;">
+                        <input type="text" id="calc-display" readonly>
+                        <div class="scientific-grid">
+                            <button onclick="f_sci('sin')">sin</button>
+                            <button onclick="f_sci('cos')">cos</button>
+                            <button onclick="f_sci('tan')">tan</button>
+                            <button onclick="f_sci('pi')">π</button>
+                            <button onclick="f_sci('sqrt')">√</button>
+                            <button onclick="f_sci('log')">log</button>
+                            <button onclick="f_sci('g')">G</button> <button onclick="f_sci('c')">C</button> <button onclick="press('7')">7</button><button onclick="press('8')">8</button><button onclick="press('9')">9</button><button onclick="op('/')">/</button>
+                            <button onclick="press('4')">4</button><button onclick="press('5')">5</button><button onclick="press('6')">6</button><button onclick="op('*')">*</button>
+                            <button onclick="press('1')">1</button><button onclick="press('2')">2</button><button onclick="press('3')">3</button><button onclick="op('-')">-</button>
+                            <button onclick="resetCalc()" style="color:red">C</button><button onclick="press('0')">0</button><button onclick="solve()">=</button><button onclick="op('+')">+</button>
+                            <button onclick="doomSecret()" class="btn-doom">DOOM</button>
+                            <button onclick="ansEverything()" class="btn-ans">ANS_ALL</button>
+                        </div>
+                    </div>
+
+                    <div id="mode-doom" style="display:none; width:100%; height:100%;">
+                        <div class="doom-msg">DOOM_OS LOADING...</div>
+                        <iframe id="doom-frame" src="" width="100%" height="150" frameborder="0"></iframe>
+                        <button onclick="switchMode('clock')" style="font-size:10px; background:#f00; color:#fff;">EXIT_DOOM</button>
+                    </div>
+<style>
+.phone-container { display: flex; justify-content: center; padding: 20px; }
+.metal-frame {
+    width: 320px;
+    height: 550px;
+    background: linear-gradient(145deg, #2a2a2a, #111, #333);
+    border-radius: 40px;
+    padding: 15px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 2px 2px 5px #555;
+    border: 4px solid #444;
+}
+.screen-glass {
+    background: #001100;
+    height: 100%;
+    border-radius: 25px;
+    padding: 10px;
+    border: 10px solid #1a1a1a;
+    overflow: hidden;
+    position: relative;
+}
+.green-screen {
+    color: #0f0;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 8px #0f0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.terminal-header { display: flex; justify-content: space-between; font-size: 10px; border-bottom: 1px solid #0f0; padding-bottom: 5px; }
+#main-display { flex-grow: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+
+/* Reloj */
+.big-clock { font-size: 4rem; font-weight: bold; }
+.glitch-text { animation: flick 0.1s infinite; font-size: 10px; }
+
+/* Calculadora Científica */
+.scientific-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; width: 100%; }
+.scientific-grid button { 
+    background: rgba(0, 255, 0, 0.1); 
+    border: 1px solid #0f0; 
+    color: #0f0; 
+    font-size: 10px; 
+    padding: 10px 0;
+    cursor: pointer;
+}
+#calc-display { width: 100%; background: transparent; border: none; color: #0f0; text-align: right; font-size: 1.5rem; margin-bottom: 10px; outline: none; }
+.btn-doom { background: #500 !important; color: #f00 !important; font-weight: bold; }
+.btn-ans { background: #005 !important; color: #0af !important; grid-column: span 2; }
+
+/* Navegación */
+.nav-bar { display: flex; justify-content: space-around; border-top: 1px solid #0f0; padding-top: 10px; }
+.nav-bar button { background: none; border: 1px solid #0f0; color: #0f0; padding: 10px; width: 60px; border-radius: 10px; cursor: pointer; }
+
+@keyframes flick { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 0.9; } }
+.doom-msg { font-size: 12px; text-align: center; color: white; }
+</style>
+
+<div class="nav-container"></div>
+    <a href="#historia" class="btn-punk">EL ORIGEN</a>
+    <a href="#miembros" class="btn-punk">LOS CULPABLES</a>
+    <a href="arcade.html" class="btn-punk">ARCADE </a>
+    <a href="#social" class="btn-punk">REDES</a>
+    <a href="#gigs" class="btn-punk">GIGS / FECHAS</a>
+    <a href="merch.html" class="btn-punk">CHIRRE</a>
+    <a href="random.html" class="btn-punk">SÓTANO B</a>
+
+<main>
+    <section id="historia">
+        <h2>EL ORIGEN DEL CAOS</h2>
+        <p>No venimos de ninguna escuela de música. Venimos del asfalto, del ruido de los motores y de las ganas de molestar. Los Nadie somos el eco de lo que nadie quiere escuchar.</p>
+    </section>
+
+    <div class="vhs-frame"></div> <section <section id="miembros">
+    <h2 style="text-align: center; text-decoration: underline;">EXPEDIENTES ABIERTOS</h2>
+    
+    <div class="member-card border-leo">
+        <a href="leo.html" class="font-leo" id="leo-link" onclick="triggerLeo(event)">LEO KASPER</a>
+        <div class="vhs-tag">PSYCHO-BILLY_SCAN</div>
+    </div>
+
+    <div class="member-card border-sam">
+        <a href="sam2.html" class="font-samuel">SAMUEL TAVELLA</a>
+        <span class="chalten-tag">ORIGIN: EL CHALTÉN [80s_VIBE]</span>
+    </div>        
+
+    <div class="member-card border-bruno">
+        <a href="bruno.html" class="font-bruno">BRUNO SENNA</a>
+        <div class="vhs-tag" style="color: #ffb7c5;">// ANALOG_FEMBOY_DETECTED //</div>
+    </div>
+
+    <div class="member-card border-angel">
+        <a href="angel.html" class="font-angel">ANGEL "EL GORDO"</a>
+        <div class="vhs-tag" style="color: #0ff;">SYNTH_WAVE_OVERLOAD</div>
+    </div>
+
+    <div class="member-card border-axel">
+        <a href="quinto.html" class="font-quinto">AXEL "RESIDUO"</a>
+        <div class="vhs-tag">MUGRE_INDUSTRIAL_v1.0</div>
+    </div>            
+</section>
+
+    <section id="Arcade">
+        <h2>LLEVATE EL RUIDO</h2>
+        <div class="download-track">
+            <span>V8 REVENGE (Single)</span>
+            <a href="#" download>GRAB IT</a>
+        </div>
+        <div class="download-track">
+            <span>TRASH PARADISE (Demo)</span>
+            <a href="#" download>GRAB IT</a>
+        </div>
+    </section>
+
+    <section id="social">
+        <h2>BÚSCANOS</h2>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+            <a href="#" class="btn-punk" style="font-size: 1rem;"><i class="fab fa-instagram"></i> INSTAGRAM</a>
+            <a href="#" class="btn-punk" style="font-size: 1rem;"><i class="fab fa-youtube"></i> YOUTUBE</a>
+            <a href="#" class="btn-punk" style="font-size: 1rem;"><i class="fab fa-tiktok"></i> TIKTOK</a>
+        </div>
+        
+          
+        
+    </section>
+</main>
+
+<footer>
+    <p>LOS NADIE | 2026 | NINGÚN DERECHO RESERVADO. COPIÁ ESTA VAINA.</p>
+</footer>
+    <script>
+ // CONTROL DE MODOS
+function switchMode(mode) {
+    const modes = ['mode-clock', 'mode-calc', 'mode-doom'];
+    modes.forEach(m => document.getElementById(m).style.display = 'none');
+    document.getElementById('mode-' + mode).style.display = 'block';
+}
+
+// --- SISTEMA DE RASTREO Y TIEMPO REAL ---
+
+// --- SISTEMA DE RASTREO Y TIEMPO REAL ---
+
+function startTerminalOS() {
+    // 1. Reloj y Fecha (Se adapta a la configuración del dispositivo del usuario)
+    setInterval(() => {
         const now = new Date();
         
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
+        // Hora local del usuario (Formato 24hs)
+        document.getElementById('time').textContent = now.toLocaleTimeString('es-AR', {
+            hour12: false, 
+            hour: '2-digit', 
+            minute: '2-digit'
+        });
         
-        document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
-    }
+        // Fecha formateada
+        const dateOptions = { day: '2-digit', month: 'short', year: 'numeric' };
+        document.getElementById('date').textContent = now.toLocaleDateString('es-AR', dateOptions).toUpperCase();
+        
+        // Zona Horaria (Ej: America/Buenos_Aires)
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        document.getElementById('timezone-text').textContent = `ZONA: ${tz.toUpperCase()}`;
+    }, 1000);
 
-    function setLocation() {
-        try {
-            // Esto detecta la Zona Horaria del navegador (ej: "America/New York")
-            const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            
-            // Limpiamos el texto para que no se vea feo
-            const city = zone.split('/').pop().replace(/_/g, ' ');
-            
-            document.getElementById('location').textContent = `ZONA ACTUAL: ${city.toUpperCase()}`;
-        } catch (e) {
-            document.getElementById('location').textContent = "COORDENADAS DESCONOCIDAS";
-        }
-    }
+    // 2. Geolocalización (Lugar de quien entra)
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
 
-    // Se actualiza cada 1 segundo (1000ms)
-    setInterval(updateClock, 1000);
-    
-    // Ejecutamos de una vez para que no aparezca en 00:00:00 al cargar
-    updateClock();
-    setLocation();
+            try {
+                // Consultamos a un servicio de mapas gratuito para saber la ciudad
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+                const data = await response.json();
+                
+                // Sacamos la ciudad o el pueblo
+                const city = data.address.city || data.address.town || data.address.village || "ZONA URBANA";
+                const country = data.address.country || "PLANETA TIERRA";
+                
+                document.getElementById('location-text').textContent = `${city.toUpperCase()}, ${country.toUpperCase()}`;
+            } catch (error) {
+                // Si la API falla, mostramos coordenadas crudas
+                document.getElementById('location-text').textContent = `LAT: ${lat.toFixed(2)} / LON: ${lon.toFixed(2)}`;
+            }
+        }, (error) => {
+            // Si el usuario rechaza el permiso o hay error
+            document.getElementById('location-text').textContent = "GPS BLOQUEADO / ANÓNIMO";
+            console.warn("Acceso a ubicación denegado por el usuario.");
+        });
+    } else {
+        document.getElementById('location-text').textContent = "SISTEMA SIN GPS";
+    }
+}
+
+// Arrancar todo al cargar la página
+window.onload = startTerminalOS;
+
+// Arrancar todo al cargar la página
+window.onload = startTerminalOS;
+
+// CALCULADORA CIENTÍFICA
+let expression = "";
+function press(n) { expression += n; updateCalc(); }
+function op(o) { expression += o; updateCalc(); }
+function updateCalc() { document.getElementById('calc-display').value = expression; }
+function resetCalc() { expression = ""; updateCalc(); }
+
+function solve() {
+    try {
+        expression = eval(expression).toString();
+        updateCalc();
+    } catch {
+        expression = "SYS_ERROR";
+        updateCalc();
+    }
+}
+
+function f_sci(type) {
+    const val = parseFloat(expression) || 0;
+    switch(type) {
+        case 'sin': expression = Math.sin(val).toFixed(4); break;
+        case 'cos': expression = Math.cos(val).toFixed(4); break;
+        case 'tan': expression = Math.tan(val).toFixed(4); break;
+        case 'sqrt': expression = Math.sqrt(val).toFixed(4); break;
+        case 'pi': expression = Math.PI.toFixed(4); break;
+        case 'log': expression = Math.log10(val).toFixed(4); break;
+        case 'g': expression = "9.806"; break; // Gravedad
+        case 'c': expression = "299792458"; break; // Velocidad luz
+    }
+    updateCalc();
+}
+
+// RESPUESTA DE TODO
+function ansEverything() {
+    const rpta = ["42", "PERON", "EL CAOS", "BIRRA", "NULL", "V8", "MUERTE"];
+    expression = rpta[Math.floor(Math.random() * rpta.length)];
+    updateCalc();
+    alert("INTEGRALMENTE TODO ES: " + expression);
+}
+
+// EL SECRETO: DOOM
+function doomSecret() {
+    switchMode('doom');
+    // Usamos una versión web de Doom liviana (JS-DOS o similar)
+    document.getElementById('doom-frame').src = "https://dos.zone/player/?bundleUrl=https%3A%2F%2Fcdn.dos.zone%2Fcustom%2Fdos%2Fdoom.jsdos?anonymous=1";
+}
+
+// ANTIESTRÉS
+function stressTest() {
+    document.querySelector('.green-screen').style.animation = "shake 0.1s 10";
+    alert("SISTEMA SOBRECALENTADO. RELAJATE, NADIE.");
+}
 </script>
-
 </body>
 </html>
