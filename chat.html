@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>★ LOS NADIE ★ - Oficial MySpace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00ffff;
+            --bg-black: #0a0a0a;
+            --myspace-blue: #003399;
+        }
+
+        body {
+            background: var(--bg-black);
+            background-image: radial-gradient(var(--myspace-blue) 0.5px, transparent 0.5px);
+            background-size: 30px 30px;
+            color: white;
+            font-family: 'VT323', monospace;
+            margin: 0;
+            cursor: crosshair;
+        }
+
+        /* --- ESTÉTICA 2006 --- */
+        header {
+            background: linear-gradient(to bottom, #003399 0%, #0066cc 100%);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px ridge var(--neon-pink);
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.5rem;
+            text-shadow: 3px 3px 0px var(--neon-pink), -3px -3px 0px var(--neon-blue);
+            letter-spacing: -2px;
+        }
+
+        marquee {
+            background: yellow;
+            color: black;
+            font-weight: bold;
+            border: 2px solid black;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        /* --- LOGIN & AUTH --- */
+        #auth-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .auth-box {
+            background: #e1e1e1;
+            padding: 30px;
+            color: black;
+            border: 5px outset white;
+            box-shadow: 10px 10px 0px var(--neon-pink);
+        }
+
+        /* --- EL MURO --- */
+        .sidebar, .main-wall {
+            border: 3px double var(--neon-blue);
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .post {
+            border: 1px solid #444;
+            padding: 10px;
+            margin-bottom: 15px;
+            background: #111;
+            position: relative;
+        }
+
+        .post-header {
+            color: var(--neon-blue);
+            font-weight: bold;
+            border-bottom: 1px solid #333;
+            margin-bottom: 5px;
+        }
+
+        .post img {
+            max-width: 100%;
+            border: 2px solid white;
+            margin-top: 10px;
+        }
+
+        /* --- INPUTS --- */
+        input, button {
+            background: black;
+            color: var(--neon-blue);
+            border: 2px solid var(--neon-blue);
+            padding: 8px;
+            font-family: 'VT323';
+            font-size: 1.2rem;
+        }
+
+        button {
+            cursor: pointer;
+            background: var(--neon-pink);
+            color: white;
+            border: 2px outset white;
+        }
+
+        button:hover {
+            filter: brightness(1.2);
+            transform: scale(1.05);
+        }
+
+        .hidden { display: none !important; }
+
+    </style>
+</head>
+<body>
+
+<div id="auth-container">
+    <div class="auth-box">
+        <h2 style="font-family: 'Press Start 2P'; font-size: 0.8rem;">INICIAR SESIÓN / REGISTER</h2>
+        <input type="email" id="email" placeholder="email@nadie.com"><br><br>
+        <input type="password" id="password" placeholder="contraseña"><br><br>
+        <button onclick="handleSignUp()">REGISTRARSE</button>
+        <button onclick="handleLogin()">ENTRAR</button>
+        <p id="auth-msg" style="color: red; font-size: 0.8rem;"></p>
+    </div>
+</div>
+
+<header>
+    <div id="logo-placeholder">★ LOGO LOS NADIE AQUÍ ★</div>
+    <h1>LOS NADIE</h1>
+    <marquee>¡Bienvenido al cyber-espacio de la banda más ruidosa! No seas un weon, dejá tu mensaje.</marquee>
+</header>
+
+<div class="container">
+    <aside class="sidebar">
+        <h3 style="color: var(--neon-pink)">MI PERFIL</h3>
+        <p id="user-display">Invitado</p>
+        <button onclick="handleLogout()">LOGOUT</button>
+        <hr>
+        <div class="widget">
+            <p>VISITAS: <span style="color: lime">000666</span></p>
+            <p>ANIMO: 🤘 Rabioso</p>
+        </div>
+    </aside>
+
+    <main class="main-wall">
+        <div id="input-area">
+            <h3 style="color: var(--neon-blue)">POSTEAR EN EL MURO</h3>
+            <input type="text" id="post-text" placeholder="¿Qué pensás, nadie?" style="width: 80%;">
+            <input type="file" id="post-img" accept="image/*" style="width: 80%; margin-top: 10px;">
+            <button onclick="sendPost()" style="margin-top: 10px;">POST IT!</button>
+        </div>
+        <hr>
+        <div id="wall-messages">
+            </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    // 1. CONFIGURACIÓN (Tus llaves aquí)
+    const SUPABASE_URL = 'https://jgmcryptejegysvkfxmt.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_F63-Wxkvekimp08umAY7wA_RA3ZQ-7A';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // 2. LÓGICA DE AUTENTICACIÓN
+    async function handleSignUp() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const { error } = await supabaseClient.auth.signUp({ email, password });
+        if (error) document.getElementById('auth-msg').innerText = error.message;
+        else alert("¡Chequeá tu email para confirmar!");
+    }
+
+    async function handleLogin() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) document.getElementById('auth-msg').innerText = error.message;
+        else checkUser();
+    }
+
+    async function handleLogout() {
+        await supabaseClient.auth.signOut();
+        location.reload();
+    }
+
+    async function checkUser() {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        if (user) {
+            document.getElementById('auth-container').classList.add('hidden');
+            document.getElementById('user-display').innerText = user.email.split('@')[0];
+            loadPosts();
+        }
+    }
+
+    // 3. LÓGICA DEL MURO
+    async function sendPost() {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        const text = document.getElementById('post-text').value;
+        const file = document.getElementById('post-img').files[0];
+        let imgUrl = null;
+
+        if (file) {
+            const fileName = `${Date.now()}-${file.name}`;
+            const { data } = await supabaseClient.storage.from('fotos').upload(fileName, file);
+            if (data) {
+                const { data: pUrl } = supabaseClient.storage.from('fotos').getPublicUrl(fileName);
+                imgUrl = pUrl.publicUrl;
+            }
+        }
+
+        await supabaseClient.from('posts').insert([
+            { username: user.email.split('@')[0], content: text, image_url: imgUrl }
+        ]);
+        document.getElementById('post-text').value = '';
+    }
+
+    async function loadPosts() {
+        const { data } = await supabaseClient.from('posts').select('*').order('created_at', { ascending: false });
+        const wall = document.getElementById('wall-messages');
+        wall.innerHTML = '';
+        data.forEach(p => {
+            wall.innerHTML += `
+                <div class="post">
+                    <div class="post-header">★ ${p.username} ★</div>
+                    <div>${p.content}</div>
+                    ${p.image_url ? `<img src="${p.image_url}">` : ''}
+                </div>
+            `;
+        });
+    }
+
+    // Realtime
+    supabaseClient.channel('posts').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, payload => {
+        loadPosts();
+    }).subscribe();
+
+    checkUser();
+</script>
+</body>
+</html>
