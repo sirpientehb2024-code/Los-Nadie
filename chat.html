@@ -3,256 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>★ LOS NADIE ★ - Oficial MySpace</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <title>ZuckAD1ck - Chat Libre</title>
     <style>
         :root {
-            --neon-pink: #ff00ff;
-            --neon-blue: #00ffff;
-            --bg-black: #0a0a0a;
-            --myspace-blue: #003399;
+            --acid-green: #39ff14;
+            --hot-pink: #ff00ff;
+            --electric-blue: #00e5ff;
+            --bg-dark: #0a0a0a;
+            --glass: rgba(0, 0, 0, 0.85);
         }
 
         body {
-            background: var(--bg-black);
-            background-image: radial-gradient(var(--myspace-blue) 0.5px, transparent 0.5px);
-            background-size: 30px 30px;
-            color: white;
-            font-family: 'VT323', monospace;
+            /* REEMPLAZA ESTO POR TU GIF DE FONDO */
+            background: #111 url('https://i.pinimg.com/originals/f4/30/cb/f430cbcee594e6be1c2651fcb5e4f693.gif') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 0;
-            cursor: crosshair;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        /* --- ESTÉTICA 2006 --- */
-        header {
-            background: linear-gradient(to bottom, #003399 0%, #0066cc 100%);
-            padding: 20px;
+        /* --- OVERLAYS (AUTH & CARTMAN) --- */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-box {
+            background: var(--glass);
+            padding: 30px;
+            border: 3px double var(--hot-pink);
+            border-radius: 15px;
             text-align: center;
-            border-bottom: 4px ridge var(--neon-pink);
-            box-shadow: 0 0 20px var(--neon-pink);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 30px var(--hot-pink);
         }
 
-        h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 2.5rem;
-            text-shadow: 3px 3px 0px var(--neon-pink), -3px -3px 0px var(--neon-blue);
-            letter-spacing: -2px;
+        /* --- HEADER & MARQUEE --- */
+        header {
+            background: var(--glass);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--acid-green);
         }
 
-        marquee {
+        .marquee-bar {
             background: yellow;
             color: black;
             font-weight: bold;
-            border: 2px solid black;
+            text-transform: uppercase;
+            padding: 4px 0;
+            font-size: 0.8rem;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 20px;
-            padding: 10px;
-        }
-
-        /* --- LOGIN & AUTH --- */
-        #auth-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
+        /* --- MAIN LAYOUT --- */
+        .app-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
+            flex: 1;
+            overflow: hidden;
+            width: 100%;
         }
 
-        .auth-box {
-            background: #e1e1e1;
-            padding: 30px;
-            color: black;
-            border: 5px outset white;
-            box-shadow: 10px 10px 0px var(--neon-pink);
-        }
-
-        /* --- EL MURO --- */
-        .sidebar, .main-wall {
-            border: 3px double var(--neon-blue);
+        .sidebar {
+            width: 250px;
+            background: rgba(0,0,0,0.7);
+            border-right: 1px solid var(--electric-blue);
+            display: flex;
+            flex-direction: column;
             padding: 15px;
-            background: rgba(0, 0, 0, 0.8);
         }
 
-        .post {
-            border: 1px solid #444;
-            padding: 10px;
-            margin-bottom: 15px;
-            background: #111;
+        @media (max-width: 768px) {
+            .sidebar { display: none; } /* Mobile friendly */
+        }
+
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--glass);
+            backdrop-filter: blur(5px);
+        }
+
+        #chat-window {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* --- BUBBLES --- */
+        .msg {
+            max-width: 80%;
+            padding: 12px;
+            border-radius: 12px;
             position: relative;
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
-
-        .post-header {
-            color: var(--neon-blue);
-            font-weight: bold;
-            border-bottom: 1px solid #333;
-            margin-bottom: 5px;
+        .msg.me {
+            background: var(--hot-pink);
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
         }
-
-        .post img {
-            max-width: 100%;
-            border: 2px solid white;
-            margin-top: 10px;
+        .msg.others {
+            background: #222;
+            color: var(--acid-green);
+            align-self: flex-start;
+            border: 1px solid var(--acid-green);
+            border-bottom-left-radius: 2px;
         }
+        .msg-user { font-size: 0.7rem; color: var(--electric-blue); margin-bottom: 4px; display: block; }
+        .msg-img { max-width: 100%; border-radius: 8px; margin-top: 8px; border: 1px solid white; }
 
-        /* --- INPUTS --- */
-        input, button {
+        /* --- INPUTS & BUTTONS --- */
+        .input-area {
             background: black;
-            color: var(--neon-blue);
-            border: 2px solid var(--neon-blue);
-            padding: 8px;
-            font-family: 'VT323';
-            font-size: 1.2rem;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-
-        button {
-            cursor: pointer;
-            background: var(--neon-pink);
+        input {
+            background: #111;
+            border: 1px solid var(--electric-blue);
             color: white;
-            border: 2px outset white;
+            padding: 12px;
+            border-radius: 8px;
+            outline: none;
         }
-
-        button:hover {
-            filter: brightness(1.2);
-            transform: scale(1.05);
+        .btn-neon {
+            background: linear-gradient(45deg, var(--hot-pink), var(--electric-blue));
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.2s;
         }
+        .btn-neon:hover { transform: scale(1.05); filter: brightness(1.2); }
 
         .hidden { display: none !important; }
-
     </style>
 </head>
 <body>
 
-<div id="auth-container">
-    <div class="auth-box">
-        <h2 style="font-family: 'Press Start 2P'; font-size: 0.8rem;">INICIAR SESIÓN / REGISTER</h2>
-        <input type="email" id="email" placeholder="email@nadie.com"><br><br>
-        <input type="password" id="password" placeholder="contraseña"><br><br>
-        <button onclick="handleSignUp()">REGISTRARSE</button>
-        <button onclick="handleLogin()">ENTRAR</button>
-        <p id="auth-msg" style="color: red; font-size: 0.8rem;"></p>
+<div id="cartman-overlay" class="overlay hidden">
+    <div class="modal-box">
+        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2c70f7a8-ca7d-45e0-98d3-bb4497f311d4/dcg4h3q-bf389d5c-1910-49f9-aac9-086bfdb2275d.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi8yYzcwZjdhOC1jYTdkLTQ1ZTAtOThkMy1iYjQ0OTdmMzExZDQvZGNnNGgzcS1iZjM4OWQ1Yy0xOTEwLTQ5ZjktYWFjOS0wODZiZmRiMjI3NWQuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.KwXjp2yOOlw6Npb5EkHfXHd63bJfIRqwO_ZL0HptjC4" alt="Cartman" style="width: 200px;">
+        <h2 style="color:white;">BIENVENIDO Nuevo/a</h2>
+        <p>Respetá mi autoridad o te vas baneado.</p>
+        <button class="btn-neon" onclick="closeCartman()">ENTRAR AL CHAT</button>
+    </div>
+</div>
+
+<div id="auth-screen" class="overlay">
+    <div class="modal-box">
+        <h1 style="color:var(--hot-pink); text-shadow: 2px 2px black;">ZuckAD1ck</h1>
+        <p style="font-size: 0.8rem; color: #aaa;">Chat libre para amantes de la libertad</p>
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
+            <input type="text" id="user-email" placeholder="Nick o Email">
+            <input type="password" id="user-pass" placeholder="Password">
+            <button class="btn-neon" onclick="login()">INICIAR SESIÓN</button>
+            <button class="btn-neon" style="background:#333;" onclick="register()">REGISTRARSE</button>
+            <button onclick="guestLogin()" style="background:none; border:none; color:var(--electric-blue); cursor:pointer; font-size:0.8rem;">Entrar como Invitado</button>
+        </div>
     </div>
 </div>
 
 <header>
-    <div id="logo-placeholder">★ LOGO LOS NADIE AQUÍ ★</div>
-    <h1>LOS NADIE</h1>
-    <marquee>¡Bienvenido al cyber-espacio de la banda más ruidosa! No seas un weon, dejá tu mensaje.</marquee>
+    <div style="font-weight:bold; font-size:1.5rem; color:var(--hot-pink);">ZuckAD1ck</div>
+    <div style="display:flex; align-items:center; gap:15px;">
+        <span id="display-name" style="color:var(--acid-green); font-weight:bold;"></span>
+        <img id="display-avatar" src="https://api.dicebear.com/7.x/pixel-art/svg?seed=Nadie" style="width:35px; height:35px; border-radius:50%; border:1px solid white;">
+        <button class="btn-neon" style="padding:5px 10px; font-size:0.7rem;" onclick="location.reload()">LOGOUT</button>
+        <img src="TU_LOGO_AQUI.png" alt="Logo" style="height:35px; border-radius:5px;">
+    </div>
 </header>
 
-<div class="container">
+<div class="marquee-bar">
+    <marquee scrollamount="10">Aquí No entran Zurdos Hijos de Puta, Solo amantes de La libertad</marquee>
+</div>
+
+<div class="app-container">
     <aside class="sidebar">
-        <h3 style="color: var(--neon-pink)">MI PERFIL</h3>
-        <p id="user-display">Invitado</p>
-        <button onclick="handleLogout()">LOGOUT</button>
-        <hr>
-        <div class="widget">
-            <p>VISITAS: <span style="color: lime">000666</span></p>
-            <p>ANIMO: 🤘 Rabioso</p>
-        </div>
+        <h3 style="color:var(--hot-pink);">OPCIONES</h3>
+        <button onclick="updateAvatar()" style="background:none; border:1px solid var(--electric-blue); color:white; cursor:pointer; padding:5px; font-size:0.7rem;">Cambiar Foto Perfil</button>
+        <hr style="width:100%; border:0.5px solid #333; margin:15px 0;">
+        <p style="color:var(--acid-green);">● Grupo Libertad (Online)</p>
     </aside>
 
-    <main class="main-wall">
-        <div id="input-area">
-            <h3 style="color: var(--neon-blue)">POSTEAR EN EL MURO</h3>
-            <input type="text" id="post-text" placeholder="¿Qué pensás, nadie?" style="width: 80%;">
-            <input type="file" id="post-img" accept="image/*" style="width: 80%; margin-top: 10px;">
-            <button onclick="sendPost()" style="margin-top: 10px;">POST IT!</button>
-        </div>
-        <hr>
-        <div id="wall-messages">
+    <main class="chat-main">
+        <div id="chat-window">
             </div>
+        <div class="input-area">
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="msg-input" placeholder="Escribí acá..." style="flex:1;" onkeypress="if(event.key==='Enter') send()">
+                <button class="btn-neon" onclick="send()">ENVIAR</button>
+            </div>
+            <button onclick="sendMedia()" style="background:none; border:none; color:var(--electric-blue); font-size:0.7rem; cursor:pointer; text-align:left;">+ Enviar Imagen (URL)</button>
+        </div>
     </main>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    // 1. CONFIGURACIÓN (Tus llaves aquí)
+    // CONFIGURACIÓN (REVISÁ BIEN ESTO)
     const SUPABASE_URL = 'https://jgmcryptejegysvkfxmt.supabase.co';
     const SUPABASE_KEY = 'sb_publishable_F63-Wxkvekimp08umAY7wA_RA3ZQ-7A';
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // 2. LÓGICA DE AUTENTICACIÓN
-    async function handleSignUp() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const { error } = await supabaseClient.auth.signUp({ email, password });
-        if (error) document.getElementById('auth-msg').innerText = error.message;
-        else alert("¡Chequeá tu email para confirmar!");
-    }
+    let user = { name: "Invitado", avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Nadie" };
 
-    async function handleLogin() {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) document.getElementById('auth-msg').innerText = error.message;
-        else checkUser();
-    }
-
-    async function handleLogout() {
-        await supabaseClient.auth.signOut();
-        location.reload();
-    }
-
-    async function checkUser() {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (user) {
-            document.getElementById('auth-container').classList.add('hidden');
-            document.getElementById('user-display').innerText = user.email.split('@')[0];
-            loadPosts();
+    // --- LÓGICA DE ACCESO ---
+    async function login() {
+        const email = document.getElementById('user-email').value;
+        const pass = document.getElementById('user-pass').value;
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password: pass });
+        
+        if (error) {
+            alert("Error: " + error.message);
+        } else {
+            user.name = data.user.email.split('@')[0];
+            initApp();
         }
     }
 
-    // 3. LÓGICA DEL MURO
-    async function sendPost() {
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        const text = document.getElementById('post-text').value;
-        const file = document.getElementById('post-img').files[0];
-        let imgUrl = null;
-
-        if (file) {
-            const fileName = `${Date.now()}-${file.name}`;
-            const { data } = await supabaseClient.storage.from('fotos').upload(fileName, file);
-            if (data) {
-                const { data: pUrl } = supabaseClient.storage.from('fotos').getPublicUrl(fileName);
-                imgUrl = pUrl.publicUrl;
-            }
+    async function register() {
+        const email = document.getElementById('user-email').value;
+        const pass = document.getElementById('user-pass').value;
+        const { error } = await supabaseClient.auth.signUp({ email, password: pass });
+        
+        if (error) alert(error.message);
+        else {
+            document.getElementById('cartman-overlay').classList.remove('hidden');
         }
+    }
 
-        await supabaseClient.from('posts').insert([
-            { username: user.email.split('@')[0], content: text, image_url: imgUrl }
+    function guestLogin() {
+        const nick = document.getElementById('user-email').value || "Invitado_" + Math.floor(Math.random()*99);
+        user.name = nick;
+        initApp();
+    }
+
+    function initApp() {
+        document.getElementById('auth-screen').classList.add('hidden');
+        document.getElementById('display-name').innerText = user.name;
+        document.getElementById('display-avatar').src = user.avatar;
+        load();
+    }
+
+    function closeCartman() {
+        document.getElementById('cartman-overlay').classList.add('hidden');
+    }
+
+    // --- LÓGICA DEL CHAT ---
+    async function send() {
+        const val = document.getElementById('msg-input').value;
+        if(!val) return;
+
+        const { error } = await supabaseClient.from('posts').insert([
+            { username: user.name, content: val, avatar_url: user.avatar }
         ]);
-        document.getElementById('post-text').value = '';
+
+        if(error) console.log("Error al guardar en BD:", error.message);
+        document.getElementById('msg-input').value = '';
+        load();
     }
 
-    async function loadPosts() {
-        const { data } = await supabaseClient.from('posts').select('*').order('created_at', { ascending: false });
-        const wall = document.getElementById('wall-messages');
-        wall.innerHTML = '';
-        data.forEach(p => {
-            wall.innerHTML += `
-                <div class="post">
-                    <div class="post-header">★ ${p.username} ★</div>
-                    <div>${p.content}</div>
-                    ${p.image_url ? `<img src="${p.image_url}">` : ''}
+    async function sendMedia() {
+        const url = prompt("Pega la URL de la imagen:");
+        if(!url) return;
+        await supabaseClient.from('posts').insert([
+            { username: user.name, content: '', image_url: url, avatar_url: user.avatar }
+        ]);
+        load();
+    }
+
+    async function load() {
+        const { data, error } = await supabaseClient.from('posts').select('*').order('created_at', { ascending: true });
+        if(error) {
+            console.log("No se pudo cargar de Supabase, verifica las RLS.");
+            return;
+        }
+        
+        const win = document.getElementById('chat-window');
+        win.innerHTML = '';
+        data.forEach(m => {
+    const isMe = m.username === user.name;
+    const avatar = m.avatar_url || "https://api.dicebear.com/7.x/pixel-art/svg?seed=" + m.username;
+    
+    win.innerHTML += `
+        <div style="display: flex; flex-direction: column; align-items: ${isMe ? 'flex-end' : 'flex-start'}; margin-bottom: 15px; width: 100%;">
+            <span style="font-size: 0.75rem; color: var(--electric-blue); font-weight: bold; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">
+                ${m.username}
+            </span>
+            
+            <div style="display: flex; gap: 10px; flex-direction: ${isMe ? 'row-reverse' : 'row'}; align-items: flex-end; max-width: 85%;">
+                <img src="${avatar}" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid ${isMe ? 'var(--hot-pink)' : 'var(--acid-green)'}; background: #000;">
+                
+                <div style="
+                    background: ${isMe ? 'var(--hot-pink)' : 'rgba(34, 34, 34, 0.9)'}; 
+                    color: ${isMe ? 'white' : 'var(--acid-green)'}; 
+                    padding: 12px 16px; 
+                    border-radius: 18px; 
+                    border-${isMe ? 'bottom-right' : 'bottom-left'}-radius: 2px;
+                    border: 1px solid ${isMe ? 'white' : 'var(--acid-green)'};
+                    box-shadow: ${isMe ? '0 0 10px rgba(255, 0, 255, 0.3)' : 'none'};
+                    word-wrap: break-word;
+                    font-size: 0.95rem;
+                    line-height: 1.4;
+                ">
+                    ${m.content ? `<div style="margin-bottom: ${m.image_url ? '8px' : '0'};">${m.content}</div>` : ''}
+                    ${m.image_url ? `<img src="${m.image_url}" style="max-width: 100%; border-radius: 10px; border: 1px solid white; display: block;">` : ''}
                 </div>
-            `;
-        });
+            </div>
+        </div>
+    `;
+});
+        win.scrollTop = win.scrollHeight;
     }
 
-    // Realtime
-    supabaseClient.channel('posts').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'posts' }, payload => {
-        loadPosts();
+    function updateAvatar() {
+        const n = prompt("Pega URL de imagen para tu avatar:");
+        if(n) {
+            user.avatar = n;
+            document.getElementById('display-avatar').src = n;
+        }
+    }
+
+    // REALTIME
+    supabaseClient.channel('any').on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => {
+        load();
     }).subscribe();
 
-    checkUser();
 </script>
 </body>
 </html>
