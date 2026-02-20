@@ -3,127 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Los Nadie - Arcade</title>
+    <title>Los Nadie - Atari Arcade</title>
     <style>
-        :root { --neon: #39ff14; --bg: #0a0a0a; }
-        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; }
-        h1 { text-shadow: 0 0 10px var(--neon); margin-top: 30px; }
-        
-        .menu-arcade { 
-            padding: 20px; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
-            gap: 15px; 
-            max-width: 1000px; 
-            margin: auto;
+        :root {
+            --atari-orange: #ff5a00;
+            --wood-brown: #3d2b1f;
+            --screen-bg: #000;
         }
 
-        .btn-juego { 
-            border: 2px solid var(--neon); 
-            padding: 20px; 
-            cursor: pointer; 
+        body {
+            background-color: #1a1a1a;
+            background-image: radial-gradient(#333 10%, transparent 10%);
+            background-size: 20px 20px;
+            color: var(--atari-orange);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            text-align: center;
+        }
+
+        /* Contenedor tipo mueble de madera */
+        .arcade-cabinet {
+            max-width: 900px;
+            margin: 20px auto;
+            border: 15px solid var(--wood-brown);
+            background: var(--screen-bg);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 100px rgba(255, 90, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
             text-transform: uppercase;
-            font-weight: bold;
-            background: rgba(57, 255, 20, 0.05);
-            transition: all 0.2s ease-in-out; 
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px #555;
         }
 
-        .btn-juego:hover { background: var(--neon); color: #000; box-shadow: 0 0 20px var(--neon); transform: scale(1.05); }
-
-        #emulador-container { 
-            width: 100vw; 
-            height: 100vh; 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            z-index: 1000; 
-            background: #000; 
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 20px;
         }
 
-        .controls-top {
+        .cartridge {
+            background: #222;
+            border: 2px solid #444;
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cartridge::before {
+            content: "";
             position: absolute;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            z-index: 1001;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--atari-orange);
         }
 
-        .btn-salir { 
-            background: #ff003c; 
-            color: white; 
-            border: none; 
-            padding: 12px 20px; 
-            cursor: pointer; 
-            font-weight: bold; 
-            font-family: sans-serif;
+        .cartridge:hover {
+            background: var(--atari-orange);
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 90, 0, 0.4);
+        }
+
+        .cartridge strong { font-size: 0.9rem; }
+
+        #emulador-container {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: #000;
+            z-index: 9999;
+        }
+
+        .btn-exit {
+            position: absolute;
+            top: 10px; right: 10px;
+            z-index: 10000;
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         #ej-container { width: 100%; height: 100%; }
+
+        .back-link { color: #888; text-decoration: none; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <div id="main-menu">
-        <h1>🕹️ LOS NADIE ARCADE 🕹️</h1>
-        <p>INSERT COIN PARA JUGAR</p>
-        <div class="menu-arcade" id="menu"></div>
+    <div id="main-ui" class="arcade-cabinet">
+        <h1>ATARI 2600</h1>
+        <p>SELECCIONÁ TU CARTUCHO</p>
+        
+        <div class="menu-grid" id="game-menu"></div>
+        
         <br>
-        <a href="index.html" style="color: #666; text-decoration: none;">[ ESC ] VOLVER AL INICIO</a>
+        <a href="index.html" class="back-link">[ VOLVER AL MENÚ PRINCIPAL ]</a>
     </div>
 
     <div id="emulador-container">
-        <div class="controls-top">
-            <button class="btn-salir" onclick="location.reload()">CERRAR JUEGO (EXIT)</button>
-        </div>
+        <button class="btn-exit" onclick="location.reload()">SACAR CARTUCHO</button>
         <div id="ej-container"></div>
     </div>
 
     <script>
-        // Los imprescindibles de Atari2600
-        const listaJuegos = [
-            { nombre: "Space8", core: "nes", rom: "space_invader.bin" },
-            { nombre: "The Legend of Zelda", core: "nes", rom: "donkeykong.bin" },
-            { nombre: "Contra", core: "nes", rom: "pacman.bin" },
-            { nombre: "Metroid", core: "nes", rom: "metroid.nes" },
-            { nombre: "Mega Man 2", core: "nes", rom: "megaman2.nes" },
-            { nombre: "Punch-Out!!", core: "nes", rom: "punchout.nes" },
-            { nombre: "Castlevania III", core: "nes", rom: "cvania3.nes" },
-            { nombre: "Kirby's Adventure", core: "nes", rom: "kirby.nes" },
-            { nombre: "Pac-Man", core: "nes", rom: "pacman.nes" },
-            { nombre: "Tetris", core: "nes", rom: "tetris.nes" }
+        // LISTA DE JUEGOS (Asegúrate que estos .bin estén en tu carpeta /roms)
+        const juegos = [
+            { nombre: "Space Invaders", rom: "space_invaders.bin" },
+            { nombre: "Pitfall!", rom: "pitfall.bin" },
+            { nombre: "River Raid", rom: "rraid.bin" },
+            { nombre: "Enduro", rom: "enduro.bin" },
+            { nombre: "Pac-Man", rom: "pacman.bin" },
+            { nombre: "Asteroids", rom: "asteroids.bin" },
+            { nombre: "Frogger", rom: "frogger.bin" },
+            { nombre: "Missile Command", rom: "mcommand.bin" }
         ];
 
-        const menu = document.getElementById('menu');
-        listaJuegos.forEach(j => {
+        const menuContainer = document.getElementById('game-menu');
+
+        juegos.forEach(j => {
             const div = document.createElement('div');
-            div.className = 'btn-juego';
-            div.innerHTML = `<div>${j.nombre}</div>`;
+            div.className = 'cartridge';
+            div.innerHTML = `<strong>${j.nombre}</strong>`;
             div.onclick = () => iniciarJuego(j);
-            menu.appendChild(div);
+            menuContainer.appendChild(div);
         });
 
         function iniciarJuego(juego) {
-            document.getElementById('main-menu').style.display = 'none';
+            document.getElementById('main-ui').style.display = 'none';
             document.getElementById('emulador-container').style.display = 'block';
 
-            // CONFIGURACIÓN AVANZADA EMULATORJS
             window.EJS_player = '#ej-container';
-            window.EJS_core = juego.core;
+            window.EJS_core = 'stella'; // Core de Atari 2600
             window.EJS_gameUrl = `roms/${juego.rom}`; 
             window.EJS_pathtodata = 'https://cdn.jsdelivr.net/gh/ethandentremont/emulatorjs@latest/dist/';
-            
-            // Ajustes de Interfaz y Compatibilidad
             window.EJS_startOnLoaded = true;
-            window.EJS_language = "es-ES";
-            window.EJS_showMenu = true; // Permite guardar partida
-            window.EJS_on_mobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
-            
-            // Esto arregla el problema de los controles en pantallas táctiles
             window.EJS_gameName = juego.nombre;
-            window.EJS_color = "#39ff14";
-            window.EJS_AdUrl = ""; // Quitamos basura
+            window.EJS_color = "#ff5a00";
+            
+            // Detección de móvil para controles táctiles
+            window.EJS_on_mobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
             const loader = document.createElement('script');
             loader.src = 'https://cdn.jsdelivr.net/gh/ethandentremont/emulatorjs@latest/dist/loader.js';
