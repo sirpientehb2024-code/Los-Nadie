@@ -3,162 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEO KASPER | PACIENTE 001</title>
-    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Nosifer&display=swap" rel="stylesheet">
+    <title>LEO KASPER | SESSION 001</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         :root {
-            --blood-red: #660000;
-            --asylum-grey: #2c2c2c;
-            --dirty-white: #a0a0a0;
+            --cherry-red: #9b111e;
+            --leather-black: #121212;
+            --cream-white: #f5f5dc;
+            --neon-blue: #00f3ff;
+            --chrome: #c0c0c0;
         }
 
         body {
             margin: 0;
             padding: 0;
-            background-color: #050505;
-            /* Fondo de paredes de hospital abandonado */
-            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
-                              url('https://www.transparenttextures.com/patterns/padded-cells.png');
-            color: var(--dirty-white);
+            background-color: var(--leather-black);
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                url('https://www.transparenttextures.com/patterns/black-felt.png');
+            color: var(--cream-white);
             font-family: 'Special Elite', serif;
-            overflow-y: auto; /* Evita el scroll para aumentar el estrés */
         }
 
-        /* --- OVERLAY DE MIEDO --- */
-        #asylum-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: 2s;
-        }
-
-        .btn-enter {
-            font-family: 'Nosifer', cursive;
-            color: var(--blood-red);
-            font-size: 2rem;
-            cursor: pointer;
-            border: 2px solid var(--blood-red);
-            padding: 20px;
-            background: none;
-        }
-
-        .btn-enter:hover { background: var(--blood-red); color: #000; }
-
-        /* --- CONTENIDO --- */
-        .cell-container {
-            max-width: 800px;
+        /* --- ROCKOLA --- */
+        .jukebox-container {
+            max-width: 500px;
             margin: 50px auto;
-            padding: 30px;
-            border: 2px solid #333;
-            background: rgba(20, 20, 20, 0.9);
-            box-shadow: 0 0 50px rgba(102, 0, 0, 0.5);
-            position: relative;
-        }
-
-        .photo-leo {
-            width: 100%;
-            height: 300px;
-            background: #111;
-            border-bottom: 5px solid var(--blood-red);
-            overflow: hidden;
-        }
-
-        .photo-leo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) contrast(250%) invert(5%);
-            mix-blend-mode: lighten;
-        }
-
-        h1 {
-            font-family: 'Nosifer', cursive;
-            color: var(--blood-red);
-            font-size: 3.5rem;
-            margin: 10px 0;
+            background: #2a2a2a;
+            border: 8px solid var(--chrome);
+            border-radius: 50px 50px 10px 10px;
+            padding: 20px;
+            box-shadow: 0 0 30px var(--cherry-red), inset 0 0 15px #000;
             text-align: center;
         }
 
-        .file-info {
-            text-align: left;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            border: 1px solid #444;
-            padding: 15px;
+        .vinyl-display {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            background: #111;
+            border-radius: 50%;
+            border: 10px solid #333;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .file-info b { color: var(--blood-red); }
+        .vinyl-disc {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, #222 10%, #000 70%);
+            border-radius: 50%;
+            border: 1px solid #444;
+            animation: spin 3s linear infinite;
+            animation-play-state: paused;
+        }
 
-        .stamp {
+        .vinyl-label {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            border: 4px solid #ff0000;
-            color: #ff0000;
-            padding: 5px;
-            font-weight: bold;
-            transform: rotate(15deg);
-            opacity: 0.7;
+            width: 60px;
+            height: 60px;
+            background: var(--cherry-red);
+            border-radius: 50%;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid #000;
         }
 
-        /* Efecto de parpadeo de luz */
-        @keyframes flicker {
-            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 0.99; }
-            20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.4; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Controles Jukebox */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
         }
 
-        .flicker-effect { animation: flicker 3s linear infinite; }
+        .btn-jukebox {
+            background: var(--chrome);
+            border: none;
+            padding: 10px 15px;
+            font-family: 'Bebas Neue', sans-serif;
+            cursor: pointer;
+            box-shadow: 3px 3px 0 #555;
+            transition: 0.1s;
+        }
 
+        .btn-jukebox:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #555; }
+
+        /* --- BOTÓN JAMES DEAN ANTI-ESTRÉS --- */
+        #anti-stress-dean {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+            transition: 0.5s;
+            z-index: 100;
+        }
+
+        #anti-stress-dean img {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--cherry-red);
+            animation: spin 10s linear infinite;
+        }
+
+        #dean-counter {
+            position: absolute;
+            top: -10px; left: -10px;
+            background: var(--cherry-red);
+            color: white;
+            border-radius: 50%;
+            width: 25px; height: 25px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.7rem;
+        }
+
+       /* --- SCREAMER / SECRET IMAGE --- */
+#hidden-glitch {
+    display: none; /* El JS lo cambia a 'flex' al llegar a 40 clicks */
+    position: fixed;
+    top: 0; left: 0; 
+    width: 100vw; height: 100vh;
+    background: black;
+    z-index: 9999;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#hidden-glitch img {
+    max-width: 90%;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    /* FILTRO ELIMINADO: Ya no hay grayscale ni contrast extra */
+}
+
+.glitch-text-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#hidden-glitch h1 {
+    color: white;
+    font-size: clamp(3rem, 12vw, 6rem);
+    margin: 0;
+    text-shadow: 2px 2px 10px var(--cherry-red);
+}
+
+.leo-signature {
+    font-family: 'Special Elite', serif;
+    color: var(--cherry-red);
+    font-size: 1.5rem;
+    background: rgba(0,0,0,0.6);
+    padding: 5px 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
     </style>
 </head>
 <body>
 
-    <div id="asylum-overlay">
-        <button class="btn-enter" onclick="startAsylum()">INGRESAR AL PABELLÓN C</button>
-    </div>
-
-    <audio id="creepyAudio" loop>
+    <audio id="bg-audio" loop>
         <source src="https://ia903207.us.archive.org/12/items/jajaja_20260215/Jajaja.mp3" type="audio/mpeg">
     </audio>
 
-    <main class="cell-container flicker-effect">
-        <div class="photo-leo">
-            <img src="https://ia600803.us.archive.org/34/items/leo_20260215/leo.jpg" alt="Leo Kasper">
+    <div class="jukebox-container">
+        <h2 style="font-family:'Bebas Neue'; color: var(--cherry-red); font-size: 2.5rem; margin:0;">ROCK-OLA 2026</h2>
+        <div class="vinyl-display">
+            <div class="vinyl-disc" id="disc">
+                <div class="vinyl-label"></div>
+            </div>
         </div>
-
-        <h1>LEO KASPER</h1>
-        <p style="text-align: center; color: #666;">Sujeto No. 001 - Peligro de Muerte</p>
-
-        <div class="file-info">
-            <div class="stamp">IRRECUPERABLE</div>
-            <p><b>DIOS:</b> Adolfo Hitler.</p>
-            <p><b>LORE:</b> Emigro de Venezuela a argentina buscando una mejor vida y amigos con los cuáles tocar.</p>
-            <p><b>INSTRUMENTO:</b> Sintetizador.</p>
-            <p><b>GUSTOS:</b> Misfits,Daft punk,Charly García,Spinetta,soda stereo, El cuarteto de Nos, Los Prisioneros (Chile), SOAD,My chemical romance,Green day, Hombres G,Música altamente experimental,Tocar con la banda.</p>
+        <p id="song-title">PAUSADO - SELECCIONA TRACK</p>
+        
+        <div class="controls">
+            <button class="btn-jukebox" onclick="changeTrack(-1)">⏮ REV</button>
+            <button class="btn-jukebox" id="playBtn" onclick="togglePlay()">PLAY</button>
+            <button class="btn-jukebox" onclick="changeTrack(1)">FWD ⏭</button>
         </div>
-
-        <div style="margin-top: 20px;">
-            <a href="index.html" style="color: #444; text-decoration: none;">[ ABANDONAR CELDA ]</a>
+        <div class="controls">
+            <button class="btn-jukebox" onclick="adjustVol(-0.1)">VOL -</button>
+            <button class="btn-jukebox" onclick="adjustVol(0.1)">VOL +</button>
         </div>
-    </main>
+    </div>
+
+    <div class="leo-profile">
+        <h1 style="font-family:'Bebas Neue'; font-size: 4rem; text-align:center; margin:0;">LEO KASPER</h1>
+        <hr style="border: 1px solid var(--cherry-red);">
+        <p><b>ORIGEN:</b> Venezuela / Argentina.</p>
+        <p><b>ESTILO:</b> Synth-Punk / Experimental.</p>
+        <p><b>LORE:</b> Escapó del ruido blanco para crear su propia distorsión. El sintetizador no es un instrumento, es un arma.</p>
+    </div>
+
+    <div id="anti-stress-dean" onclick="stressRelief()">
+        <div id="dean-counter">0</div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/James_Dean_in_Rebel_Without_a_Cause_1955.jpg/220px-James_Dean_in_Rebel_Without_a_Cause_1955.jpg" alt="James Dean">
+    </div>
+
+    <div id="hidden-glitch" onclick="this.style.display='none'">
+    <img src="https://imagex1.sx.cdn.live/images/pinporn/2021/02/17/24603341.webp?width=300" alt="REVELADO">
+    
+    <div class="glitch-text-container">
+        <h1>TE VEO</h1>
+        <p class="leo-signature">Con Amor Leo 😘</p>
+    </div>
+</div>
 
     <script>
-        function startAsylum() {
-            // Reproduce el audio
-            const audio = document.getElementById('creepyAudio');
-            audio.play();
+        const audio = document.getElementById('bg-audio');
+        const disc = document.getElementById('disc');
+        const playBtn = document.getElementById('playBtn');
+        let count = 0;
+
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                disc.style.animationPlayState = 'running';
+                playBtn.innerText = 'STOP';
+                document.getElementById('song-title').innerText = 'NOW PLAYING: EXPERIMENTAL CHAOS';
+            } else {
+                audio.pause();
+                disc.style.animationPlayState = 'paused';
+                playBtn.innerText = 'PLAY';
+                document.getElementById('song-title').innerText = 'PAUSADO';
+            }
+        }
+
+        function adjustVol(val) {
+            audio.volume = Math.min(1, Math.max(0, audio.volume + val));
+        }
+
+        function changeTrack(dir) {
+            // Animación sutil de cambio
+            disc.style.animation = 'none';
+            setTimeout(() => { disc.style.animation = 'spin 3s linear infinite'; }, 50);
+        }
+
+        function stressRelief() {
+            count++;
+            document.getElementById('dean-counter').innerText = count;
             
-            // Quita la capa negra
-            const overlay = document.getElementById('asylum-overlay');
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 2000);
+            // Efecto de James Dean girando más rápido
+            const img = document.querySelector('#anti-stress-dean img');
+            img.style.animationDuration = (10 / (count * 0.5)) + 's';
+
+            if (count >= 40) {
+                document.getElementById('hidden-glitch').style.display = 'flex';
+                count = 0; // Reset
+                document.getElementById('dean-counter').innerText = count;
+                img.style.animationDuration = '10s';
+            }
         }
     </script>
 
