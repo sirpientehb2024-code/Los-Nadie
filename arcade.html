@@ -5,45 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Los Nadie - Arcade</title>
     <style>
-        body { background: #000; color: #39ff14; font-family: monospace; margin: 0; text-align: center; }
-        .menu-arcade { padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
-        .btn-juego { border: 1px solid #39ff14; padding: 15px; cursor: pointer; border-radius: 4px; transition: 0.3s; }
-        .btn-juego:hover { background: #39ff14; color: #000; }
-        #emulador-container { width: 100%; height: 100vh; display: none; position: fixed; top: 0; left: 0; z-index: 1000; background: #000; }
-        .btn-salir { position: absolute; top: 10px; right: 10px; z-index: 1001; background: red; color: white; border: none; padding: 10px; cursor: pointer; font-weight: bold; }
+        :root { --neon: #39ff14; --bg: #0a0a0a; }
+        body { background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; overflow-x: hidden; }
+        h1 { text-shadow: 0 0 10px var(--neon); margin-top: 30px; }
+        
+        .menu-arcade { 
+            padding: 20px; 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+            gap: 15px; 
+            max-width: 1000px; 
+            margin: auto;
+        }
+
+        .btn-juego { 
+            border: 2px solid var(--neon); 
+            padding: 20px; 
+            cursor: pointer; 
+            text-transform: uppercase;
+            font-weight: bold;
+            background: rgba(57, 255, 20, 0.05);
+            transition: all 0.2s ease-in-out; 
+        }
+
+        .btn-juego:hover { background: var(--neon); color: #000; box-shadow: 0 0 20px var(--neon); transform: scale(1.05); }
+
+        #emulador-container { 
+            width: 100vw; 
+            height: 100vh; 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            z-index: 1000; 
+            background: #000; 
+        }
+
+        .controls-top {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            z-index: 1001;
+        }
+
+        .btn-salir { 
+            background: #ff003c; 
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-family: sans-serif;
+        }
+
+        #ej-container { width: 100%; height: 100%; }
     </style>
 </head>
 <body>
 
     <div id="main-menu">
         <h1>🕹️ LOS NADIE ARCADE 🕹️</h1>
-        <p>Selecciona un clásico (Compatible con PC y Android)</p>
+        <p>INSERT COIN PARA JUGAR</p>
         <div class="menu-arcade" id="menu"></div>
         <br>
-        <a href="index.html" style="color: grey; text-decoration: none;">← Volver a Inicio</a>
+        <a href="index.html" style="color: #666; text-decoration: none;">[ ESC ] VOLVER AL INICIO</a>
     </div>
 
     <div id="emulador-container">
-        <button class="btn-salir" onclick="location.reload()">CERRAR JUEGO</button>
+        <div class="controls-top">
+            <button class="btn-salir" onclick="location.reload()">CERRAR JUEGO (EXIT)</button>
+        </div>
         <div id="ej-container"></div>
     </div>
 
     <script>
+        // Los imprescindibles de Atari2600
         const listaJuegos = [
-            { nombre: "Super Mario 1", core: "nes", rom: "mario1.nes" },
-            { nombre: "Super Mario 3", core: "nes", rom: "mario3.nes" },
-            { nombre: "Contra", core: "nes", rom: "contra.nes" },
-            { nombre: "Pacman", core: "nes", rom: "pacman.nes" },
-            { nombre: "Donkey Kong", core: "nes", rom: "dkong.nes" },
-            { nombre: "Mortal Kombat", core: "mame", rom: "mk.zip" },
-            { nombre: "Friday 13th", core: "nes", rom: "f13.nes" }
+            { nombre: "Space8", core: "nes", rom: "space_invader.bin" },
+            { nombre: "The Legend of Zelda", core: "nes", rom: "donkeykong.bin" },
+            { nombre: "Contra", core: "nes", rom: "pacman.bin" },
+            { nombre: "Metroid", core: "nes", rom: "metroid.nes" },
+            { nombre: "Mega Man 2", core: "nes", rom: "megaman2.nes" },
+            { nombre: "Punch-Out!!", core: "nes", rom: "punchout.nes" },
+            { nombre: "Castlevania III", core: "nes", rom: "cvania3.nes" },
+            { nombre: "Kirby's Adventure", core: "nes", rom: "kirby.nes" },
+            { nombre: "Pac-Man", core: "nes", rom: "pacman.nes" },
+            { nombre: "Tetris", core: "nes", rom: "tetris.nes" }
         ];
 
         const menu = document.getElementById('menu');
         listaJuegos.forEach(j => {
             const div = document.createElement('div');
             div.className = 'btn-juego';
-            div.innerHTML = `<strong>${j.nombre}</strong>`;
+            div.innerHTML = `<div>${j.nombre}</div>`;
             div.onclick = () => iniciarJuego(j);
             menu.appendChild(div);
         });
@@ -52,15 +108,22 @@
             document.getElementById('main-menu').style.display = 'none';
             document.getElementById('emulador-container').style.display = 'block';
 
+            // CONFIGURACIÓN AVANZADA EMULATORJS
             window.EJS_player = '#ej-container';
             window.EJS_core = juego.core;
-            // IMPORTANTE: Asegúrate de crear la carpeta 'roms' y subir los archivos allí
             window.EJS_gameUrl = `roms/${juego.rom}`; 
             window.EJS_pathtodata = 'https://cdn.jsdelivr.net/gh/ethandentremont/emulatorjs@latest/dist/';
-            window.EJS_startOnLoaded = true;
             
-            // Detección automática de controles para Android
+            // Ajustes de Interfaz y Compatibilidad
+            window.EJS_startOnLoaded = true;
+            window.EJS_language = "es-ES";
+            window.EJS_showMenu = true; // Permite guardar partida
             window.EJS_on_mobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+            
+            // Esto arregla el problema de los controles en pantallas táctiles
+            window.EJS_gameName = juego.nombre;
+            window.EJS_color = "#39ff14";
+            window.EJS_AdUrl = ""; // Quitamos basura
 
             const loader = document.createElement('script');
             loader.src = 'https://cdn.jsdelivr.net/gh/ethandentremont/emulatorjs@latest/dist/loader.js';
